@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: f2568acf67fff95408687d6beb77b6db
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 90592
+  packageName: 'Fantasy Heroes: Character Editor'
+  packageVersion: 7.7
+  assetPath: Assets/HeroEditor/Common/Prefabs/Firearms/Projectiles/Arrow.prefab
+  uploadId: 645846

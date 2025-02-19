@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: b157740dfcdcc8143bb7ed6dad616d9b
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 90592
+  packageName: 'Fantasy Heroes: Character Editor'
+  packageVersion: 7.7
+  assetPath: Assets/HeroEditor/Common/Prefabs/Links.prefab
+  uploadId: 645846

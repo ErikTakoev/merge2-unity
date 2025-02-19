@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 57559d1fd20fe254885db30fc96c6721
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 90592
+  packageName: 'Fantasy Heroes: Character Editor'
+  packageVersion: 7.7
+  assetPath: Assets/HeroEditor/InventorySystem/Prefabs/InventoryH.prefab
+  uploadId: 645846

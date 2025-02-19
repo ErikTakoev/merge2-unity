@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: cb276a8ee57340c9a153edf75bd96b62
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 90592
+  packageName: 'Fantasy Heroes: Character Editor'
+  packageVersion: 7.7
+  assetPath: Assets/HeroEditor/QuickStart.unity
+  uploadId: 645846
