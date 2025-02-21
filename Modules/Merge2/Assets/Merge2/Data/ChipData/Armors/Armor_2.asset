@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f760662ccd51434294c99f568e610fb, type: 3}
+  m_Name: Armor_2
+  m_EditorClassIdentifier: 
+  Type: Armor
+  PrefabLink: {fileID: 6161714731993550882, guid: d79a28d8607b8a543a1a82f5359e3b90, type: 3}
+  MergeData:
+    NextChip: {fileID: 11400000, guid: d74ed87589e3ccb478c8fafdd82c2be1, type: 2}
+  chipContainerData:
+    containers: []
