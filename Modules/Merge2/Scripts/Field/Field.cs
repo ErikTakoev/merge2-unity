@@ -14,6 +14,7 @@ public class Field : MonoBehaviour
     ChipData[] chipData;
 
     MergeableChip mergeableLogic;
+    FillContainerLogic fillContainerLogic;
 
 
     void Awake()
@@ -31,8 +32,10 @@ public class Field : MonoBehaviour
         }
 
         mergeableLogic = new MergeableChip();
+        fillContainerLogic = new FillContainerLogic();
 
         draggableChip.OnMerge += mergeableLogic.MergeChip;
+        draggableChip.OnMerge += fillContainerLogic.ChipSuitableForContainer;
 
         CreateCells();
         TestFillField();
