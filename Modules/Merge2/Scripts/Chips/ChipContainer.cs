@@ -1,67 +1,70 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChipContainer : Chip
+namespace Merge2
 {
-    public delegate void FillContainerDelegate(Chip chip, bool isFull);
-
-    public event FillContainerDelegate OnFillContainer;
-
-    Dictionary<ChipContainerData.ContainerInfo, int> containers;
-
-    public Dictionary<ChipContainerData.ContainerInfo, int> Containers
+    public class ChipContainer : Chip
     {
-        get { return containers; }
-    }
+        public delegate void FillContainerDelegate(Chip chip, bool isFull);
 
-    public override void Init(ChipData data)
-    {
-        base.Init(data);
+        public event FillContainerDelegate OnFillContainer;
 
-        if (data.chipContainerData == null)
+        Dictionary<ChipContainerData.ContainerInfo, int> containers;
+
+        public Dictionary<ChipContainerData.ContainerInfo, int> Containers
         {
-            Debug.LogError("ChipContainer: data.chipContainerData is empty");
-            return;
+            get { return containers; }
         }
-        containers = new Dictionary<ChipContainerData.ContainerInfo, int>();
-        foreach (var item in data.chipContainerData.containers)
+
+        public override void Init(ChipData data)
         {
-            containers.Add(item, 0);
+            base.Init(data);
+
+            if (data.chipContainerData == null)
+            {
+                Debug.LogError("ChipContainer: data.chipContainerData is empty");
+                return;
+            }
+            containers = new Dictionary<ChipContainerData.ContainerInfo, int>();
+            foreach (var item in data.chipContainerData.containers)
+            {
+                containers.Add(item, 0);
+            }
         }
-    }
 
-    public bool ChipSuitableForContainer(Chip chip)
-    {
-        ChipData data = chip.Data;
-
-        foreach (var container in containers)
+        public bool ChipSuitableForContainer(Chip chip)
         {
-            string id = null;
-            if (container.Key.Type == ChipContainerData.ContainerType.ChipType)
-            {
-                id = data.Type;
-            }
-            else if (container.Key.Type == ChipContainerData.ContainerType.ChipId)
-            {
-                id = data.name;
-            }
+            ChipData data = chip.Data;
 
-            if (id == container.Key.TypeOrId)
+            foreach (var container in containers)
             {
-                if (container.Value + 1 == container.Key.Count)
+                string id = null;
+                if (container.Key.Type == ChipContainerData.ContainerType.ChipType)
                 {
-                    containers.Remove(container.Key);
-
-                    OnFillContainer?.Invoke(chip, containers.Count == 0);
-                    return true;
+                    id = data.Type;
                 }
-                else
+                else if (container.Key.Type == ChipContainerData.ContainerType.ChipId)
                 {
-                    containers[container.Key] = container.Value + 1;
-                    return true;
+                    id = data.name;
+                }
+
+                if (id == container.Key.TypeOrId)
+                {
+                    if (container.Value + 1 == container.Key.Count)
+                    {
+                        containers.Remove(container.Key);
+
+                        OnFillContainer?.Invoke(chip, containers.Count == 0);
+                        return true;
+                    }
+                    else
+                    {
+                        containers[container.Key] = container.Value + 1;
+                        return true;
+                    }
                 }
             }
+            return false;
         }
-        return false;
     }
 }

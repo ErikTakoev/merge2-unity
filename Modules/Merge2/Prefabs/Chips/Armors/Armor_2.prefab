@@ -98,6 +98,7 @@ GameObject:
   - component: {fileID: 1485900497296055684}
   - component: {fileID: 8313179304891929473}
   - component: {fileID: 1994424841900648898}
+  - component: {fileID: 4454626764172512838}
   m_Layer: 0
   m_Name: Armor_2
   m_TagString: Untagged
@@ -146,3 +147,17 @@ SortingGroup:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_SortAtRoot: 0
+--- !u!114 &4454626764172512838
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6161714731993550882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50754948a211d884d9632af1cf45ac85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemId: MinerCostume
+  spriteRenderer: {fileID: 7559766091207069576}

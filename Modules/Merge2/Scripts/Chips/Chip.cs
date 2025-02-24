@@ -1,69 +1,71 @@
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
 
-public class Chip : MonoBehaviour
+namespace Merge2
 {
-    ChipData data;
-    [SerializeField]
-    bool logEnable = false;
-
-    SortingGroup sorting;
-
-    public ChipData Data
+    public class Chip : MonoBehaviour
     {
-        get { return data; }
-    }
+        ChipData data;
+        [SerializeField]
+        bool logEnable = false;
 
-    public virtual void Init(ChipData data)
-    {
-        this.data = data;
-        sorting = GetComponent<SortingGroup>();
-        if (sorting == null)
+        SortingGroup sorting;
+
+        public ChipData Data
         {
-            Debug.LogError("Chip: SortingGroup is empty");
+            get { return data; }
         }
-    }
 
-    public void SetDragging(bool value)
-    {
-        sorting.sortingOrder = value ? 2 : 1;
-    }
-
-    public void OnTap(Vector2 position)
-    {
-        if (logEnable)
+        public virtual void Init(ChipData data)
         {
-            Debug.Log($"Chip: OnTap in node:{gameObject.name}");
+            this.data = data;
+            sorting = GetComponent<SortingGroup>();
+            if (sorting == null)
+            {
+                Debug.LogError("Chip: SortingGroup is empty");
+            }
         }
-    }
 
-    public void OnDragStart(Vector2 position)
-    {
-        if (logEnable)
+        public void SetDragging(bool value)
         {
-            Debug.Log($"Chip: OnDragStart in node:{gameObject.name}");
+            sorting.sortingOrder = value ? 2 : 1;
         }
-    }
 
-    public void OnDragEnd(Vector2 position)
-    {
-        if (logEnable)
+        public void OnTap(Vector2 position)
         {
-            Debug.Log($"Chip: OnDragEnd in node:{gameObject.name}");
+            if (logEnable)
+            {
+                Debug.Log($"Chip: OnTap in node:{gameObject.name}");
+            }
         }
-    }
 
-    public void OnDrag(Vector2 position)
-    {
-        if (logEnable)
+        public void OnDragStart(Vector2 position)
         {
-            Debug.Log($"Chip: OnDrag in node:{gameObject.name}");
+            if (logEnable)
+            {
+                Debug.Log($"Chip: OnDragStart in node:{gameObject.name}");
+            }
         }
-    }
 
-    public void Destroy()
-    {
-        GameObject.Destroy(gameObject);
+        public void OnDragEnd(Vector2 position)
+        {
+            if (logEnable)
+            {
+                Debug.Log($"Chip: OnDragEnd in node:{gameObject.name}");
+            }
+        }
+
+        public void OnDrag(Vector2 position)
+        {
+            if (logEnable)
+            {
+                Debug.Log($"Chip: OnDrag in node:{gameObject.name}");
+            }
+        }
+
+        public void Destroy()
+        {
+            GameObject.Destroy(gameObject);
+        }
     }
 }

@@ -1,30 +1,33 @@
 using UnityEngine;
 
-public static class ChipFactory
+namespace Merge2
 {
-    public static bool CreateChip(Cell cell, ChipData chipData)
+    public static class ChipFactory
     {
-        if (chipData == null)
+        public static bool CreateChip(Cell cell, ChipData chipData)
         {
-            Debug.LogError("CreateChip: ChipData is empty");
-            return false;
-        }
-        if (chipData.PrefabLink == null)
-        {
-            Debug.LogError("CreateChip: PrefabLink is empty");
-            return false;
-        }
-        if (cell.Chip != null)
-        {
-            Debug.LogError("CreateChip: in Cell.Chip is not empty");
-            return false;
-        }
+            if (chipData == null)
+            {
+                Debug.LogError("CreateChip: ChipData is empty");
+                return false;
+            }
+            if (chipData.PrefabLink == null)
+            {
+                Debug.LogError("CreateChip: PrefabLink is empty");
+                return false;
+            }
+            if (cell.Chip != null)
+            {
+                Debug.LogError("CreateChip: in Cell.Chip is not empty");
+                return false;
+            }
 
-        GameObject chipGO = GameObject.Instantiate(chipData.PrefabLink);
-        Chip chip = chipGO.GetComponent<Chip>();
-        chip.Init(chipData);
+            GameObject chipGO = GameObject.Instantiate(chipData.PrefabLink);
+            Chip chip = chipGO.GetComponent<Chip>();
+            chip.Init(chipData);
 
-        cell.Chip = chip;
-        return true;
+            cell.Chip = chip;
+            return true;
+        }
     }
 }

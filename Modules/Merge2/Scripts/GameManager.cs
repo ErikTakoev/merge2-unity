@@ -1,50 +1,53 @@
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+namespace Merge2
 {
-    [SerializeReference]
-    InputManager inputManager;
-
-    [SerializeReference]
-    Field field;
-
-    void Start()
+    public class GameManager : MonoBehaviour
     {
-        if (inputManager == null)
+        [SerializeReference]
+        InputManager inputManager;
+
+        [SerializeReference]
+        Field field;
+
+        void Start()
         {
-            Debug.LogError("InputManager is empty");
-            return;
+            if (inputManager == null)
+            {
+                Debug.LogError("InputManager is empty");
+                return;
+            }
+
+            if (field == null)
+            {
+                Debug.LogError("Field is empty");
+                return;
+            }
+
+            inputManager.OnTap += OnTap;
+            inputManager.OnDragStart += OnDragStart;
+            inputManager.OnDrag += OnDrag;
+            inputManager.OnDragEnd += OnDragEnd;
         }
 
-        if (field == null)
+        private void OnTap(Vector2 position, Vector3 worldPosition)
         {
-            Debug.LogError("Field is empty");
-            return;
+            field.OnTap(position);
         }
 
-        inputManager.OnTap += OnTap;
-        inputManager.OnDragStart += OnDragStart;
-        inputManager.OnDrag += OnDrag;
-        inputManager.OnDragEnd += OnDragEnd;
-    }
+        private void OnDragStart(Vector2 position, Vector3 worldPosition)
+        {
+            field.OnDragStart(position, worldPosition);
+        }
 
-    private void OnTap(Vector2 position, Vector3 worldPosition)
-    {
-        field.OnTap(position);
-    }
+        private void OnDragEnd(Vector2 position, Vector3 worldPosition)
+        {
+            field.OnDragEnd(position, worldPosition);
+        }
 
-    private void OnDragStart(Vector2 position, Vector3 worldPosition)
-    {
-        field.OnDragStart(position, worldPosition);
-    }
-
-    private void OnDragEnd(Vector2 position, Vector3 worldPosition)
-    {
-        field.OnDragEnd(position, worldPosition);
-    }
-
-    private void OnDrag(Vector2 position, Vector3 worldPosition)
-    {
-        field.OnDrag(position, worldPosition);
+        private void OnDrag(Vector2 position, Vector3 worldPosition)
+        {
+            field.OnDrag(position, worldPosition);
+        }
     }
 }

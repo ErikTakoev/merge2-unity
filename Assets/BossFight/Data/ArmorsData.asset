@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28dae51dfffd7c042abfbdfd8646ef8f, type: 3}
+  m_Name: ArmorsData
+  m_EditorClassIdentifier: 
+  armors:
+  - ChipData: {fileID: 11400000, guid: 0c0a6e946e35cdb4aa3402e05781fc9b, type: 2}
+    ItemId: Robe
+    EquipmentPart: 0
+    Defence: 0
+  - ChipData: {fileID: 11400000, guid: 7388176c5fe418a4f81c684ef9ff31d5, type: 2}
+    ItemId: MinerCostume
+    EquipmentPart: 0
+    Defence: 0
+  - ChipData: {fileID: 11400000, guid: d74ed87589e3ccb478c8fafdd82c2be1, type: 2}
+    ItemId: ManticoreArmor
+    EquipmentPart: 0
+    Defence: 0

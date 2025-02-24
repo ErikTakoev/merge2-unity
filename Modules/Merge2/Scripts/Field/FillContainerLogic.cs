@@ -1,36 +1,42 @@
 using UnityEngine;
-using static ChipContainer;
 
-public class FillContainerLogic
+namespace Merge2
 {
-    public bool ChipSuitableForContainer(Cell prevCell, Cell newCell)
+    public class FillContainerLogic
     {
-        if (!prevCell || !newCell)
+        public bool ChipSuitableForContainer(Cell prevCell, Cell newCell)
         {
-            Debug.LogError("ChipSuitableForContainer: prevCell or newCell is null");
+            if (!prevCell || !newCell)
+            {
+                Debug.LogError("ChipSuitableForContainer: prevCell or newCell is null");
+                return false;
+            }
+
+            Chip prevChip = prevCell.Chip;
+            Chip newChip = newCell.Chip;
+
+            if (!prevChip || !newChip)
+            {
+                return false;
+            }
+            if (prevChip == newChip)
+            {
+                return false;
+            }
+            ChipContainer chipContainer = newChip as ChipContainer;
+            if (!chipContainer)
+            {
+                return false;
+            }
+
+            if (chipContainer.ChipSuitableForContainer(prevChip))
+            {
+                prevCell.Chip.Destroy();
+                prevCell.Chip = null;
+
+                return true;
+            }
             return false;
         }
-
-        Chip prevChip = prevCell.Chip;
-        Chip newChip = newCell.Chip;
-
-        if (!prevChip || !newChip)
-        {
-            return false;
-        }
-        if (prevChip == newChip)
-        {
-            return false;
-        }
-        ChipContainer chipContainer = newCell.Chip as ChipContainer;
-
-        if (chipContainer.ChipSuitableForContainer(prevCell.Chip))
-        {
-            prevCell.Chip.Destroy();
-            prevCell.Chip = null;
-
-            return true;
-        }
-        return false;
     }
 }
