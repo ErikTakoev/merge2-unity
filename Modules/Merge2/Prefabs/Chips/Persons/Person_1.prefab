@@ -7364,7 +7364,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3767890141520221371}
   - component: {fileID: 1491353478639477687}
-  - component: {fileID: 8841525581725686069}
   - component: {fileID: 183525717419555498}
   m_Layer: 0
   m_Name: Person_1
@@ -7401,19 +7400,6 @@ SortingGroup:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_SortAtRoot: 0
---- !u!114 &8841525581725686069
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3270580357169604404}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9fde36e07e12f284c8516895e1e7a73d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  logEnable: 0
 --- !u!114 &183525717419555498
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7426,7 +7412,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d10afd7d4bf81fd4cbb71f2fa72217e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chipPerson: {fileID: 8841525581725686069}
+  logEnable: 0
   heroData: {fileID: 11400000, guid: 3824cbf825d78ff419b5225061bccf83, type: 2}
   character: {fileID: 8093705363845140162}
 --- !u!1 &3295495738000995958

@@ -31,6 +31,11 @@ namespace Merge2
             sorting.sortingOrder = value ? 2 : 1;
         }
 
+        public bool IsDragging()
+        {
+            return sorting.sortingOrder == 2;
+        }
+
         public void OnTap(Vector2 position)
         {
             if (logEnable)

@@ -49,7 +49,6 @@ namespace Merge2
             {
                 return;
             }
-            draggableChip.SetDragging(false);
             bool swap = true;
             if (OnMerge != null)
             {
@@ -63,7 +62,12 @@ namespace Merge2
             }
             if (swap)
             {
+
                 var tmpChip = newCell.Chip;
+                if (tmpChip != null)
+                {
+                    tmpChip.SetDragging(true);
+                }
                 newCell.Chip = prevCell.Chip;
                 prevCell.Chip = tmpChip;
             }

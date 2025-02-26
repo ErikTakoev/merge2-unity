@@ -14,7 +14,18 @@ namespace Merge2
                 {
                     Transform tr = chip.gameObject.transform;
                     tr.SetParent(transform);
-                    tr.localPosition = Vector3.zero;
+                    if (chip.IsDragging())
+                    {
+                        isMoveingChip = true;
+                        movingTimeLeft = 0;
+                        chipTransform = tr;
+                        movingStartPosition = chipTransform.localPosition;
+                    }
+                    else
+                    {
+                        tr.localPosition = Vector3.zero;
+                        chip.SetDragging(false);
+                    }
                 }
             }
         }
@@ -22,6 +33,13 @@ namespace Merge2
         bool logEnable = false;
 
         Chip chip;
+
+        [SerializeField]
+        float movingTime = 0.2f;
+        bool isMoveingChip = false;
+        Transform chipTransform;
+        float movingTimeLeft = 0f;
+        Vector3 movingStartPosition;
 
         public void OnTap(Vector2 position)
         {
@@ -77,6 +95,27 @@ namespace Merge2
             }
 
             chip.OnDrag(position);
+        }
+
+        private void Update()
+        {
+            if (!isMoveingChip)
+            {
+                return;
+            }
+            if (!chip)
+            {
+                return;
+            }
+            movingTimeLeft += Time.deltaTime;
+
+            chipTransform.localPosition = Vector3.Lerp(movingStartPosition, Vector3.zero, movingTimeLeft / movingTime);
+            if (movingTimeLeft >= movingTime)
+            {
+                movingTimeLeft = 0;
+                isMoveingChip = false;
+                chip.SetDragging(false);
+            }
         }
     }
 }

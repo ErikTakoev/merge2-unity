@@ -27,3 +27,6 @@ MonoBehaviour:
     - Type: 0
       TypeOrId: Shield
       Count: 1
+    - Type: 0
+      TypeOrId: Weapon
+      Count: 1

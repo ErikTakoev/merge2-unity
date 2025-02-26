@@ -1,30 +1,22 @@
 using UnityEngine;
 using Merge2;
 using Assets.HeroEditor.Common.Scripts.CharacterScripts;
-using Unity.VisualScripting;
 using HeroEditor.Common.Data;
 using HeroEditor.Common.Enums;
 using Assets.HeroEditor.Common.Scripts.Common;
-using static HeroWeaponsData;
 using System.Collections.Generic;
-public class HeroVisual : MonoBehaviour
+public class HeroChip : ChipContainer
 {
-    [SerializeReference]
-    ChipContainer chipPerson;
-
     [SerializeField]
     HeroData heroData;
 
     [SerializeReference]
     Character character;
 
+    List<EquipmentPart> equipmentParts;
+
     private void Start()
     {
-        if (!chipPerson)
-        {
-            Debug.LogError("HeroChipController: chipPerson is empty");
-            return;
-        }
         if (!heroData)
         {
             Debug.LogError("HeroChipController: heroData is empty");
@@ -35,10 +27,11 @@ public class HeroVisual : MonoBehaviour
             Debug.LogError("HeroChipController: character is empty");
             return;
         }
+        equipmentParts = new List<EquipmentPart>();
 
         RandomCharacter();
 
-        chipPerson.OnFillContainer += OnFillContainer;
+        OnFillContainer += OnFillContainerEvent;
     }
 
     private void RandomCharacter()
@@ -57,13 +50,58 @@ public class HeroVisual : MonoBehaviour
         }
     }
 
-    private void OnFillContainer(Chip chip, bool isFull)
+    private void OnFillContainerEvent(Chip chip, bool isFull)
     {
         Debug.Log($"HeroChipController: OnFillContainer: {chip.ToString()}");
 
         ChipData chipData = chip.Data;
 
         Equip(chipData);
+    }
+    public override bool ChipSuitableForContainer(Chip chip)
+    {
+        bool result = base.ChipSuitableForContainer(chip);
+        
+        /// два оружия - запрет на щит                  // + лук, двурук
+        /// щит и оружие - запрет на второе оружие      // + лук, двурук
+                                                        // лук - запрет на щит и два оружия
+                                                        // двуручное оружие - запрет на щит, два оружия
+        if (result)
+        {
+
+            switch (chip.Data.Type)
+            {
+                case "Weapon":
+                    if (equipmentParts.Contains(EquipmentPart.MeleeWeaponPaired))
+                    {
+                        RemoveSlot(EquipmentPart.Shield);
+                    }
+                    break;
+                case "Shield":
+                    RemoveSlot(EquipmentPart.MeleeWeapon1H);
+                    break;
+            }
+        }
+        
+        return result;
+    }
+
+    bool RemoveSlot(EquipmentPart part)
+    {
+        string partName = part.ToString();
+        if (part == EquipmentPart.MeleeWeapon1H)
+        {
+            partName = "Weapon";
+        }
+        foreach (var slot in containers)
+        {
+            if (slot.Key.TypeOrId == partName)
+            {
+                containers.Remove(slot.Key);
+                return true;
+            }
+        }
+        return false;
     }
 
     void Equip(ChipData chipData)
@@ -101,7 +139,18 @@ public class HeroVisual : MonoBehaviour
             Debug.Log($"Not find sprite for itemId: {item.ItemId}");
             return;
         }
-        character.Equip(itemSprite, item.EquipmentPart);
+
+        var equipmentPart = item.EquipmentPart;
+        if (equipmentPart == EquipmentPart.MeleeWeapon1H && equipmentParts.Contains(EquipmentPart.MeleeWeapon1H))
+        {
+            equipmentPart = EquipmentPart.MeleeWeaponPaired;
+            character.Equip(itemSprite, equipmentPart);
+        }
+        else
+        {
+            character.Equip(itemSprite, equipmentPart);
+        }
+        equipmentParts.Add(equipmentPart);
     }
 
 }

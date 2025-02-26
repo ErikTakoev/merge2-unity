@@ -5,16 +5,12 @@ namespace Merge2
 {
     public class ChipContainer : Chip
     {
-        public delegate void FillContainerDelegate(Chip chip, bool isFull);
+        protected delegate void FillContainerDelegate(Chip chip, bool isFull);
 
-        public event FillContainerDelegate OnFillContainer;
+        protected event FillContainerDelegate OnFillContainer;
 
-        Dictionary<ChipContainerData.ContainerInfo, int> containers;
+        protected Dictionary<ChipContainerData.ContainerInfo, int> containers;
 
-        public Dictionary<ChipContainerData.ContainerInfo, int> Containers
-        {
-            get { return containers; }
-        }
 
         public override void Init(ChipData data)
         {
@@ -32,7 +28,7 @@ namespace Merge2
             }
         }
 
-        public bool ChipSuitableForContainer(Chip chip)
+        public virtual bool ChipSuitableForContainer(Chip chip)
         {
             ChipData data = chip.Data;
 

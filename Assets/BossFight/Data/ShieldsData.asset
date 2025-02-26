@@ -12,4 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f96d02b78e9b57249be2f746ad0abf7b, type: 3}
   m_Name: ShieldsData
   m_EditorClassIdentifier: 
-  shields: []
+  shields:
+  - ChipData: {fileID: 11400000, guid: d4bc324c604340d4d82718f88edc9970, type: 2}
+    ItemId: WoodenBuckler
+    EquipmentPart: 13
+    minusChanceCrit: 0
+  - ChipData: {fileID: 11400000, guid: 792ddeec6ca3d7b46a21feaa20097f3a, type: 2}
+    ItemId: TowerShield
+    EquipmentPart: 13
+    minusChanceCrit: 0
+  - ChipData: {fileID: 11400000, guid: c39fa41aa7216db49ba2b22187c3503c, type: 2}
+    ItemId: SteelTowerShield
+    EquipmentPart: 13
+    minusChanceCrit: 0
