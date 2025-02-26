@@ -61,7 +61,8 @@ namespace Merge2
                 Debug.Log("ChipGenerator: OnTap not find empty cell");
                 return;
             }
-            Chip newChip = ChipFactory.CreateChip(findCell, generateChipData);
+            
+            Chip newChip = ChipFactory.CreateChip(findCell, generateChipData, transform.position);
 
 
             runtimeData.ChargeCount--;

@@ -36,7 +36,7 @@ namespace Merge2
             for (int i = 0; i < tmpArr.Length; i++)
             {
                 var pair = tmpArr[i];
-                if (randomValue < pair.Key)
+                if (randomValue <= pair.Key)
                 {
                     result = pair.Value;
                     sb.AppendLine($"Win ChipData: {pair.Value.name}, x: {pair.Key}");
