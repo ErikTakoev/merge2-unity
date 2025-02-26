@@ -10,8 +10,12 @@ namespace Merge2
         [SerializeReference]
         Field field;
 
+        static GameManager instance;
+        public static GameManager Instance { get { return instance; } }
+
         void Start()
         {
+            instance = this;
             if (inputManager == null)
             {
                 Debug.LogError("InputManager is empty");
@@ -48,6 +52,11 @@ namespace Merge2
         private void OnDrag(Vector2 position, Vector3 worldPosition)
         {
             field.OnDrag(position, worldPosition);
+        }
+
+        public Cell FindNearestFreeCell(Vector2Int cellPos)
+        {
+            return field.FindNearestFreeCell(cellPos);
         }
     }
 }

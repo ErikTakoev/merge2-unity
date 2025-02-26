@@ -5,7 +5,7 @@ namespace Merge2
 {
     public class Chip : MonoBehaviour
     {
-        ChipData data;
+        protected ChipData data;
         [SerializeField]
         bool logEnable = false;
 
@@ -36,7 +36,7 @@ namespace Merge2
             return sorting.sortingOrder == 2;
         }
 
-        public void OnTap(Vector2 position)
+        public virtual void OnTap(Vector2 position)
         {
             if (logEnable)
             {
@@ -44,7 +44,7 @@ namespace Merge2
             }
         }
 
-        public void OnDragStart(Vector2 position)
+        public virtual void OnDragStart(Vector2 position)
         {
             if (logEnable)
             {
@@ -52,7 +52,7 @@ namespace Merge2
             }
         }
 
-        public void OnDragEnd(Vector2 position)
+        public virtual void OnDragEnd(Vector2 position)
         {
             if (logEnable)
             {
@@ -60,7 +60,7 @@ namespace Merge2
             }
         }
 
-        public void OnDrag(Vector2 position)
+        public virtual void OnDrag(Vector2 position)
         {
             if (logEnable)
             {

@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Merge2
 {
@@ -77,6 +77,7 @@ namespace Merge2
                     rectTransform.localPosition = new Vector3(i - halfX, fieldSize.y - j - halfY);
 
                     var cell = cellGO.GetComponent<Cell>();
+                    cell.Init(new Vector2Int(i, j));
                     cells[i, j] = cell;
                 }
             }
@@ -136,6 +137,47 @@ namespace Merge2
             Cell cell = cells[cellPos.x, cellPos.y];
             cell.OnDrag(position);
             draggableChip.OnDrag(worldPosition);
+        }
+
+        public Cell FindNearestFreeCell(Vector2Int cellPos)
+        {
+            int rows = cells.GetLength(0);
+            int cols = cells.GetLength(1);
+
+            // Напрямки руху: вправо, вниз, вліво, вгору
+            int[] dx = { 0, 1, 0, -1 };
+            int[] dy = { 1, 0, -1, 0 };
+
+            int x = cellPos.x, y = cellPos.y;
+            int step = 1; // Довжина кроку в поточному напрямку
+            int direction = 0; // Індекс напрямку
+            int lengthChange = 0; // Кожні два повороти довжина збільшується
+
+            while (step < rows * cols) // Не більше ніж вся матриця
+            {
+                for (int i = 0; i < step; i++) // Рух у поточному напрямку
+                {
+                    x += dx[direction];
+                    y += dy[direction];
+
+                    // Перевіряємо, чи не виходимо за межі
+                    if (x >= 0 && x < rows && y >= 0 && y < cols)
+                    {
+                        if (cells[x, y].Chip == null) // Якщо знайшли вільну клітинку
+                            return cells[x, y];
+                    }
+                }
+
+                // Зміна напрямку (право → вниз → ліво → вгору)
+                direction = (direction + 1) % 4;
+                lengthChange++;
+
+                // Кожні два напрямки збільшуємо довжину руху
+                if (lengthChange % 2 == 0)
+                    step++;
+            }
+
+            return null; // Якщо немає вільних клітинок
         }
     }
 }

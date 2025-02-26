@@ -16,13 +16,13 @@ namespace Merge2
         {
             base.Init(data);
 
-            if (data.chipContainerData == null)
+            if (data.ChipContainerData == null)
             {
                 Debug.LogError("ChipContainer: data.chipContainerData is empty");
                 return;
             }
             containers = new Dictionary<ChipContainerData.ContainerInfo, int>();
-            foreach (var item in data.chipContainerData.containers)
+            foreach (var item in data.ChipContainerData.containers)
             {
                 containers.Add(item, 0);
             }

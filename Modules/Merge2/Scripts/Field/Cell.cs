@@ -32,6 +32,13 @@ namespace Merge2
         [SerializeField]
         bool logEnable = false;
 
+        Vector2Int cellPosition;
+        public Vector2Int CellPosition
+        {
+            get { return cellPosition; }
+        }
+
+        [SerializeField]
         Chip chip;
 
         [SerializeField]
@@ -40,6 +47,11 @@ namespace Merge2
         Transform chipTransform;
         float movingTimeLeft = 0f;
         Vector3 movingStartPosition;
+
+        public void Init(Vector2Int cellPos)
+        {
+            cellPosition = cellPos;
+        }
 
         public void OnTap(Vector2 position)
         {

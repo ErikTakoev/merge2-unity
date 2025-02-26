@@ -4,22 +4,22 @@ namespace Merge2
 {
     public static class ChipFactory
     {
-        public static bool CreateChip(Cell cell, ChipData chipData)
+        public static Chip CreateChip(Cell cell, ChipData chipData)
         {
             if (chipData == null)
             {
                 Debug.LogError("CreateChip: ChipData is empty");
-                return false;
+                return null;
             }
             if (chipData.PrefabLink == null)
             {
                 Debug.LogError("CreateChip: PrefabLink is empty");
-                return false;
+                return null;
             }
             if (cell.Chip != null)
             {
                 Debug.LogError("CreateChip: in Cell.Chip is not empty");
-                return false;
+                return null;
             }
 
             GameObject chipGO = GameObject.Instantiate(chipData.PrefabLink);
@@ -27,7 +27,7 @@ namespace Merge2
             chip.Init(chipData);
 
             cell.Chip = chip;
-            return true;
+            return chip;
         }
     }
 }
