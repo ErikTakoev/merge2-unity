@@ -52,7 +52,8 @@ namespace Merge2
                 for (int i = 0; i < sizeX; i++)
                 {
                     ChipData data = chipData[Random.Range(0, chipData.Length)];
-                    ChipFactory.CreateChip(cells[i, j], data);
+                    Chip chip = ChipFactory.CreateChip(cells[i, j], data);
+                    chip.SendTrigger(ChipTrigger.Spawn);
                 }
             }
         }

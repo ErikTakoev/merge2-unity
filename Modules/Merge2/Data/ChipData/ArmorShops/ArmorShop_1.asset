@@ -16,5 +16,16 @@ MonoBehaviour:
   PrefabLink: {fileID: 8810688828194024742, guid: 648093d048afcab429cdf753dc2d6c5e, type: 3}
   MergeData:
     NextChip: {fileID: 0}
-  chipContainerData:
+  ChipContainerData:
     containers: []
+  ChipGeneratorData:
+    Data:
+    - Weight: 85
+      ChipData: {fileID: 11400000, guid: 0c0a6e946e35cdb4aa3402e05781fc9b, type: 2}
+    - Weight: 10
+      ChipData: {fileID: 11400000, guid: 7388176c5fe418a4f81c684ef9ff31d5, type: 2}
+    - Weight: 5
+      ChipData: {fileID: 11400000, guid: d74ed87589e3ccb478c8fafdd82c2be1, type: 2}
+    IsStartCharged: 1
+    ChargeCount: 1
+    ChargingTime: 10

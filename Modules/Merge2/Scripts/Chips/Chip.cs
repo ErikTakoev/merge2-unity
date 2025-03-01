@@ -3,6 +3,13 @@ using UnityEngine.Rendering;
 
 namespace Merge2
 {
+	public enum ChipTrigger
+	{
+		Idle,
+		Spawn,
+		Generate,
+		Merge
+	}
     public class Chip : MonoBehaviour
     {
         protected ChipData data;
@@ -10,6 +17,7 @@ namespace Merge2
         bool logEnable = false;
 
         SortingGroup sorting;
+        Animator animator;
 
         public ChipData Data
         {
@@ -20,9 +28,14 @@ namespace Merge2
         {
             this.data = data;
             sorting = GetComponent<SortingGroup>();
+            animator = GetComponent<Animator>();
             if (sorting == null)
             {
                 Debug.LogError("Chip: SortingGroup is empty");
+            }
+            if (animator == null)
+            {
+                Debug.LogError("Chip: Animator is empty");
             }
         }
 
@@ -67,6 +80,19 @@ namespace Merge2
                 Debug.Log($"Chip: OnDrag in node:{gameObject.name}");
             }
         }
+
+		public void SendTrigger(ChipTrigger trigger)
+		{
+			SendTrigger(trigger.ToString());
+		}
+
+		public virtual void SendTrigger(string trigger)
+		{
+			if (animator != null)
+			{
+				animator.SetTrigger(trigger);
+			}
+		}
 
         public void Destroy()
         {

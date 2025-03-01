@@ -63,7 +63,7 @@ namespace Merge2
             }
             
             Chip newChip = ChipFactory.CreateChip(findCell, generateChipData, transform.position);
-
+            newChip.SendTrigger(ChipTrigger.Generate);
 
             runtimeData.ChargeCount--;
             if (runtimeData.ChargeCount == 0)
@@ -72,6 +72,19 @@ namespace Merge2
             }
         }
 
-
+        private void Update()
+        {
+            if (runtimeData.IsCharged)
+            {
+                return;
+            }
+            runtimeData.ChargingTimeLeft += Time.deltaTime;
+            if (runtimeData.ChargingTimeLeft >= generatorData.ChargingTime)
+            {
+                runtimeData.IsCharged = true;
+                runtimeData.ChargingTimeLeft = 0;
+                runtimeData.ChargeCount = generatorData.ChargeCount;
+            }
+        }
     }
 }
