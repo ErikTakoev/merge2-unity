@@ -15,3 +15,4 @@ MonoBehaviour:
   weapons: {fileID: 11400000, guid: 394786925413b1c4b8b1718a9876b1de, type: 2}
   armors: {fileID: 11400000, guid: 75fd68e20be61dc408c85bd8e5fb9f4a, type: 2}
   shields: {fileID: 11400000, guid: abf1d202e6a32754586d030cf33858d8, type: 2}
+  helmets: {fileID: 11400000, guid: 2d56285eef12d074ba1f03527537cc5a, type: 2}

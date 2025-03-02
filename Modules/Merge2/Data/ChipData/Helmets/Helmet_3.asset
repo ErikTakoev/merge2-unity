@@ -10,29 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8f760662ccd51434294c99f568e610fb, type: 3}
-  m_Name: Person_1
+  m_Name: Helmet_3
   m_EditorClassIdentifier: 
-  Type: Default
-  PrefabLink: {fileID: 3270580357169604404, guid: 968455c7eecdb6e44845b4839bc1f273, type: 3}
+  Type: Helmet
+  PrefabLink: {fileID: 2132475498846061470, guid: 27d16d07c4d96d3498e339591651fbf2, type: 3}
   MergeData:
     NextChip: {fileID: 0}
   ChipContainerData:
-    containers:
-    - Type: 0
-      TypeOrId: Armor
-      Count: 1
-    - Type: 0
-      TypeOrId: Weapon
-      Count: 1
-    - Type: 0
-      TypeOrId: Shield
-      Count: 1
-    - Type: 0
-      TypeOrId: Weapon
-      Count: 1
-    - Type: 0
-      TypeOrId: Helmet
-      Count: 1
+    containers: []
   ChipGeneratorData:
     Data: []
     IsStartCharged: 1

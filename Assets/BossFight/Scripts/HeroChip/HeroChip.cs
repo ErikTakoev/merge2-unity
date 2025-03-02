@@ -62,10 +62,10 @@ public class HeroChip : ChipContainer
     {
         bool result = base.ChipSuitableForContainer(chip);
         
-        /// два оружия - запрет на щит                  // + лук, двурук
-        /// щит и оружие - запрет на второе оружие      // + лук, двурук
-                                                        // лук - запрет на щит и два оружия
-                                                        // двуручное оружие - запрет на щит, два оружия
+        /// пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ - пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅ                  // + пїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅ
+        /// пїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ - пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ      // + пїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅ
+                                                        // пїЅпїЅпїЅ - пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅ пїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+                                                        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ - пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅ, пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
         if (result)
         {
 
@@ -125,6 +125,9 @@ public class HeroChip : ChipContainer
                 break;
             case EquipmentPart.Shield:
                 collection = character.SpriteCollection.Shield;
+                break;
+            case EquipmentPart.Helmet:
+                collection = character.SpriteCollection.Helmet;
                 break;
         }
         if (collection == null)

@@ -12,6 +12,9 @@ public class HeroData : ScriptableObject
     HeroArmorsData armors;
     [SerializeField]
     HeroShieldsData shields;
+    [SerializeField]
+    HeroHelmetsData helmets;
+
 
     public class AData
     {
@@ -39,6 +42,7 @@ public class HeroData : ScriptableObject
             AddCacheData(weapons.weapons);
             AddCacheData(armors.armors);
             AddCacheData(shields.shields);
+            AddCacheData(helmets.helmets);
         }
         if (caches.ContainsKey(data))
         {
