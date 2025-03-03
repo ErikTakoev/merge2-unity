@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f760662ccd51434294c99f568e610fb, type: 3}
+  m_Name: HelmetGenerator_1
+  m_EditorClassIdentifier: 
+  Type: Default
+  PrefabLink: {fileID: 8810688828194024742, guid: 65704e9ffea29b84f8fc0c92ac7bfc6d, type: 3}
+  MergeData:
+    NextChip: {fileID: 0}
+  ChipContainerData:
+    containers: []
+    NextChipData: {fileID: 0}
+  ChipGeneratorData:
+    Data:
+    - Weight: 85
+      ChipData: {fileID: 11400000, guid: 7cb35642c3492694b9dc5841941be8f0, type: 2}
+    - Weight: 10
+      ChipData: {fileID: 11400000, guid: 79295cd5fd21d1f4498ebc2e86653c45, type: 2}
+    - Weight: 5
+      ChipData: {fileID: 11400000, guid: 463c7b02fbbcd504b85a3c0514f336a6, type: 2}
+    IsStartCharged: 0
+    ChargeCount: 1
+    ChargingTime: 5
+    NextChipData: {fileID: 11400000, guid: 32b40b20b787d534c9dcba40186f8feb, type: 2}

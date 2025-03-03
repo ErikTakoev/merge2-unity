@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Merge2
 {
@@ -43,18 +44,26 @@ namespace Merge2
             TestFillField();
         }
 
+        private void CreateChip(int x, int y, ChipData chipData)
+        {
+            Chip chip = ChipFactory.CreateChip(cells[x, y], chipData);
+            chip.SendTrigger(Chip.AnimatorTrigger.Spawn);
+        }
+
         private void TestFillField()
         {
-            int sizeX = cells.GetLength(0);
-            int sizeY = cells.GetLength(1);
-            for (int j = 0; j < sizeY; j++)
+            (int, int)[] positions = new (int, int)[]
             {
-                for (int i = 0; i < sizeX; i++)
-                {
-                    ChipData data = chipData[Random.Range(0, chipData.Length)];
-                    Chip chip = ChipFactory.CreateChip(cells[i, j], data);
-                    chip.SendTrigger(ChipTrigger.Spawn);
-                }
+                (2, 1),
+                (2, 2),
+                (1, 2),
+                (3, 2),
+                (1, 4),
+                (3, 4)
+            };
+            for (int i = 0; i < chipData.Length; i++)
+            {
+                CreateChip(positions[i].Item1, positions[i].Item2, chipData[i]);
             }
         }
 

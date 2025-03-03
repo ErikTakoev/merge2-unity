@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f760662ccd51434294c99f568e610fb, type: 3}
+  m_Name: ArmorGenerator_1
+  m_EditorClassIdentifier: 
+  Type: Default
+  PrefabLink: {fileID: 8810688828194024742, guid: 648093d048afcab429cdf753dc2d6c5e, type: 3}
+  MergeData:
+    NextChip: {fileID: 0}
+  ChipContainerData:
+    containers: []
+    NextChipData: {fileID: 0}
+  ChipGeneratorData:
+    Data:
+    - Weight: 85
+      ChipData: {fileID: 11400000, guid: 0c0a6e946e35cdb4aa3402e05781fc9b, type: 2}
+    - Weight: 10
+      ChipData: {fileID: 11400000, guid: 7388176c5fe418a4f81c684ef9ff31d5, type: 2}
+    - Weight: 5
+      ChipData: {fileID: 11400000, guid: d74ed87589e3ccb478c8fafdd82c2be1, type: 2}
+    IsStartCharged: 0
+    ChargeCount: 3
+    ChargingTime: 10
+    NextChipData: {fileID: 11400000, guid: da4f1b61410f6594ebc2d95d84a34de1, type: 2}

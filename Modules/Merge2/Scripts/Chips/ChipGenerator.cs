@@ -2,24 +2,14 @@ using UnityEngine;
 
 namespace Merge2
 {
-    public class ChipGenerator : Chip
+    public partial class ChipGenerator : Chip
     {
         ChipGeneratorData generatorData;
         RuntimeData runtimeData;
 
-        class RuntimeData
-        {
-            public bool IsCharged;
-            public int ChargeCount;
-            public float ChargingTimeLeft;
-
-            public RuntimeData(ChipGeneratorData data)
-            {
-                IsCharged = data.IsStartCharged;
-                ChargeCount = data.ChargeCount;
-                ChargingTimeLeft = 0;
-            }
-        }
+        event System.Action<float> OnCharging;
+        [SerializeField]
+        ChipGeneratorEffect generatorEffect;
 
         public override void Init(ChipData data)
         {
@@ -32,6 +22,20 @@ namespace Merge2
                 return;
             }
             runtimeData = new RuntimeData(data.ChipGeneratorData);
+            if (generatorEffect == null)
+            {
+                Debug.LogError("ChipGenerator: generatorEffect is null");
+                return;
+            }
+            OnCharging += generatorEffect.OnCharging;
+            if (!runtimeData.IsCharged) 
+            {
+                generatorEffect.Activate(this);
+            }
+            else
+            {
+                generatorEffect.Deactivate(this);
+            }
         }
 
         public override void OnTap(Vector2 position)
@@ -63,12 +67,22 @@ namespace Merge2
             }
             
             Chip newChip = ChipFactory.CreateChip(findCell, generateChipData, transform.position);
-            newChip.SendTrigger(ChipTrigger.Generate);
+            newChip.SendTrigger(AnimatorTrigger.Generate);
 
             runtimeData.ChargeCount--;
             if (runtimeData.ChargeCount == 0)
             {
                 runtimeData.IsCharged = false;
+                if (generatorData.NextChipData != null)
+                {
+                    cell.Chip = null;
+                    Destroy();
+                    ChipFactory.CreateChip(cell, generatorData.NextChipData);
+                }
+                else
+                {
+                    generatorEffect.Activate(this);
+                }
             }
         }
 
@@ -79,11 +93,17 @@ namespace Merge2
                 return;
             }
             runtimeData.ChargingTimeLeft += Time.deltaTime;
+            
+            OnCharging?.Invoke(Mathf.Min(runtimeData.ChargingTimeLeft / generatorData.ChargingTime, 1f));
+            
             if (runtimeData.ChargingTimeLeft >= generatorData.ChargingTime)
             {
                 runtimeData.IsCharged = true;
                 runtimeData.ChargingTimeLeft = 0;
                 runtimeData.ChargeCount = generatorData.ChargeCount;
+                generatorEffect.Deactivate(this);
+
+                SendTrigger(AnimatorTrigger.Recharge);
             }
         }
     }

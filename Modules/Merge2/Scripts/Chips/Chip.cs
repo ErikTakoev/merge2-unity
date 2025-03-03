@@ -3,18 +3,17 @@ using UnityEngine.Rendering;
 
 namespace Merge2
 {
-	public enum ChipTrigger
-	{
-		Idle,
-		Spawn,
-		Generate,
-		Merge
-	}
-    public class Chip : MonoBehaviour
+
+    public partial class Chip : MonoBehaviour
     {
         protected ChipData data;
         [SerializeField]
         bool logEnable = false;
+
+        public bool LogEnable
+        {
+            get { return logEnable; }
+        }
 
         SortingGroup sorting;
         Animator animator;
@@ -81,7 +80,7 @@ namespace Merge2
             }
         }
 
-		public void SendTrigger(ChipTrigger trigger)
+		public void SendTrigger(AnimatorTrigger trigger)
 		{
 			SendTrigger(trigger.ToString());
 		}

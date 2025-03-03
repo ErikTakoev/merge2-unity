@@ -20,6 +20,7 @@ namespace Merge2
         }
 
         public ContainerInfo[] containers;
+        public ChipData NextChipData;
     }
 
 }

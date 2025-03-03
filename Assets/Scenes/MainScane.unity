@@ -223,21 +223,12 @@ MonoBehaviour:
   fieldSpriteRenderer: {fileID: 327467544}
   draggableChip: {fileID: 327467546}
   chipData:
-  - {fileID: 11400000, guid: 7466b03c6f54f494d8201aa1eaf79f81, type: 2}
-  - {fileID: 11400000, guid: 7466b03c6f54f494d8201aa1eaf79f81, type: 2}
-  - {fileID: 11400000, guid: 7466b03c6f54f494d8201aa1eaf79f81, type: 2}
-  - {fileID: 11400000, guid: 0345b976a1aa8514e83eef3aabbc51c2, type: 2}
-  - {fileID: 11400000, guid: 0c0a6e946e35cdb4aa3402e05781fc9b, type: 2}
-  - {fileID: 11400000, guid: 0c0a6e946e35cdb4aa3402e05781fc9b, type: 2}
-  - {fileID: 11400000, guid: 0c0a6e946e35cdb4aa3402e05781fc9b, type: 2}
-  - {fileID: 11400000, guid: 7388176c5fe418a4f81c684ef9ff31d5, type: 2}
-  - {fileID: 11400000, guid: 1a20db2ae37062f4ba89c6a45e86eaf9, type: 2}
-  - {fileID: 11400000, guid: d4bc324c604340d4d82718f88edc9970, type: 2}
-  - {fileID: 11400000, guid: d4bc324c604340d4d82718f88edc9970, type: 2}
-  - {fileID: 11400000, guid: 792ddeec6ca3d7b46a21feaa20097f3a, type: 2}
-  - {fileID: 11400000, guid: 00f79615724d7dd468e63c1e6492a78a, type: 2}
-  - {fileID: 11400000, guid: 7cb35642c3492694b9dc5841941be8f0, type: 2}
-  - {fileID: 11400000, guid: 7cb35642c3492694b9dc5841941be8f0, type: 2}
+  - {fileID: 11400000, guid: 32b40b20b787d534c9dcba40186f8feb, type: 2}
+  - {fileID: 11400000, guid: da4f1b61410f6594ebc2d95d84a34de1, type: 2}
+  - {fileID: 11400000, guid: 22f9b09032d1ea8468d477418b0d10c4, type: 2}
+  - {fileID: 11400000, guid: 64e51daf9d9fff244b77c2a0a679dda9, type: 2}
+  - {fileID: 11400000, guid: fa12fa58d683d784793ab52ddd8a0922, type: 2}
+  - {fileID: 11400000, guid: 3f5a9425bb16e5745acfcbf1c89c3429, type: 2}
 --- !u!114 &327467546
 MonoBehaviour:
   m_ObjectHideFlags: 0

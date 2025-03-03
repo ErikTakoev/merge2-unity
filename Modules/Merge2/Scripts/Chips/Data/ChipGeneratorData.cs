@@ -13,6 +13,8 @@ namespace Merge2
         public int ChargeCount = 1;
         public int ChargingTime = 10;
 
+        public ChipData NextChipData;
+
         public ChipData GenerateChipData()
         {
             if (Data.Length == 0)

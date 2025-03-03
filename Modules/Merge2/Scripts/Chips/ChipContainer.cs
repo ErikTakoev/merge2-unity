@@ -11,6 +11,8 @@ namespace Merge2
 
         protected Dictionary<ChipContainerData.ContainerInfo, int> containers;
 
+        [SerializeReference]
+        ChipContainerEffect containerEffect;
 
         public override void Init(ChipData data)
         {
@@ -26,6 +28,12 @@ namespace Merge2
             {
                 containers.Add(item, 0);
             }
+
+            if (containerEffect != null)
+            {
+                containerEffect.Activate(this);
+            }
+            SendTrigger(AnimatorTrigger.ContainerEmpty);
         }
 
         public virtual bool ChipSuitableForContainer(Chip chip)
@@ -50,7 +58,15 @@ namespace Merge2
                     {
                         containers.Remove(container.Key);
 
-                        OnFillContainer?.Invoke(chip, containers.Count == 0);
+                        bool isFull = containers.Count == 0;
+                        OnFillContainer?.Invoke(chip, isFull);
+                        if (isFull && Data.ChipContainerData.NextChipData != null)
+                        {
+                            Cell cell = transform.parent.GetComponent<Cell>();
+                            cell.Chip = null;
+                            Destroy();
+                            ChipFactory.CreateChip(cell, Data.ChipContainerData.NextChipData);
+                        }
                         return true;
                     }
                     else

@@ -7446,6 +7446,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   logEnable: 0
+  containerEffect: {fileID: 0}
   heroData: {fileID: 11400000, guid: 3824cbf825d78ff419b5225061bccf83, type: 2}
   character: {fileID: 8093705363845140162}
 --- !u!95 &3301227317526138201

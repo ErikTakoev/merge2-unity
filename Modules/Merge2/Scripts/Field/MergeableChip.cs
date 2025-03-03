@@ -54,7 +54,7 @@ namespace Merge2
             Chip chip = ChipFactory.CreateChip(newCell, nextChip);
             if (chip != null)
             {
-                chip.SendTrigger(ChipTrigger.Merge);
+                chip.SendTrigger(Chip.AnimatorTrigger.Merge);
 				return true;
             }
 

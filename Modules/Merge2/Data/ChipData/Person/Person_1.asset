@@ -33,8 +33,10 @@ MonoBehaviour:
     - Type: 0
       TypeOrId: Helmet
       Count: 1
+    NextChipData: {fileID: 0}
   ChipGeneratorData:
     Data: []
     IsStartCharged: 1
     ChargeCount: 1
     ChargingTime: 10
+    NextChipData: {fileID: 0}
