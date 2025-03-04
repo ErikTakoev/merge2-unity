@@ -6,21 +6,21 @@ namespace Merge2
     public class Field : MonoBehaviour
     {
         [SerializeReference]
-        SpriteRenderer fieldSpriteRenderer;
+        protected SpriteRenderer fieldSpriteRenderer;
 
         [SerializeReference]
-        DraggableChip draggableChip;
+        protected DraggableChipLogic draggableChip;
 
-        Cell[,] cells;
+        protected Cell[,] cells;
 
         [SerializeField]
-        ChipData[] chipData;
+        protected ChipData[] chipData;
 
-        MergeableChip mergeableLogic;
-        FillContainerLogic fillContainerLogic;
+        protected MergeableChipLogic mergeableLogic;
+        protected FillContainerLogic fillContainerLogic;
 
 
-        void Awake()
+        protected virtual void Awake()
         {
             if (fieldSpriteRenderer == null)
             {
@@ -34,11 +34,11 @@ namespace Merge2
                 return;
             }
 
-            mergeableLogic = new MergeableChip();
+            mergeableLogic = new MergeableChipLogic();
             fillContainerLogic = new FillContainerLogic();
 
             draggableChip.OnMerge += mergeableLogic.MergeChip;
-            draggableChip.OnMerge += fillContainerLogic.ChipSuitableForContainer;
+            draggableChip.OnMerge += fillContainerLogic.Fill;
 
             CreateCells();
             TestFillField();
@@ -129,6 +129,7 @@ namespace Merge2
 
             if (!IsValidCellPos(cellPos))
             {
+                draggableChip.OnDragEnd(null);
                 return;
             }
             Cell cell = cells[cellPos.x, cellPos.y];
@@ -140,13 +141,13 @@ namespace Merge2
         {
             Vector2Int cellPos = Vector2Int.FloorToInt(position);
 
+            draggableChip.OnDrag(worldPosition);
             if (!IsValidCellPos(cellPos))
             {
                 return;
             }
             Cell cell = cells[cellPos.x, cellPos.y];
             cell.OnDrag(position);
-            draggableChip.OnDrag(worldPosition);
         }
 
         public Cell FindNearestFreeCell(Vector2Int cellPos)

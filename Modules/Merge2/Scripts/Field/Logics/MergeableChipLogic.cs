@@ -2,18 +2,22 @@ using UnityEngine;
 
 namespace Merge2
 {
-    public class MergeableChip
+    public class MergeableChipLogic
     {
-        public bool IsMergeableChips(Cell prevCell, Cell newCell)
+        public bool IsMergeableChips(Cell prevCell, Cell overCell)
         {
-            if (!prevCell || !newCell)
+            if (!prevCell)
             {
-                Debug.LogError("IsMergeableChips: prevCell or newCell is null");
+                Debug.LogError("IsMergeableChips: prevCell is null");
+                return false;
+            }
+            if (!overCell) // Чип винесли за межі поля
+            {
                 return false;
             }
 
             Chip prevChip = prevCell.Chip;
-            Chip newChip = newCell.Chip;
+            Chip newChip = overCell.Chip;
 
             if (!prevChip || !newChip)
             {
@@ -28,7 +32,7 @@ namespace Merge2
                 ChipMergeData mergeData = prevChip.Data.MergeData;
                 if (mergeData != null)
                 {
-                    ChipData nextChip = newCell.Chip.Data.MergeData.NextChip;
+                    ChipData nextChip = overCell.Chip.Data.MergeData.NextChip;
                     return nextChip != null;
                 }
             }

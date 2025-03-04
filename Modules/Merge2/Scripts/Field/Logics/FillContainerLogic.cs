@@ -4,16 +4,20 @@ namespace Merge2
 {
     public class FillContainerLogic
     {
-        public bool ChipSuitableForContainer(Cell prevCell, Cell newCell)
+        public bool Fill(Cell prevCell, Cell overCell)
         {
-            if (!prevCell || !newCell)
+            if (!prevCell)
             {
-                Debug.LogError("ChipSuitableForContainer: prevCell or newCell is null");
+                Debug.LogError("ChipSuitableForContainer: prevCell is null");
+                return false;
+            }
+            if (!overCell) // Чип винесли за межі поля
+            {
                 return false;
             }
 
             Chip prevChip = prevCell.Chip;
-            Chip newChip = newCell.Chip;
+            Chip newChip = overCell.Chip;
 
             if (!prevChip || !newChip)
             {

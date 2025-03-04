@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Merge2
 {
-    public class DraggableChip : MonoBehaviour
+    public class DraggableChipLogic : MonoBehaviour
     {
         [SerializeReference]
         Cell prevCell;
@@ -13,7 +13,7 @@ namespace Merge2
         Transform draggableTransform;
         Transform prevCellTransform;
 
-        public delegate bool MergeEvent(Cell prevCell, Cell newCell);
+        public delegate bool MergeEvent(Cell prevCell, Cell overCell);
         public event MergeEvent OnMerge;
 
 
@@ -62,14 +62,21 @@ namespace Merge2
             }
             if (swap)
             {
-
-                var tmpChip = newCell.Chip;
-                if (tmpChip != null)
+                if (newCell)
                 {
-                    tmpChip.SetDragging(true);
+                    var tmpChip = newCell.Chip;
+                    if (tmpChip != null)
+                    {
+                        tmpChip.SetDragging(true);
+                    }
+                    newCell.Chip = prevCell.Chip;
+                    prevCell.Chip = tmpChip;
                 }
-                newCell.Chip = prevCell.Chip;
-                prevCell.Chip = tmpChip;
+                else
+                {
+                    prevCell.Chip = prevCell.Chip; // Для анімації повернення на попереднє місце
+                }
+                
             }
 
             prevCell = null;
