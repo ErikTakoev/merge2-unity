@@ -476,6 +476,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: test1 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 3188508158637223315, guid: 61d6856423f0e2241857417521c60d5b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6272216553700103633, guid: 61d6856423f0e2241857417521c60d5b, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.5
@@ -649,64 +653,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: First Boss
       objectReference: {fileID: 0}
+    - target: {fileID: 8409299286041236276, guid: 02cd59fb06949bd4b9d4c0c9ac451aaa, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 02cd59fb06949bd4b9d4c0c9ac451aaa, type: 3}
---- !u!1 &2127176001
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2127176003}
-  - component: {fileID: 2127176002}
-  m_Layer: 0
-  m_Name: BattleFieldScene
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &2127176002
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2127176001}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 45a335734b1572644a6a5d09d87adc65, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _SceneAsset: {fileID: 102900000, guid: 01401389de5ee004097ab706353e4ba0, type: 3}
-  _HierarchyColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-  AutoLoadScene: 1
-  _SceneGUID:
-    Value:
-      x: 2553349136
-      y: 1074718189
-      z: 1618716560
-      w: 179626835
---- !u!4 &2127176003
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2127176001}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -716,4 +671,3 @@ SceneRoots:
   - {fileID: 1150291449}
   - {fileID: 881692529}
   - {fileID: 1274448252}
-  - {fileID: 2127176003}

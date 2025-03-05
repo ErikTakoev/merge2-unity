@@ -1,34 +1,104 @@
+using System;
+using BattleField;
+using HeroEditor.Common.Enums;
+using Unity.Entities.UniversalDelegates;
 using UnityEditor;
 using UnityEngine;
 
-using HeroEditor.Common.Enums;
 
-[CustomEditor(typeof(HeroArmorsData))]
+[CustomEditor(typeof(HeroDataBase))]
 public class HeroArmorsDataEditor : Editor
 {
     public override void OnInspectorGUI()
     {
-        HeroArmorsData armorsData = (HeroArmorsData)target;
+        HeroDataBase dataBase = (HeroDataBase)target;
 
-        if (GUILayout.Button("Refrash Item Data"))
+        if (GUILayout.Button("Refresh Item Data"))
         {
-            RefrashItemData(armorsData);
+            RefreshItemData(dataBase);
         }
         DrawDefaultInspector();
     }
 
-    void RefrashItemData(HeroArmorsData weaponsData)
+    void RefreshItemData(HeroDataBase dataBase)
     {
-        foreach(var armorData in weaponsData.armors)
+        foreach (var data in dataBase.Armors)
         {
-            var itemIndificator = armorData.ChipData.PrefabLink.GetComponent<HeroItemIndicator>();
-            if (itemIndificator == null)
+            AddInfo(data, EquipmentPart.Armor);
+        }
+        foreach (var data in dataBase.Helmets)
+        {
+            AddInfo(data, EquipmentPart.Helmet);
+        }
+        foreach (var data in dataBase.Shields)
+        {
+            AddInfo(data, EquipmentPart.Shield);
+        }
+        foreach (var data in dataBase.Weapons)
+        {
+            AddInfo(data, EquipmentPart.MeleeWeapon1H);
+        }
+    }
+
+    void AddInfo(HeroDataBase.Data data, EquipmentPart part)
+    {
+        // Шукаєм відповідний EquipmentItem для ChipData
+        if (data.ChipData != null && data.Item == null)
+        {
+            string[] guids = AssetDatabase.FindAssets($"{data.ChipData.name} t:EquipmentItem");
+            if (guids.Length > 0)
             {
-                Debug.LogError($"ChipData: {armorData.ChipData.PrefabLink.name} is not component HeroItemIndicator");
-                continue;
+                string path = AssetDatabase.GUIDToAssetPath(guids[0]);
+                data.Item = AssetDatabase.LoadAssetAtPath<EquipmentItem>(path);
             }
-            armorData.ItemId = itemIndificator.GetItemId();
-            armorData.EquipmentPart = EquipmentPart.Armor;
+        }
+
+        // Якщо EquipmentItem не знайдено, то створюємо його
+        if (data.Item == null)
+        {
+            string path = $"Assets/BattleField/Data/{part}Item/{data.ChipData.name}.asset";
+            Type type = null;
+            switch (part)
+            {
+                case EquipmentPart.Armor:
+                    type = typeof(EquipmentArmorItem);
+                break;
+                case EquipmentPart.Helmet:
+                    type = typeof(EquipmentHelmetItem);
+                break;
+                case EquipmentPart.Shield:
+                    type = typeof(EquipmentShieldItem);
+                break;
+                case EquipmentPart.MeleeWeapon1H:
+                    type = typeof(EquipmentWeaponItem);
+                break;
+                default:
+                    Debug.LogError($"AddInfo: Not found type for EquipmentPart: {part}");
+                    return;
+            }
+
+            var item = ScriptableObject.CreateInstance(type);
+            AssetDatabase.CreateAsset(item, path);
+            AssetDatabase.SaveAssets();
+            
+            data.Item = item as EquipmentItem;
+        }
+
+        // Якщо EquipmentItem знайдено, то додаємо йому ItemId
+        if (data.Item != null)
+        {
+            var chipData = data.ChipData;
+            if (chipData.PrefabLink == null)
+            {
+                Debug.LogError($"AddInfo: In HeroDataBase not PrefabLink: {data.ChipData.name}");
+                return;
+            }
+            if (data.ChipData.PrefabLink.GetComponent<HeroItemIndicator>() is var indicator)
+            {
+                data.Item.ItemId = indicator.GetItemId();
+            }
+            
+            data.Item.EquipmentPart = part;
         }
     }
 }

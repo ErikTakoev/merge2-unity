@@ -8,7 +8,7 @@ using System.Collections.Generic;
 public class HeroChip : ChipContainer
 {
     [SerializeField]
-    HeroData heroData;
+    HeroDataBase heroData;
 
     [SerializeReference]
     Character character;
@@ -106,10 +106,16 @@ public class HeroChip : ChipContainer
 
     void Equip(ChipData chipData)
     {
-        var item = heroData.Find(chipData);
-        if (item == null)
+        var asset = heroData.Find(chipData);
+        if (asset == null)
         {
             Debug.LogError($"Equip: In HeroData not chipData: {chipData.name}");
+            return;
+        }
+        var item = asset.Item;
+        if (item == null)
+        {
+            Debug.LogError($"Equip: In HeroData not item: {chipData.name}");
             return;
         }
 
