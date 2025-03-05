@@ -1,10 +1,11 @@
 using UnityEngine;
 using Merge2;
 using Assets.HeroEditor.Common.Scripts.CharacterScripts;
-using HeroEditor.Common.Data;
 using HeroEditor.Common.Enums;
 using Assets.HeroEditor.Common.Scripts.Common;
 using System.Collections.Generic;
+using BattleField;
+
 public class HeroChip : ChipContainer
 {
     [SerializeField]
@@ -13,7 +14,8 @@ public class HeroChip : ChipContainer
     [SerializeReference]
     Character character;
 
-    List<EquipmentPart> equipmentParts;
+    BattleHeroStyle style;
+    List<EquipmentItem> equipmentItems;
 
     private void Start()
     {
@@ -27,7 +29,7 @@ public class HeroChip : ChipContainer
             Debug.LogError("HeroChipController: character is empty");
             return;
         }
-        equipmentParts = new List<EquipmentPart>();
+        equipmentItems = new List<EquipmentItem>();
 
         RandomCharacter();
 
@@ -37,17 +39,28 @@ public class HeroChip : ChipContainer
     private void RandomCharacter()
     {
         character.ResetEquipment();
-
-        Color RandomColor = new Color(Random.Range(0, 1f), Random.Range(0, 1f), Random.Range(0, 1f), 1f);
-        character.SetBody(character.SpriteCollection.Hair.Random(), BodyPart.Hair, RandomColor);
-        character.SetBody(character.SpriteCollection.Eyebrows.Random(), BodyPart.Eyebrows);
-        character.SetBody(character.SpriteCollection.Eyes.Random(), BodyPart.Eyes, RandomColor);
-        character.SetBody(character.SpriteCollection.Mouth.Random(), BodyPart.Mouth);
+        SetCharacterStyle();
 
         if (Random.value > 0.5)
         {
             transform.localEulerAngles = new Vector3(0, 180, 0);
         }
+    }
+
+    private void SetCharacterStyle()
+    {
+        style = new BattleHeroStyle();
+        style.HairIndex = Random.Range(0, character.SpriteCollection.Hair.Count);
+        style.HairColor = new Color(Random.Range(0, 1f), Random.Range(0, 1f), Random.Range(0, 1f), 1f);
+        style.EyebrowsIndex = Random.Range(0, character.SpriteCollection.Eyebrows.Count);
+        style.EyesIndex = Random.Range(0, character.SpriteCollection.Eyes.Count);
+        style.EyesColor = new Color(Random.Range(0, 1f), Random.Range(0, 1f), Random.Range(0, 1f), 1f);
+        style.MouthIndex = Random.Range(0, character.SpriteCollection.Mouth.Count);
+
+        character.SetBody(character.SpriteCollection.Hair[style.HairIndex], BodyPart.Hair, style.HairColor);
+        character.SetBody(character.SpriteCollection.Eyebrows[style.EyebrowsIndex], BodyPart.Eyebrows);
+        character.SetBody(character.SpriteCollection.Eyes[style.EyesIndex], BodyPart.Eyes, style.EyesColor);
+        character.SetBody(character.SpriteCollection.Mouth[style.MouthIndex], BodyPart.Mouth);
     }
 
     private void OnFillContainerEvent(Chip chip, bool isFull)
@@ -58,6 +71,7 @@ public class HeroChip : ChipContainer
 
         Equip(chipData);
     }
+    
     public override bool ChipSuitableForContainer(Chip chip)
     {
         bool result = base.ChipSuitableForContainer(chip);
@@ -72,7 +86,7 @@ public class HeroChip : ChipContainer
             switch (chip.Data.Type)
             {
                 case "Weapon":
-                    if (equipmentParts.Contains(EquipmentPart.MeleeWeaponPaired))
+                    if (character.SecondaryMeleeWeapon != null)
                     {
                         RemoveSlot(EquipmentPart.Shield);
                     }
@@ -119,47 +133,14 @@ public class HeroChip : ChipContainer
             return;
         }
 
-        Debug.Log($"Equip: ItemId: {item.ItemId}, part: {item.EquipmentPart}");
-        List<ItemSprite> collection = null;
-        switch (item.EquipmentPart)
+        if (BattleCharacterUtils.EquipItem(character, item))
         {
-            case EquipmentPart.Armor:
-                collection = character.SpriteCollection.Armor;
-                break;
-            case EquipmentPart.MeleeWeapon1H:
-                collection = character.SpriteCollection.MeleeWeapon1H;
-                break;
-            case EquipmentPart.Shield:
-                collection = character.SpriteCollection.Shield;
-                break;
-            case EquipmentPart.Helmet:
-                collection = character.SpriteCollection.Helmet;
-                break;
+            equipmentItems.Add(item);
         }
-        if (collection == null)
-        {
-            Debug.LogError("Equip: not found collection list");
-            return;
-        }
-
-        var itemSprite = collection.Find(i => i.Name == item.ItemId);
-        if (itemSprite == null)
-        {
-            Debug.Log($"Not find sprite for itemId: {item.ItemId}");
-            return;
-        }
-
-        var equipmentPart = item.EquipmentPart;
-        if (equipmentPart == EquipmentPart.MeleeWeapon1H && equipmentParts.Contains(EquipmentPart.MeleeWeapon1H))
-        {
-            equipmentPart = EquipmentPart.MeleeWeaponPaired;
-            character.Equip(itemSprite, equipmentPart);
-        }
-        else
-        {
-            character.Equip(itemSprite, equipmentPart);
-        }
-        equipmentParts.Add(equipmentPart);
     }
 
+    public (BattleHeroStyle, List<EquipmentItem>) GetHeroData()
+    {
+        return (style, equipmentItems);
+    }
 }

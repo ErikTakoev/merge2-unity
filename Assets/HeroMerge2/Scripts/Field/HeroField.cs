@@ -4,6 +4,8 @@ using Merge2;
 
 public class HeroField : Field
 {
+    [SerializeReference]
+    BattleField.BattleField battleField;
     DraggingHeroLogic draggingHeroToBattleLogic;
     protected override void Awake()
     {
@@ -15,7 +17,13 @@ public class HeroField : Field
             return;
         }
 
-        draggingHeroToBattleLogic = new DraggingHeroLogic();
+        draggingHeroToBattleLogic = new DraggingHeroLogic(OnDraggedHeroToBattleField);
         draggableChip.OnMerge += draggingHeroToBattleLogic.DraggingHero;
+    }
+
+    public void OnDraggedHeroToBattleField(HeroChip onBattleChip)
+    {
+        var (style, items) = onBattleChip.GetHeroData();
+        battleField.OnDraggedHeroToBattleField(style, items);
     }
 }

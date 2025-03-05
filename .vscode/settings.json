@@ -1,4 +1,8 @@
 {
     "dotnet.preferCSharpExtension": true,
-    "dotnet.defaultSolution": "merge2-unity.sln"
+    "dotnet.defaultSolution": "merge2-unity.sln",
+    "cSpell.words": [
+        "Behaviour",
+        "Scriptable"
+    ]
 }
