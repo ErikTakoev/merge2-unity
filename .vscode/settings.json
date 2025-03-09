@@ -3,6 +3,9 @@
     "dotnet.defaultSolution": "merge2-unity.sln",
     "cSpell.words": [
         "Behaviour",
+        "Findpathing",
+        "Mathf",
+        "Pathfinding",
         "Scriptable"
     ]
 }

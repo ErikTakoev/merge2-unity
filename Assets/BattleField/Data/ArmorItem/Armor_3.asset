@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb9b0cca696446d4cae499104e2bcb96, type: 3}
   m_Name: Armor_3
   m_EditorClassIdentifier: 
-  ItemId: 
+  ItemId: ManticoreArmor
   EquipmentPart: 0
   Defense: 0

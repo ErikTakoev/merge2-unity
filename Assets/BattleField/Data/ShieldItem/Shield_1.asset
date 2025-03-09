@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32263279564b6a54c8e8d42d6e41dadb, type: 3}
   m_Name: Shield_1
   m_EditorClassIdentifier: 
-  ItemId: 
-  EquipmentPart: 0
+  ItemId: WoodenBuckler
+  EquipmentPart: 13
   ChanceBlockDamage: 0

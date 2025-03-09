@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cffb5166cbffae14e9d36e366b8ad87c, type: 3}
   m_Name: Helmet_3
   m_EditorClassIdentifier: 
-  ItemId: 
-  EquipmentPart: 0
+  ItemId: 'MercenaryHelm1 [Paint]'
+  EquipmentPart: 1
   MinusChanceCrit: 0

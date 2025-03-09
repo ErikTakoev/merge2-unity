@@ -14,29 +14,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Armors:
   - ChipData: {fileID: 11400000, guid: 0c0a6e946e35cdb4aa3402e05781fc9b, type: 2}
-    Item: {fileID: 0}
+    Item: {fileID: 11400000, guid: 7de2ec66edb9fa24ab830aaf9ad9ffa3, type: 2}
   - ChipData: {fileID: 11400000, guid: 7388176c5fe418a4f81c684ef9ff31d5, type: 2}
-    Item: {fileID: 0}
+    Item: {fileID: 11400000, guid: 666da84ce36757e419f9e08d706d4caf, type: 2}
   - ChipData: {fileID: 11400000, guid: d74ed87589e3ccb478c8fafdd82c2be1, type: 2}
-    Item: {fileID: 0}
+    Item: {fileID: 11400000, guid: f116b06830a748b4e964aa66813023a0, type: 2}
   Weapons:
   - ChipData: {fileID: 11400000, guid: 7466b03c6f54f494d8201aa1eaf79f81, type: 2}
-    Item: {fileID: 0}
+    Item: {fileID: 11400000, guid: 297c7758c1d62554c91202d81b8d231c, type: 2}
   - ChipData: {fileID: 11400000, guid: 0345b976a1aa8514e83eef3aabbc51c2, type: 2}
-    Item: {fileID: 0}
+    Item: {fileID: 11400000, guid: 873e841800cfb8a45b7a57b2f2d1d1a6, type: 2}
   - ChipData: {fileID: 11400000, guid: 22078ae0bfee1f844ac9c35be2d28af0, type: 2}
-    Item: {fileID: 0}
+    Item: {fileID: 11400000, guid: 7fb0c15253ee86740bd14717b3fca179, type: 2}
   Helmets:
   - ChipData: {fileID: 11400000, guid: 7cb35642c3492694b9dc5841941be8f0, type: 2}
-    Item: {fileID: 0}
+    Item: {fileID: 11400000, guid: ccd6fcf1f6ac57f45aef9f4876e60e29, type: 2}
   - ChipData: {fileID: 11400000, guid: 79295cd5fd21d1f4498ebc2e86653c45, type: 2}
-    Item: {fileID: 0}
+    Item: {fileID: 11400000, guid: 4ece61380d46dd44cafb14906f77cb0c, type: 2}
   - ChipData: {fileID: 11400000, guid: 463c7b02fbbcd504b85a3c0514f336a6, type: 2}
-    Item: {fileID: 0}
+    Item: {fileID: 11400000, guid: 0701e06829725164bbba2cb4367df25a, type: 2}
   Shields:
   - ChipData: {fileID: 11400000, guid: d4bc324c604340d4d82718f88edc9970, type: 2}
-    Item: {fileID: 0}
+    Item: {fileID: 11400000, guid: c28063a93d256404c8332500670176d0, type: 2}
   - ChipData: {fileID: 11400000, guid: 792ddeec6ca3d7b46a21feaa20097f3a, type: 2}
-    Item: {fileID: 0}
+    Item: {fileID: 11400000, guid: 4d9112e0504430f4f95d1004f3af03c1, type: 2}
   - ChipData: {fileID: 11400000, guid: c39fa41aa7216db49ba2b22187c3503c, type: 2}
-    Item: {fileID: 0}
+    Item: {fileID: 11400000, guid: 2b9c673874e182d48952336bf313677d, type: 2}

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a199ad46ab47264f9e812bdc6bbeb27, type: 3}
   m_Name: Sword_3
   m_EditorClassIdentifier: 
-  ItemId: 
-  EquipmentPart: 0
+  ItemId: ManticoreSword
+  EquipmentPart: 7
   MinAttackDamage: 0
   MaxAttackDamage: 0

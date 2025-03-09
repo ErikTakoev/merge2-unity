@@ -7044,7 +7044,7 @@ GameObject:
   - component: {fileID: 3759559453459053104}
   - component: {fileID: 4409463954331742492}
   m_Layer: 3
-  m_Name: BattleHero
+  m_Name: HeroBoss
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

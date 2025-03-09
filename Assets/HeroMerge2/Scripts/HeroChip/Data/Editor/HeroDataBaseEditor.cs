@@ -1,13 +1,12 @@
 using System;
 using BattleField;
 using HeroEditor.Common.Enums;
-using Unity.Entities.UniversalDelegates;
 using UnityEditor;
 using UnityEngine;
 
 
 [CustomEditor(typeof(HeroDataBase))]
-public class HeroArmorsDataEditor : Editor
+public class HeroDataBaseEditor : Editor
 {
     public override void OnInspectorGUI()
     {
@@ -38,6 +37,8 @@ public class HeroArmorsDataEditor : Editor
         {
             AddInfo(data, EquipmentPart.MeleeWeapon1H);
         }
+        EditorUtility.SetDirty(dataBase);
+        AssetDatabase.SaveAssets();
     }
 
     void AddInfo(HeroDataBase.Data data, EquipmentPart part)
@@ -79,7 +80,6 @@ public class HeroArmorsDataEditor : Editor
 
             var item = ScriptableObject.CreateInstance(type);
             AssetDatabase.CreateAsset(item, path);
-            AssetDatabase.SaveAssets();
             
             data.Item = item as EquipmentItem;
         }
@@ -99,6 +99,8 @@ public class HeroArmorsDataEditor : Editor
             }
             
             data.Item.EquipmentPart = part;
+            EditorUtility.SetDirty(data.Item);
         }
+        
     }
 }
