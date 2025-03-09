@@ -1,7 +1,6 @@
+using System;
 using System.Collections.Generic;
-using System.Text;
 using UnityEngine;
-using UnityEngine.Assertions.Must;
 
 namespace BattleField
 {
@@ -20,28 +19,25 @@ namespace BattleField
         protected override bool Attack()
         {
             bool result = false;
-            if (target != null)
+
+            if (Unit.IsMoving)
             {
-                RaycastHit2D[] raycastResult = new RaycastHit2D[2];
-                int count = Unit.Collider.Raycast(target.transform.position - Unit.transform.position, raycastResult, 0.3f);
-                if(count == 1 && raycastResult[0].collider.gameObject == target.gameObject)
-                {
-                    result = true;
-                }
+                return false;
             }
-            
-            if(target != null && Unit.IsMoving)
+            if (target == null)
             {
-                if(result)
-                {
-                    movingToCell = null;
-                    Unit.MoveStop();
-                    Unit.Attack(target);
-                }
+                return false;
             }
-            if (target != null && Unit.IsAttackReady)
+            var targetPos = target.Cell.CellPos;
+            var unitPos = Unit.Cell.CellPos;
+            var diff = targetPos - unitPos;
+            if (Mathf.Abs(diff.x) <= 1 && Mathf.Abs(diff.y) <= 1)
             {
-                if(result)
+                if (diff.x == 0 && Mathf.Abs(diff.y) == 1)
+                {
+                    result = false;
+                }
+                else if (Unit.IsAttackReady)
                 {
                     Unit.Attack(target);
                 }
@@ -55,7 +51,7 @@ namespace BattleField
             {
                 return false;
             }
-            if (!Unit.IsAttacking && !Unit.IsDodgeRolling && Random.value > 0.5f)
+            if (!Unit.IsAttacking && !Unit.IsDodgeRolling && UnityEngine.Random.value > 0.5f)
             {
                 Unit.DodgeRoll(Attackers[0]);
                 return true;
@@ -94,7 +90,7 @@ namespace BattleField
             {
                 isPathfinding = true;
                 movingToCell = targetCell;
-                field.FindPath(Unit.Cell, movingToCell, OnPathfindingComplete);
+                field.FindPathToTarget(Unit.Cell, movingToCell, OnPathfindingComplete);
                 result = true;
             }
             

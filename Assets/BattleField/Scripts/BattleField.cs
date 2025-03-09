@@ -74,9 +74,20 @@ namespace BattleField
             return target;
         }
 
-        public void FindPath(BattleCell unitCell, BattleCell targetCell, System.Action<List<BattleCell>> callback)
+        public void FindPathToTarget(BattleCell unitCell, BattleCell targetCell, System.Action<List<BattleCell>> callback)
         {
-            grid.FindPathAsync(unitCell, targetCell, callback);
+            HashSet<BattleCell> closedList = new HashSet<BattleCell>();
+
+            if (grid.GetCell(targetCell.CellPos.x, targetCell.CellPos.y + 1) is var upCell)
+            {
+                closedList.Add(upCell);
+            }
+            if (grid.GetCell(targetCell.CellPos.x, targetCell.CellPos.y - 1) is var downCell)
+            {
+                closedList.Add(downCell);
+            }
+
+            grid.FindPathAsync(unitCell, targetCell, closedList, callback);
         }
 
         BattleHero CreateUnit(GameObject prefab, bool isHero)

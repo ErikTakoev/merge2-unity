@@ -5,10 +5,9 @@ namespace BattleField
 {
     public static class Pathfinding
     {
-        public static List<BattleCell> FindPath(BattleCell[,] grid, BattleCell start, BattleCell target)
+        public static List<BattleCell> FindPath(BattleCell[,] grid, BattleCell start, BattleCell target, HashSet<BattleCell> closedList)
         {
             List<BattleCell> openList = new List<BattleCell>();
-            HashSet<BattleCell> closedList = new HashSet<BattleCell>();
             Dictionary<BattleCell, BattleCell> cameFrom = new Dictionary<BattleCell, BattleCell>();
 
             openList.Add(start);

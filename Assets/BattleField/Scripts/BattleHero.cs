@@ -114,7 +114,7 @@ namespace BattleField
             }
             yield return new WaitForSeconds(0.4f);
             IsAttacking = false;
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(UnityEngine.Random.value + 0.3f);
             IsAttackReady = true;
         }
 
@@ -130,7 +130,7 @@ namespace BattleField
         private IEnumerator DodgeRollCoroutine(BattleHero target)
         {
             IsDodgeRolling = true;
-            character.Animator.SetTrigger("Hit");
+            character.Animator.SetTrigger("ShieldDefense");
             yield return new WaitForSeconds(1.0f);
             IsDodgeRolling = false;
         }
