@@ -7079,7 +7079,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   character: {fileID: 4841423546578199555}
-  LogEnable: 0
+  LogEnable: 1
 --- !u!58 &6103848980997341195
 CircleCollider2D:
   m_ObjectHideFlags: 0

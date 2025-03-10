@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Assets.HeroEditor.Common.Scripts.CharacterScripts;
 using UnityEngine;
@@ -41,6 +42,9 @@ namespace BattleField
             }
 
             heroBoss = CreateUnit(heroBossPrefab, true);
+            CreateUnit(heroBossPrefab, true);
+            CreateUnit(heroBossPrefab, true);
+            CreateUnit(heroBossPrefab, true);
             enemyBoss = CreateUnit(enemyBossPrefab, false);
         }
 
@@ -77,17 +81,27 @@ namespace BattleField
         public void FindPathToTarget(BattleCell unitCell, BattleCell targetCell, System.Action<List<BattleCell>> callback)
         {
             HashSet<BattleCell> closedList = new HashSet<BattleCell>();
+            var targetCellPos = targetCell.CellPos;
+            List<BattleCell> targetsCell = new List<BattleCell>();
 
-            if (grid.GetCell(targetCell.CellPos.x, targetCell.CellPos.y + 1) is var upCell)
+            BattleCell tmpCell;
+            for (int x = -1; x <= 1; x+=2)
             {
-                closedList.Add(upCell);
-            }
-            if (grid.GetCell(targetCell.CellPos.x, targetCell.CellPos.y - 1) is var downCell)
-            {
-                closedList.Add(downCell);
+                for (int y = -1; y <= 1; y++)
+                {
+                    tmpCell = grid.GetCell(targetCell.CellPos.x + x, targetCell.CellPos.y + y);
+                    if (tmpCell != null && !tmpCell.IsReserved && tmpCell.IsAvailableCell())
+                    {
+                        targetsCell.Add(tmpCell);
+                    }
+                }
             }
 
-            grid.FindPathAsync(unitCell, targetCell, closedList, callback);
+            
+            
+
+
+            grid.FindPathAsync(unitCell, targetsCell, closedList, callback);
         }
 
         BattleHero CreateUnit(GameObject prefab, bool isHero)
@@ -95,6 +109,7 @@ namespace BattleField
             BattleCell spawnPoint = grid.GetRandomSpawnPoint(isHero);
 
             BattleHero hero = Instantiate(prefab, transform).GetComponent<BattleHero>();
+            hero.name = (isHero ? "Hero" : "Enemy") + (heroes.Count + enemies.Count);
 
             if (isHero)
             {

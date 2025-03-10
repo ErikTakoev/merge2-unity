@@ -27,7 +27,7 @@ namespace BattleField
 
         public bool IsHero { get; set; }
 
-        public bool LogEnable;
+        public bool LogEnable = true;
 
         public Collider2D Collider { get; private set; }
 
@@ -66,21 +66,34 @@ namespace BattleField
             Cell.SetTemporaryBusy(true);
         }
 
-        public void MoveTo(List<BattleCell> path)
+        public void MoveTo(List<BattleCell> newPath)
         {
-            Debug.Log($"{name} MoveTo:{path[path.Count - 1].CellPos}");
-            this.path = path;
+            if (path != null)
+            {
+                if (path.Count > 0)
+                {
+                    path[path.Count - 1].IsReserved = false;
+                }
+                else if (NextCell != null)
+                {
+                    NextCell.IsReserved = false;
+                }
+            }
+            path = newPath;
+            
             if (path.Count > 0)
             {
-                character.SetState(CharacterState.Run);
-                MoveToNextCell();
+                path[path.Count - 1].IsReserved = true;
+                if (NextCell == null)
+                {
+                    character.SetState(CharacterState.Run);
+                    MoveToNextCell();
+                }
             }
         }
         public void MoveStop()
         {
             path = null;
-            NextCell = null;
-            character.SetState(CharacterState.Idle);
         }
 
         public void AddAttacker(BattleHero unit)
@@ -140,7 +153,7 @@ namespace BattleField
             strategy.Update();
             if (NextCell != null)
             {
-                transform.position = Vector3.MoveTowards(transform.position, NextCell.WorldPosition, 1 * Time.deltaTime);
+                transform.position = Vector3.MoveTowards(transform.position, NextCell.WorldPosition, 0.3f * Time.deltaTime);
                 if (Vector3.Distance( transform.position, NextCell.WorldPosition) < 0.02f)
                 {
                     if (Cell != null)
@@ -148,14 +161,14 @@ namespace BattleField
                         Cell.SetTemporaryBusy(false);
                     }
                     Cell = NextCell;
+                    Cell.SetTemporaryBusy(true);
                     if (path.Count > 0)
                     {
-                        Cell.SetTemporaryBusy(true);
                         MoveToNextCell();
                     }
                     else
                     {
-                        Cell.SetTemporaryBusy(true);
+                        Cell.IsReserved = false;
                         character.SetState(CharacterState.Idle);
                         path = null;
                         NextCell = null;

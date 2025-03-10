@@ -5,42 +5,50 @@ namespace BattleField
 {
     public static class Pathfinding
     {
-        public static List<BattleCell> FindPath(BattleCell[,] grid, BattleCell start, BattleCell target, HashSet<BattleCell> closedList)
+        public static List<BattleCell> FindPath(BattleCell[,] grid, BattleCell start, List<BattleCell> targets, HashSet<BattleCell> closedList)
         {
             List<BattleCell> openList = new List<BattleCell>();
             Dictionary<BattleCell, BattleCell> cameFrom = new Dictionary<BattleCell, BattleCell>();
+            Dictionary<BattleCell, int> gCost = new Dictionary<BattleCell, int>();
 
             openList.Add(start);
+            gCost[start] = 0;
 
             while (openList.Count > 0)
             {
                 BattleCell currentCell = openList[0];
                 for (int i = 1; i < openList.Count; i++)
                 {
-                    if (GetFCost(openList[i], target) < GetFCost(currentCell, target))
+                    for (int j = 0; j < targets.Count; j++)
                     {
-                        currentCell = openList[i];
+                        var target = targets[j];
+                        if (GetFCost(openList[i], target) < GetFCost(currentCell, target))
+                        {
+                            currentCell = openList[i];
+                        }
                     }
+                    
                 }
 
                 openList.Remove(currentCell);
                 closedList.Add(currentCell);
 
-                if (currentCell == target)
+                if (targets.Contains(currentCell))
                 {
-                    return RetracePath(cameFrom, start, target);
+                    return RetracePath(cameFrom, start, currentCell);
                 }
 
                 foreach (BattleCell neighbor in GetNeighbors(grid, currentCell))
                 {
-                    if ((!neighbor.IsAvailableCell() && neighbor != target) || closedList.Contains(neighbor))
+                    if ((!neighbor.IsAvailableCell() && !targets.Contains(neighbor)) || closedList.Contains(neighbor))
                     {
                         continue;
                     }
 
-                    int newMovementCostToNeighbor = GetDistance(currentCell, neighbor);
-                    if (newMovementCostToNeighbor < GetDistance(currentCell, neighbor) || !openList.Contains(neighbor))
+                    int newMovementCostToNeighbor = gCost[currentCell] + GetDistance(currentCell, neighbor);
+                    if (!gCost.ContainsKey(neighbor) || newMovementCostToNeighbor < gCost[neighbor])
                     {
+                        gCost[neighbor] = newMovementCostToNeighbor;
                         cameFrom[neighbor] = currentCell;
 
                         if (!openList.Contains(neighbor))
@@ -64,7 +72,6 @@ namespace BattleField
                 path.Add(currentCell);
                 currentCell = cameFrom[currentCell];
             }
-            path.RemoveAt(0);
             path.Reverse();
             return path;
         }

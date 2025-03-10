@@ -67,20 +67,35 @@ namespace BattleField
                 for (int y = 0; y < height; y++)
                 {
                     Vector3 cellPosition = cells[x, y].WorldPosition;
-                    Gizmos.color = cells[x, y].IsAvailableCell() ? Color.green : Color.red; // Колір залежить від властивості клітинки
+                    var cell = cells[x, y];
+                    if (cell.IsReserved)
+                    {
+                        Gizmos.color = Color.yellow;
+                    }
+                    else if (!cell.IsAvailableCell())
+                    {
+                        Gizmos.color = Color.red;
+                    }
+                    else
+                    {
+                        Gizmos.color = Color.green;
+                    }
                     Gizmos.DrawWireCube(cellPosition, new Vector3(cells[x, y].Width - 0.01f, cells[x, y].Height - 0.01f, 0));
+
+                    // Додаємо відображення координат (x, y)
+                    UnityEditor.Handles.Label(cellPosition + new Vector3(-cellWidth / 4, -cellHeight / 4, 0), $"({x}, {y})");
                 }
             }
         }
 
-        public async void FindPathAsync(BattleCell startCell, BattleCell targetCell, HashSet<BattleCell> closedList, Action<List<BattleCell>> callback)
+        public async void FindPathAsync(BattleCell startCell, List<BattleCell> targets, HashSet<BattleCell> closedList, Action<List<BattleCell>> callback)
         {
             if (closedList == null)
             {
                 closedList = new HashSet<BattleCell>();
             }
             // Виконання пошуку шляху в паралельному потоці
-            List<BattleCell> path = await Task.Run(() => Pathfinding.FindPath(cells, startCell, targetCell, closedList));
+            List<BattleCell> path = await Task.Run(() => Pathfinding.FindPath(cells, startCell, targets, closedList));
 
             // Виклик колбеку з результатом
             callback?.Invoke(path);

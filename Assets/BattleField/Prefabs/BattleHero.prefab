@@ -2739,7 +2739,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   character: {fileID: 8942311496344071428}
-  LogEnable: 0
+  LogEnable: 1
 --- !u!58 &6103848980997341195
 CircleCollider2D:
   m_ObjectHideFlags: 0

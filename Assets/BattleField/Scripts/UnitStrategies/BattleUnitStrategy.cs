@@ -33,12 +33,14 @@ namespace BattleField
             var diff = targetPos - unitPos;
             if (Mathf.Abs(diff.x) <= 1 && Mathf.Abs(diff.y) <= 1)
             {
+                result = true;
                 if (diff.x == 0 && Mathf.Abs(diff.y) == 1)
                 {
                     result = false;
                 }
                 else if (Unit.IsAttackReady)
                 {
+                    Unit.MoveStop();
                     Unit.Attack(target);
                 }
             }
@@ -74,7 +76,7 @@ namespace BattleField
             {
                 if (Unit.LogEnable)
                 {
-                    Debug.Log($"Pathfinding in progress... for :{Unit.name}, moving to Cell x:{movingToCell.CellPos.x}, y:{movingToCell.CellPos.y}");
+                    Debug.Log($"Pathfinding in progress... for :{Unit.name}, moving to Cell x:{movingToCell.CellPos.x}, y:{movingToCell.CellPos.y} from x: {Unit.Cell.CellPos.x}, y: {Unit.Cell.CellPos.y}");
                 }
                 return true;
             }
@@ -86,11 +88,17 @@ namespace BattleField
 
             BattleCell targetCell = target.NextCell == null ? target.Cell : target.NextCell;
 
-            if (target != null && movingToCell != targetCell && !isPathfinding)
+            BattleCell unitCell = Unit.NextCell == null ? Unit.Cell : Unit.NextCell;
+            if (target != null && movingToCell != targetCell && !isPathfinding && unitCell != targetCell)
             {
                 isPathfinding = true;
                 movingToCell = targetCell;
-                field.FindPathToTarget(Unit.Cell, movingToCell, OnPathfindingComplete);
+                if (Unit.LogEnable)
+                {
+                    Debug.Log($"Pathfinding: {Unit.name} start to find path to: Cell x:{movingToCell.CellPos.x}, y:{movingToCell.CellPos.y} from x: {Unit.Cell.CellPos.x}, y: {Unit.Cell.CellPos.y}");
+                }
+
+                field.FindPathToTarget(unitCell, movingToCell, OnPathfindingComplete);
                 result = true;
             }
             
@@ -100,16 +108,23 @@ namespace BattleField
 
         void OnPathfindingComplete(List<BattleCell> path)
         {
-            if (path == null)
+            isPathfinding = false;
+            if (path == null || path.Count == 0)
             {
-                Debug.LogError($"Pathfinding: is not found path to: Cell x:{movingToCell.CellPos.x}, y:{movingToCell.CellPos.y}");
+                Debug.LogError($"Pathfinding: {Unit.name} is not found path to: Cell x:{movingToCell.CellPos.x}, y:{movingToCell.CellPos.y} from x: {Unit.Cell.CellPos.x}, y: {Unit.Cell.CellPos.y}");
+                movingToCell = null;
+                return;
+            }
+            if (path.Count > 0 && path[path.Count - 1].IsReserved)
+            {
+                Debug.LogWarning($"Pathfinding: {Unit.name} last cell is reserved: Cell x:{movingToCell.CellPos.x}, y:{movingToCell.CellPos.y} from x: {Unit.Cell.CellPos.x}, y: {Unit.Cell.CellPos.y}");
+                movingToCell = null;
                 return;
             }
             Unit.MoveTo(path);
-            isPathfinding = false;
             if (Unit.LogEnable)
             {
-                Debug.Log($"Pathfinding complete for :{Unit.name}, moving to Cell x:{movingToCell.CellPos.x}, y:{movingToCell.CellPos.y}");
+                Debug.Log($"Pathfinding complete for :{Unit.name}, moving to Cell x:{movingToCell.CellPos.x}, y:{movingToCell.CellPos.y} from x: {Unit.Cell.CellPos.x}, y: {Unit.Cell.CellPos.y}");
             }
         }
 
