@@ -15,7 +15,12 @@ namespace BattleField
         protected BattleHero Unit;
         protected List<EquipmentItem> Items;
         protected List<BattleHero> Attackers;
+        
+        protected bool isPathfinding;
+        protected BattleHero target;
+        protected BattleCell movingToCell;
 
+        protected abstract bool FindTarget();
         protected abstract bool DodgeRoll();
         protected abstract bool Move();
         protected abstract bool SpecialAttack();
@@ -28,6 +33,10 @@ namespace BattleField
 
         public virtual void Update()
         {
+            if (FindTarget())
+            {
+                return;
+            }
             if (DodgeRoll())
             {
                 return;

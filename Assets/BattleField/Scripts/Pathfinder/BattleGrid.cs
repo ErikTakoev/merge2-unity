@@ -88,14 +88,10 @@ namespace BattleField
             }
         }
 
-        public async void FindPathAsync(BattleCell startCell, List<BattleCell> targets, HashSet<BattleCell> closedList, Action<List<BattleCell>> callback)
+        public async void FindPathAsync(BattleCell startCell, List<BattleCell> targets, Action<List<BattleCell>> callback)
         {
-            if (closedList == null)
-            {
-                closedList = new HashSet<BattleCell>();
-            }
             // Виконання пошуку шляху в паралельному потоці
-            List<BattleCell> path = await Task.Run(() => Pathfinding.FindPath(cells, startCell, targets, closedList));
+            List<BattleCell> path = await Task.Run(() => Pathfinding.FindPath(cells, startCell, targets));
 
             // Виклик колбеку з результатом
             callback?.Invoke(path);

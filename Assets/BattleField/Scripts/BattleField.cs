@@ -45,6 +45,9 @@ namespace BattleField
             CreateUnit(heroBossPrefab, true);
             CreateUnit(heroBossPrefab, true);
             CreateUnit(heroBossPrefab, true);
+            CreateUnit(heroBossPrefab, true);
+            CreateUnit(heroBossPrefab, true);
+            CreateUnit(heroBossPrefab, true);
             enemyBoss = CreateUnit(enemyBossPrefab, false);
         }
 
@@ -68,19 +71,31 @@ namespace BattleField
 
             foreach (BattleHero t in targets)
             {
-                float distance = Pathfinding.GetDistance(unit.Cell, t.Cell);
+                var unitCell = unit.NextCell;
+                var targetCell = t.NextCell;
+                var diff = unitCell.CellPos - targetCell.CellPos;
+
+                int distance = Pathfinding.GetManhattanDistance(unitCell, targetCell);
+                if (diff.x == 0 && diff.y == 1)
+                {
+                    distance+=2;
+                }
                 if (distance < minDistance)
                 {
                     minDistance = distance;
                     target = t;
                 }
             }
+            if (!unit.IsHero)
+            {
+                // Debug.LogWarning($"Enemy target:{target?.name}");
+            }
             return target;
         }
 
+
         public void FindPathToTarget(BattleCell unitCell, BattleCell targetCell, System.Action<List<BattleCell>> callback)
         {
-            HashSet<BattleCell> closedList = new HashSet<BattleCell>();
             var targetCellPos = targetCell.CellPos;
             List<BattleCell> targetsCell = new List<BattleCell>();
 
@@ -101,7 +116,7 @@ namespace BattleField
             
 
 
-            grid.FindPathAsync(unitCell, targetsCell, closedList, callback);
+            grid.FindPathAsync(unitCell, targetsCell, callback);
         }
 
         BattleHero CreateUnit(GameObject prefab, bool isHero)

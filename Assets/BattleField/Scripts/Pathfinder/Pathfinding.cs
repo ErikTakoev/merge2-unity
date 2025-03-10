@@ -5,130 +5,80 @@ namespace BattleField
 {
     public static class Pathfinding
     {
-        public static List<BattleCell> FindPath(BattleCell[,] grid, BattleCell start, List<BattleCell> targets, HashSet<BattleCell> closedList)
+        public static List<BattleCell> FindPath(BattleCell[,] grid, BattleCell start, List<BattleCell> targets)
         {
-            List<BattleCell> openList = new List<BattleCell>();
+            Queue<BattleCell> queue = new Queue<BattleCell>();
             Dictionary<BattleCell, BattleCell> cameFrom = new Dictionary<BattleCell, BattleCell>();
-            Dictionary<BattleCell, int> gCost = new Dictionary<BattleCell, int>();
+            HashSet<BattleCell> visited = new HashSet<BattleCell>();
 
-            openList.Add(start);
-            gCost[start] = 0;
+            queue.Enqueue(start);
+            visited.Add(start);
 
-            while (openList.Count > 0)
+            while (queue.Count > 0)
             {
-                BattleCell currentCell = openList[0];
-                for (int i = 1; i < openList.Count; i++)
+                BattleCell current = queue.Dequeue();
+
+                if (targets.Contains(current) && !current.IsReserved)
                 {
-                    for (int j = 0; j < targets.Count; j++)
-                    {
-                        var target = targets[j];
-                        if (GetFCost(openList[i], target) < GetFCost(currentCell, target))
-                        {
-                            currentCell = openList[i];
-                        }
-                    }
-                    
+                    return RetracePath(cameFrom, start, current);
                 }
 
-                openList.Remove(currentCell);
-                closedList.Add(currentCell);
-
-                if (targets.Contains(currentCell))
+                foreach (BattleCell neighbor in GetNeighbors(grid, current))
                 {
-                    return RetracePath(cameFrom, start, currentCell);
-                }
-
-                foreach (BattleCell neighbor in GetNeighbors(grid, currentCell))
-                {
-                    if ((!neighbor.IsAvailableCell() && !targets.Contains(neighbor)) || closedList.Contains(neighbor))
+                    if (!neighbor.IsAvailableCell() || visited.Contains(neighbor))
                     {
                         continue;
                     }
 
-                    int newMovementCostToNeighbor = gCost[currentCell] + GetDistance(currentCell, neighbor);
-                    if (!gCost.ContainsKey(neighbor) || newMovementCostToNeighbor < gCost[neighbor])
-                    {
-                        gCost[neighbor] = newMovementCostToNeighbor;
-                        cameFrom[neighbor] = currentCell;
-
-                        if (!openList.Contains(neighbor))
-                        {
-                            openList.Add(neighbor);
-                        }
-                    }
+                    queue.Enqueue(neighbor);
+                    visited.Add(neighbor);
+                    cameFrom[neighbor] = current;
                 }
             }
 
-            return null;
+            return null; // Шлях не знайдено
         }
 
         private static List<BattleCell> RetracePath(Dictionary<BattleCell, BattleCell> cameFrom, BattleCell start, BattleCell end)
         {
             List<BattleCell> path = new List<BattleCell>();
-            BattleCell currentCell = end;
+            BattleCell current = end;
 
-            while (currentCell != start)
+            while (current != start)
             {
-                path.Add(currentCell);
-                currentCell = cameFrom[currentCell];
+                path.Add(current);
+                current = cameFrom[current];
             }
             path.Reverse();
             return path;
         }
 
-        private static List<BattleCell> GetNeighbors(BattleCell[,] grid, BattleCell cell)
+       private static List<BattleCell> GetNeighbors(BattleCell[,] grid, BattleCell cell)
         {
-            List<BattleCell> neighbors = new List<BattleCell>();
+            var neighbors = new List<BattleCell>();
+            var x = cell.CellPos.x;
+            var y = cell.CellPos.y;
+            var width = grid.GetLength(0);
+            var height = grid.GetLength(1);
 
-            for (int x = -1; x <= 1; x++)
+            for (int i = -1; i <= 1; i++)
             {
-                for (int y = -1; y <= 1; y++)
+                for (int j = -1; j <= 1; j++)
                 {
-                    if (x == 0 && y == 0)
-                    {
-                        continue;
-                    }
+                    if (i == 0 && j == 0) continue;
 
-                    int checkX = cell.CellPos.x + x;
-                    int checkY = cell.CellPos.y + y;
-
-                    if (checkX >= 0 && checkX < grid.GetLength(0) && checkY >= 0 && checkY < grid.GetLength(1))
-                    {
-                        neighbors.Add(grid[checkX, checkY]);
-                    }
+                    if (x + i >= 0 && x + i < width && y + j >= 0 && y + j < height) neighbors.Add(grid[x + i, y + j]);
                 }
             }
 
             return neighbors;
         }
 
-        public static int GetDistance(BattleCell cellA, BattleCell cellB)
+        public static int GetManhattanDistance(BattleCell cellA, BattleCell cellB)
         {
-            // Обчислюємо різницю по осі X між двома клітинками
             int dstX = Mathf.Abs(cellA.CellPos.x - cellB.CellPos.x);
-            
-            // Обчислюємо різницю по осі Y між двома клітинками
             int dstY = Mathf.Abs(cellA.CellPos.y - cellB.CellPos.y);
-
-            // Враховуємо різні розміри клітинок по осях X та Y
-            float cellWidth = cellA.Width;
-            float cellHeight = cellA.Height;
-
-            // Якщо різниця по осі X більша за різницю по осі Y
-            if (dstX > dstY)
-            {
-                // Повертаємо відстань, яка враховує діагональні та прямі кроки
-                // 14 - це вартість діагонального кроку (приблизно √2 * 10), 10 - вартість прямого кроку
-                return Mathf.RoundToInt(14 * dstY * cellHeight + 10 * (dstX - dstY) * cellWidth);
-            }
-            // Якщо різниця по осі Y більша або дорівнює різниці по осі X
-            // Повертаємо відстань, яка враховує діагональні та прямі кроки
-            return Mathf.RoundToInt(14 * dstX * cellWidth + 10 * (dstY - dstX) * cellHeight);
-        }
-
-        private static int GetFCost(BattleCell cell, BattleCell target)
-        {
-            return GetDistance(cell, target);
+            return dstX + dstY;
         }
     }
 }

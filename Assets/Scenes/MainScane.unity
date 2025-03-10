@@ -512,10 +512,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 117a68e55faa7e04d91c14aea7758d7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  width: 27
-  height: 13
-  cellWidth: 0.25
-  cellHeight: 0.25
+  width: 19
+  height: 9
+  cellWidth: 0.35
+  cellHeight: 0.35
 --- !u!1 &512599593
 GameObject:
   m_ObjectHideFlags: 0

@@ -13,8 +13,23 @@ namespace BattleField
     {
         [SerializeReference]
         Character character;
-        public BattleCell Cell { get; private set; }
-        public BattleCell NextCell  { get; private set; }
+        BattleCell nextCell;
+        public BattleCell Cell  { get; private set; }
+        public BattleCell NextCell { 
+            get { return nextCell; }
+            private set
+            {
+                if (nextCell != null)
+                {
+                    nextCell.SetTemporaryBusy(false);
+                }
+                nextCell = value;
+                if (nextCell != null)
+                {
+                    nextCell.SetTemporaryBusy(true);
+                }
+            }
+        }
 
         IBattleUnitStrategy strategy;
         List<EquipmentItem> items;
@@ -62,8 +77,8 @@ namespace BattleField
         public void SetCell(BattleCell cell)
         {
             Cell = cell;
+            NextCell = cell;
             transform.position = cell.WorldPosition;
-            Cell.SetTemporaryBusy(true);
         }
 
         public void MoveTo(List<BattleCell> newPath)
@@ -72,19 +87,23 @@ namespace BattleField
             {
                 if (path.Count > 0)
                 {
-                    path[path.Count - 1].IsReserved = false;
+                    //path[path.Count - 1].IsReserved = false;
                 }
-                else if (NextCell != null)
+                else
                 {
-                    NextCell.IsReserved = false;
+                    //NextCell.IsReserved = false;
                 }
             }
             path = newPath;
+            if (LogEnable)
+            {
+                Debug.Log($"{name} MoveTo for:{name}, path:{path.Count}");
+            }
             
             if (path.Count > 0)
             {
-                path[path.Count - 1].IsReserved = true;
-                if (NextCell == null)
+                //path[path.Count - 1].IsReserved = true;
+                if (NextCell == Cell)
                 {
                     character.SetState(CharacterState.Run);
                     MoveToNextCell();
@@ -93,6 +112,14 @@ namespace BattleField
         }
         public void MoveStop()
         {
+            if (LogEnable)
+            {
+                Debug.Log($"{name} MoveStop for:{name}");
+            }
+            if (path != null && path.Count > 0)
+            {
+                //path[path.Count - 1].IsReserved = false;
+            }
             path = null;
         }
 
@@ -151,38 +178,45 @@ namespace BattleField
         void Update()
         {
             strategy.Update();
-            if (NextCell != null)
+            if (NextCell != Cell)
             {
                 transform.position = Vector3.MoveTowards(transform.position, NextCell.WorldPosition, 0.3f * Time.deltaTime);
                 if (Vector3.Distance( transform.position, NextCell.WorldPosition) < 0.02f)
                 {
-                    if (Cell != null)
-                    {
-                        Cell.SetTemporaryBusy(false);
-                    }
                     Cell = NextCell;
-                    Cell.SetTemporaryBusy(true);
-                    if (path.Count > 0)
+
+                    if (!MoveToNextCell())
                     {
-                        MoveToNextCell();
-                    }
-                    else
-                    {
-                        Cell.IsReserved = false;
+                        //Cell.IsReserved = false;
                         character.SetState(CharacterState.Idle);
                         path = null;
-                        NextCell = null;
+                        NextCell = Cell;
                     }
                 }
             }
         }
 
-        private void MoveToNextCell()
+        private bool MoveToNextCell()
         {
+            if (path == null || path.Count == 0)
+            {
+                return false;
+            }
             var cell = path[0];
             path.RemoveAt(0);
+            if (cell == Cell)
+            {
+                cell = path[0];
+                path.RemoveAt(0);
+            }
+            if (!cell.IsAvailableCell())
+            {
+                MoveStop();
+                return false;
+            }
             NextCell = cell;
             Turn(NextCell.WorldPosition);
+            return true;
         }
 
         private void Turn(Vector3 target)

@@ -6,29 +6,29 @@ namespace BattleField
 {
     public class BattleUnitStrategy : IBattleUnitStrategy
     {
-        bool isMoving;
-        bool isPathfinding;
-        BattleHero target;
-        BattleCell movingToCell;
         
         public BattleUnitStrategy(BattleHero unit, List<EquipmentItem> items)
             : base(unit, items)
         {
         }
 
+        protected override bool FindTarget()
+        {
+            target = BattleField.Instance.FindTarget(Unit);
+
+            return false;
+        }
+
+
         protected override bool Attack()
         {
             bool result = false;
 
-            if (Unit.IsMoving)
-            {
-                return false;
-            }
             if (target == null)
             {
                 return false;
             }
-            var targetPos = target.Cell.CellPos;
+            var targetPos = target.NextCell.CellPos;
             var unitPos = Unit.Cell.CellPos;
             var diff = targetPos - unitPos;
             if (Mathf.Abs(diff.x) <= 1 && Mathf.Abs(diff.y) <= 1)
@@ -64,13 +64,7 @@ namespace BattleField
 
         protected override  bool Move()
         {
-            var field = BattleField.Instance;
             bool result = false;
-            if (target == null)
-            {
-                target = field.FindTarget(Unit);
-                result = true;
-            }
             
             if (isPathfinding)
             {
@@ -85,10 +79,14 @@ namespace BattleField
             {
                 result = true;
             }
+            else
+            {
+                movingToCell = null;
+            }
 
-            BattleCell targetCell = target.NextCell == null ? target.Cell : target.NextCell;
+            BattleCell targetCell = target.NextCell;
 
-            BattleCell unitCell = Unit.NextCell == null ? Unit.Cell : Unit.NextCell;
+            BattleCell unitCell = Unit.NextCell;
             if (target != null && movingToCell != targetCell && !isPathfinding && unitCell != targetCell)
             {
                 isPathfinding = true;
@@ -98,7 +96,7 @@ namespace BattleField
                     Debug.Log($"Pathfinding: {Unit.name} start to find path to: Cell x:{movingToCell.CellPos.x}, y:{movingToCell.CellPos.y} from x: {Unit.Cell.CellPos.x}, y: {Unit.Cell.CellPos.y}");
                 }
 
-                field.FindPathToTarget(unitCell, movingToCell, OnPathfindingComplete);
+                BattleField.Instance.FindPathToTarget(unitCell, movingToCell, OnPathfindingComplete);
                 result = true;
             }
             
