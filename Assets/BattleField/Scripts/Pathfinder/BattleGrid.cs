@@ -98,13 +98,13 @@ namespace BattleField
         }
 
         public BattleCell GetCell(int x, int y)
-    {
-        if (x < 0 || x >= width || y < 0 || y >= height)
         {
-            return null;
+            if (x < 0 || x >= width || y < 0 || y >= height)
+            {
+                return null;
+            }
+            
+            return cells[x, y];
         }
-        
-        return cells[x, y];
-    }
     }
 }

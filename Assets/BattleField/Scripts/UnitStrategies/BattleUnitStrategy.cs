@@ -19,31 +19,40 @@ namespace BattleField
             return false;
         }
 
+        Vector2Int? IsMeleeBattle()
+        {
+            if (target == null)
+            {
+                return null;
+            }
+            var targetPos = target.NextCell.CellPos;
+            var unitPos = Unit.NextCell.CellPos;
+            var diff = targetPos - unitPos;
+            if (Mathf.Abs(diff.x) <= 1 && Mathf.Abs(diff.y) <= 1)
+            {
+                if (diff.x == 0 && Mathf.Abs(diff.y) == 1)
+                {
+                    return null;
+                }
+                return diff;
+            }
+            return null;
+        }
 
         protected override bool Attack()
         {
             bool result = false;
 
-            if (target == null)
-            {
-                return false;
-            }
-            var targetPos = target.NextCell.CellPos;
-            var unitPos = Unit.Cell.CellPos;
-            var diff = targetPos - unitPos;
-            if (Mathf.Abs(diff.x) <= 1 && Mathf.Abs(diff.y) <= 1)
+            if (IsMeleeBattle() != null)
             {
                 result = true;
-                if (diff.x == 0 && Mathf.Abs(diff.y) == 1)
-                {
-                    result = false;
-                }
-                else if (Unit.IsAttackReady)
+                if (Unit.IsAttackReady)
                 {
                     Unit.MoveStop();
                     Unit.Attack(target);
                 }
             }
+
             return result;
         }
 
@@ -128,6 +137,20 @@ namespace BattleField
 
         protected override  bool SpecialAttack()
         {
+            if (Unit.IsAttackReady && UnityEngine.Random.value > 0.7f)
+            {
+                var diff = IsMeleeBattle();
+                if (diff != null)
+                {
+                    diff = diff.Value * 2;
+                    var result = Unit.NextCell.CellPos + diff.Value;
+                    var cell = BattleField.Instance.GetCell(result.x, result.y);
+                    if (cell != null && cell.IsAvailableCell())
+                    {
+                        Debug.LogError($"UHHHU, Unit: {Unit.name}, special attack! target to cell: {cell.CellPos.x}, {cell.CellPos.y}");
+                    }
+                }
+            }
             return false;
         }
     }

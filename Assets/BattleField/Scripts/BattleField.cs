@@ -49,6 +49,14 @@ namespace BattleField
             CreateUnit(heroBossPrefab, true);
             CreateUnit(heroBossPrefab, true);
             enemyBoss = CreateUnit(enemyBossPrefab, false);
+            CreateUnit(enemyBossPrefab, false);
+            CreateUnit(enemyBossPrefab, false);
+            CreateUnit(enemyBossPrefab, false);
+            CreateUnit(enemyBossPrefab, false);
+            CreateUnit(enemyBossPrefab, false);
+            CreateUnit(enemyBossPrefab, false);
+            CreateUnit(enemyBossPrefab, false);
+            CreateUnit(enemyBossPrefab, false);
         }
 
         public void OnDraggedHeroToBattleField(BattleHeroStyle style, List<EquipmentItem> items)
@@ -111,13 +119,14 @@ namespace BattleField
                     }
                 }
             }
-
-            
-            
-
-
             grid.FindPathAsync(unitCell, targetsCell, callback);
         }
+
+        public BattleCell GetCell(int x, int y)
+        {
+            return grid.GetCell(x, y);
+        }
+
 
         BattleHero CreateUnit(GameObject prefab, bool isHero)
         {
