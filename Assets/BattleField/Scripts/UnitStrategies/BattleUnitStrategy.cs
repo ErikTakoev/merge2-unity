@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 
 namespace BattleField
@@ -14,7 +15,7 @@ namespace BattleField
 
         protected override bool FindTarget()
         {
-            target = BattleField.Instance.FindTarget(Unit);
+            target = BattleField.Instance.FindTarget(Unit, target);
 
             return false;
         }
@@ -62,7 +63,7 @@ namespace BattleField
             {
                 return false;
             }
-            if (!Unit.IsAttacking && !Unit.IsDodgeRolling && UnityEngine.Random.value > 0.5f)
+            if (!Unit.IsAttacking && !Unit.IsStunning && !Unit.IsDodgeRolling && UnityEngine.Random.value > 0.5f)
             {
                 Unit.DodgeRoll(Attackers[0]);
                 return true;
@@ -118,13 +119,19 @@ namespace BattleField
             isPathfinding = false;
             if (path == null || path.Count == 0)
             {
-                Debug.LogError($"Pathfinding: {Unit.name} is not found path to: Cell x:{movingToCell.CellPos.x}, y:{movingToCell.CellPos.y} from x: {Unit.Cell.CellPos.x}, y: {Unit.Cell.CellPos.y}");
+                if (Unit.LogEnable)
+                {
+                    Debug.Log($"Pathfinding: {Unit.name} is not found path to: Cell x:{movingToCell.CellPos.x}, y:{movingToCell.CellPos.y} from x: {Unit.Cell.CellPos.x}, y: {Unit.Cell.CellPos.y}");
+                }
                 movingToCell = null;
                 return;
             }
             if (path.Count > 0 && path[path.Count - 1].IsReserved)
             {
-                Debug.LogWarning($"Pathfinding: {Unit.name} last cell is reserved: Cell x:{movingToCell.CellPos.x}, y:{movingToCell.CellPos.y} from x: {Unit.Cell.CellPos.x}, y: {Unit.Cell.CellPos.y}");
+                if (Unit.LogEnable)
+                {
+                    Debug.LogWarning($"Pathfinding: {Unit.name} last cell is reserved: Cell x:{movingToCell.CellPos.x}, y:{movingToCell.CellPos.y} from x: {Unit.Cell.CellPos.x}, y: {Unit.Cell.CellPos.y}");
+                }
                 movingToCell = null;
                 return;
             }
@@ -135,9 +142,13 @@ namespace BattleField
             }
         }
 
+        float attackShieldCooldown = 3;
+
         protected override  bool SpecialAttack()
         {
-            if (Unit.IsAttackReady && UnityEngine.Random.value > 0.7f)
+            attackShieldCooldown -= Time.deltaTime;
+
+            if (attackShieldCooldown < 0 && Unit.IsAttackReady && UnityEngine.Random.value > 0.7f)
             {
                 var diff = IsMeleeBattle();
                 if (diff != null)
@@ -147,11 +158,15 @@ namespace BattleField
                     var cell = BattleField.Instance.GetCell(result.x, result.y);
                     if (cell != null && cell.IsAvailableCell())
                     {
-                        Debug.LogError($"UHHHU, Unit: {Unit.name}, special attack! target to cell: {cell.CellPos.x}, {cell.CellPos.y}");
+                        attackShieldCooldown = 3;
+                        Unit.AttackShield(target, cell);
+                        return true;
                     }
                 }
             }
             return false;
         }
+
+
     }
 }

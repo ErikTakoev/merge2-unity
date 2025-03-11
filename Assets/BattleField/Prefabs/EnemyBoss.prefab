@@ -609,6 +609,22 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 9103284347341440684, guid: 02cd59fb06949bd4b9d4c0c9ac451aaa, type: 3}
+      propertyPath: Expressions.Array.data[2].Eyes
+      value: 
+      objectReference: {fileID: 21300000, guid: f8b750706502462da0c9cdb378eb28ff, type: 3}
+    - target: {fileID: 9103284347341440684, guid: 02cd59fb06949bd4b9d4c0c9ac451aaa, type: 3}
+      propertyPath: Expressions.Array.data[2].Mouth
+      value: 
+      objectReference: {fileID: 21300000, guid: 4382e6492b6c4d60962548292839a894, type: 3}
+    - target: {fileID: 9103284347341440684, guid: 02cd59fb06949bd4b9d4c0c9ac451aaa, type: 3}
+      propertyPath: Expressions.Array.data[2].EyesColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9103284347341440684, guid: 02cd59fb06949bd4b9d4c0c9ac451aaa, type: 3}
+      propertyPath: Expressions.Array.data[2].EyesColor.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9125899932799179642, guid: 02cd59fb06949bd4b9d4c0c9ac451aaa, type: 3}
       propertyPath: m_Layer
       value: 3

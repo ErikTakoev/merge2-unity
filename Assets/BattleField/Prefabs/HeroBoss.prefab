@@ -7079,7 +7079,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   character: {fileID: 4841423546578199555}
-  LogEnable: 1
+  LogEnable: 0
 --- !u!58 &6103848980997341195
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -16960,9 +16960,9 @@ MonoBehaviour:
     Mouth: {fileID: 21300000, guid: 6b8e347645084b808329aa18a8d05499, type: 3}
   - Name: Dead
     Eyebrows: {fileID: 21300000, guid: 334b86a048fc4651a618e411bb4b9bcf, type: 3}
-    Eyes: {fileID: 21300000, guid: 919ab049f42f490e94fc46adfc0f854d, type: 3}
-    EyesColor: {r: 0, g: 0.78431374, b: 1, a: 1}
-    Mouth: {fileID: 21300000, guid: fea9ed3a6bb54b03925cf963d316123c, type: 3}
+    Eyes: {fileID: 21300000, guid: f8b750706502462da0c9cdb378eb28ff, type: 3}
+    EyesColor: {r: 1, g: 1, b: 1, a: 1}
+    Mouth: {fileID: 21300000, guid: 4382e6492b6c4d60962548292839a894, type: 3}
   Helmet: {fileID: 0}
   Earrings: {fileID: 0}
   Glasses: {fileID: 0}

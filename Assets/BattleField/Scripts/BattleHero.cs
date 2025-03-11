@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using Assets.HeroEditor.Common.Scripts.CharacterScripts;
+using DG.Tweening;
 using HeroEditor.Common.Enums;
 using UnityEngine;
 
@@ -37,7 +38,25 @@ namespace BattleField
         List<BattleCell> path;
         public bool IsMoving { get { return path != null; } }
         public bool IsAttacking { get; private set; }
-        public bool IsAttackReady { get; private set; }
+        public bool IsStunning { get; private set; }
+
+        const float CooldownToReady = 0.5f;
+        float cooldownToReadyLeft = 0.0f;
+
+        public bool NeedTimeToReady
+        {
+            get
+            {
+                return cooldownToReadyLeft < CooldownToReady;
+            }
+            set
+            {
+                if (value) cooldownToReadyLeft = 0f; 
+                else cooldownToReadyLeft = CooldownToReady;
+            }
+        }
+
+        public bool IsAttackReady { get { return !IsAttacking && !IsStunning && !NeedTimeToReady; } }
         public bool IsDodgeRolling { get; private set; }
 
         public bool IsHero { get; set; }
@@ -71,14 +90,16 @@ namespace BattleField
         {
             strategy = new BattleUnitStrategy(this, items);
             Collider = GetComponent<Collider2D>();
-            IsAttackReady = true;
         }
 
-        public void SetCell(BattleCell cell)
+        public void SetCell(BattleCell cell, bool changePos = true)
         {
             Cell = cell;
             NextCell = cell;
-            transform.position = cell.WorldPosition;
+            if (changePos)
+            {
+                transform.position = cell.WorldPosition;
+            }
         }
 
         public void MoveTo(List<BattleCell> newPath)
@@ -135,14 +156,13 @@ namespace BattleField
                 Debug.Log($"{name} Attack target:{target.name}");
             }
             Turn(target.transform.position);
-            IsAttackReady = false;
+            IsAttacking = true;
             StartCoroutine(AttackCoroutine(target));
         }
 
         private IEnumerator AttackCoroutine(BattleHero target)
         {
             yield return new WaitUntil(() => !IsDodgeRolling);
-            IsAttacking = true;
             target.AddAttacker(this);
             if (UnityEngine.Random.value > 0.5)
             {
@@ -154,8 +174,7 @@ namespace BattleField
             }
             yield return new WaitForSeconds(0.4f);
             IsAttacking = false;
-            yield return new WaitForSeconds(UnityEngine.Random.value + 0.3f);
-            IsAttackReady = true;
+            NeedTimeToReady = true;
         }
 
         public void DodgeRoll(BattleHero target)
@@ -177,6 +196,7 @@ namespace BattleField
 
         void Update()
         {
+            cooldownToReadyLeft += Time.deltaTime;
             strategy.Update();
             if (NextCell != Cell)
             {
@@ -227,5 +247,33 @@ namespace BattleField
             character.transform.localScale = new Vector3(Mathf.Sign(direction) * localScale.y, localScale.y, 1);
         }
 
+
+        public void AttackShield(BattleHero target, BattleCell targetNewCell)
+        {
+            IsAttacking = true;
+            var tmpCell = target.NextCell;
+            target.SetCell(targetNewCell, false);
+            SetCell(tmpCell, false);
+
+            var newPos = tmpCell.WorldPosition;
+            character.SetState(CharacterState.Run);
+            character.Animator.SetTrigger("AttackShield");
+            transform.DOMove(newPos, 0.2f).SetEase(Ease.OutQuad).OnComplete(() => {
+                IsAttacking = false;
+                NeedTimeToReady = false;
+                character.SetState(CharacterState.Idle);
+            });
+
+            target.IsStunning = true;
+            target.MoveStop();
+            target.character.SetState(CharacterState.Idle);
+            target.character.Animator.SetTrigger("Stun");
+            target.transform.DOMove(targetNewCell.WorldPosition, 0.5f).SetEase(Ease.OutQuad)
+                .OnComplete(() =>
+                {
+                    target.IsStunning = false;
+                    target.NeedTimeToReady = true;
+                });
+        }
     }
 }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using HeroEditor.Common.Enums;
 using UnityEngine;
 
 namespace BattleField
@@ -8,12 +9,20 @@ namespace BattleField
         public IBattleUnitStrategy(BattleHero unit, List<EquipmentItem> items)
         {
             Unit = unit;
-            Items = items;
+            Items = new Dictionary<EquipmentPart, EquipmentItem>();
+            if (items != null)
+            {
+                foreach (var item in items)
+                {
+                    Items.Add(item.EquipmentPart, item);
+                }
+            }
+            
             Attackers = new List<BattleHero>();
         }
         
         protected BattleHero Unit;
-        protected List<EquipmentItem> Items;
+        public Dictionary<EquipmentPart, EquipmentItem> Items { get; private set; }
         protected List<BattleHero> Attackers;
         
         protected bool isPathfinding;
@@ -33,6 +42,11 @@ namespace BattleField
 
         public virtual void Update()
         {
+            if (Unit.IsStunning)
+            {
+                Debug.Log($"Unit: {Unit.name} is stunned");
+                return;
+            }
             if (FindTarget())
             {
                 return;

@@ -70,7 +70,7 @@ namespace BattleField
             CreateUnit(style, items, true);
         }
 
-        public BattleHero FindTarget(BattleHero unit)
+        public BattleHero FindTarget(BattleHero unit, BattleHero cashedTarget)
         {
             List<BattleHero> targets = unit.IsHero ? enemies : heroes;
 
@@ -88,7 +88,12 @@ namespace BattleField
                 {
                     distance+=2;
                 }
-                if (distance < minDistance)
+                if (cashedTarget == t && distance == minDistance)
+                {
+                    minDistance = distance;
+                    target = t;
+                }
+                else if (distance < minDistance)
                 {
                     minDistance = distance;
                     target = t;
