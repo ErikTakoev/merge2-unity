@@ -32,11 +32,10 @@ namespace BattleField
             }
         }
 
-        IBattleUnitStrategy strategy;
+        public IBattleUnitStrategy Strategy { get; private set; }
         public Dictionary<EquipmentPart, EquipmentItem> Items { get; private set; }
 
-        List<BattleCell> path;
-        public bool IsMoving { get { return path != null; } }
+        public bool IsMoving { get { return Strategy.Path != null; } }
         public bool IsAttacking { get; set; }
         public bool IsStunning { get; set; }
 
@@ -59,34 +58,40 @@ namespace BattleField
         public bool IsAttackReady { get { return !IsAttacking && !IsStunning && !NeedTimeToReady; } }
         public bool IsDodgeRolling { get; set; }
 
-        public bool IsHero { get; set; }
+        public bool IsHero { get; private set; }
 
         public bool LogEnable = true;
 
-        public Collider2D Collider { get; private set; }
-
-        public void SetStyle(BattleHeroStyle style)
+        void SetStyle(BattleHeroStyle? styleValue)
         {
             if (character == null)
             {
-                Debug.LogError("BattleHero: character is empty");
+                Debug.LogError("BattleHero: character is null");
                 return;
             }
+            if (styleValue == null)
+            {
+                Debug.LogWarning("BattleHero: style is null");
+                return;
+            }
+            var style = styleValue.Value;
             character.SetBody(character.SpriteCollection.Hair[style.HairIndex], BodyPart.Hair, style.HairColor);
             character.SetBody(character.SpriteCollection.Eyebrows[style.EyebrowsIndex], BodyPart.Eyebrows);
             character.SetBody(character.SpriteCollection.Eyes[style.EyesIndex], BodyPart.Eyes, style.EyesColor);
             character.SetBody(character.SpriteCollection.Mouth[style.MouthIndex], BodyPart.Mouth);
         }
 
-        public void SetEquipments(List<EquipmentItem> items)
+        void SetEquipments(List<EquipmentItem> items)
         {
             Items = new Dictionary<EquipmentPart, EquipmentItem>();
-            if (items != null)
+            if (items == null)
             {
-                foreach (var item in items)
-                {
-                    Items.Add(item.EquipmentPart, item);
-                }
+                Debug.LogWarning("BattleHero: items is null");
+                return;
+            }
+            foreach (var item in items)
+            {
+                Items.Add(item.EquipmentPart, item);
             }
             foreach (var item in items)
             {
@@ -94,11 +99,16 @@ namespace BattleField
             }
         }
 
-        void Start()
+        public void Init(BattleHeroStyle? style, List<EquipmentItem> items, IBattleUnitStrategy strategy, BattleCell cell, bool isHero)
         {
-            strategy = new BattleUnitStrategy(this);
-            Collider = GetComponent<Collider2D>();
+            SetStyle(style);
+            SetEquipments(items);
+
+            Strategy = strategy;
+            SetCell(cell);
+            IsHero = isHero;
         }
+
 
         public void SetCell(BattleCell cell, bool changePos = true)
         {
@@ -110,35 +120,11 @@ namespace BattleField
             }
         }
 
-        public void MoveTo(List<BattleCell> newPath)
-        {
-            path = newPath;
-            if (LogEnable)
-            {
-                Debug.Log($"{name} MoveTo for:{name}, path:{path.Count}");
-            }
-            
-            if (path.Count > 0)
-            {
-                if (NextCell == Cell)
-                {
-                    character.SetState(CharacterState.Run);
-                    MoveToNextCell();
-                }
-            }
-        }
-        public void MoveStop()
-        {
-            if (LogEnable)
-            {
-                Debug.Log($"{name} MoveStop for:{name}");
-            }
-            path = null;
-        }
+        
 
         public void AddAttacker(BattleHero unit)
         {
-            strategy.AddAttacker(unit);
+            Strategy.AddAttacker(unit);
         }
 
         
@@ -148,32 +134,10 @@ namespace BattleField
         void Update()
         {
             cooldownToReadyLeft += Time.deltaTime;
-            strategy.Update();
-            
+            Strategy.Update();
         }
 
-        public bool MoveToNextCell()
-        {
-            if (path == null || path.Count == 0)
-            {
-                return false;
-            }
-            var cell = path[0];
-            path.RemoveAt(0);
-            if (cell == Cell)
-            {
-                cell = path[0];
-                path.RemoveAt(0);
-            }
-            if (!cell.IsAvailableCell())
-            {
-                MoveStop();
-                return false;
-            }
-            NextCell = cell;
-            Turn(NextCell.WorldPosition);
-            return true;
-        }
+
 
         public void Turn(Vector3 target)
         {
@@ -182,8 +146,5 @@ namespace BattleField
 
             character.transform.localScale = new Vector3(Mathf.Sign(direction) * localScale.y, localScale.y, 1);
         }
-
-
-        
     }
 }

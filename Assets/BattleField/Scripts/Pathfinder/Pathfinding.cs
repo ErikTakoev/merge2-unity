@@ -40,7 +40,7 @@ namespace BattleField
                 openList.Remove(current);
                 closedList.Add(current);
 
-                if (targets.Contains(current) && !current.IsReserved)
+                if (targets.Contains(current))
                 {
                     float currentCost = gCost[current];
                     if (currentCost < bestCost)

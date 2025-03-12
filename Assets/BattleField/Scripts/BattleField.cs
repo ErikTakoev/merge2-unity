@@ -41,22 +41,22 @@ namespace BattleField
                 return;
             }
 
-            heroBoss = CreateUnit(heroBossPrefab, true);
-            CreateUnit(heroBossPrefab, true);
-            CreateUnit(heroBossPrefab, true);
-            CreateUnit(heroBossPrefab, true);
-            CreateUnit(heroBossPrefab, true);
-            CreateUnit(heroBossPrefab, true);
-            CreateUnit(heroBossPrefab, true);
-            enemyBoss = CreateUnit(enemyBossPrefab, false);
-            CreateUnit(enemyBossPrefab, false);
-            CreateUnit(enemyBossPrefab, false);
-            CreateUnit(enemyBossPrefab, false);
-            CreateUnit(enemyBossPrefab, false);
-            CreateUnit(enemyBossPrefab, false);
-            CreateUnit(enemyBossPrefab, false);
-            CreateUnit(enemyBossPrefab, false);
-            CreateUnit(enemyBossPrefab, false);
+            heroBoss = CreateUnit(heroBossPrefab, null, null, true);
+            CreateUnit(heroBossPrefab, null, null, true);
+            CreateUnit(heroBossPrefab, null, null, true);
+            CreateUnit(heroBossPrefab, null, null, true);
+            CreateUnit(heroBossPrefab, null, null, true);
+            CreateUnit(heroBossPrefab, null, null, true);
+            CreateUnit(heroBossPrefab, null, null, true);
+            enemyBoss = CreateUnit(enemyBossPrefab, null, null, false);
+            CreateUnit(enemyBossPrefab, null, null, false);
+            CreateUnit(enemyBossPrefab, null, null, false);
+            CreateUnit(enemyBossPrefab, null, null, false);
+            CreateUnit(enemyBossPrefab, null, null, false);
+            CreateUnit(enemyBossPrefab, null, null, false);
+            CreateUnit(enemyBossPrefab, null, null, false);
+            CreateUnit(enemyBossPrefab, null, null, false);
+            CreateUnit(enemyBossPrefab, null, null, false);
         }
 
         public void OnDraggedHeroToBattleField(BattleHeroStyle style, List<EquipmentItem> items)
@@ -118,7 +118,7 @@ namespace BattleField
                 for (int y = -1; y <= 1; y++)
                 {
                     tmpCell = grid.GetCell(targetCell.CellPos.x + x, targetCell.CellPos.y + y);
-                    if (tmpCell != null && !tmpCell.IsReserved && tmpCell.IsAvailableCell())
+                    if (tmpCell != null && tmpCell.IsAvailableCell())
                     {
                         targetsCell.Add(tmpCell);
                     }
@@ -133,13 +133,14 @@ namespace BattleField
         }
 
 
-        BattleHero CreateUnit(GameObject prefab, bool isHero)
+        BattleHero CreateUnit(GameObject prefab, BattleHeroStyle? style, List<EquipmentItem> items,  bool isHero)
         {
             BattleCell spawnPoint = grid.GetRandomSpawnPoint(isHero);
 
             BattleHero hero = Instantiate(prefab, transform).GetComponent<BattleHero>();
             hero.name = (isHero ? "Hero" : "Enemy") + (heroes.Count + enemies.Count);
 
+            hero.Init(style, items, new BattleUnitStrategy(hero), spawnPoint, isHero);
             if (isHero)
             {
                 heroes.Add(hero);
@@ -148,19 +149,13 @@ namespace BattleField
             {
                 enemies.Add(hero);
             }
-            hero.IsHero = isHero;
-
-            hero.SetCell(spawnPoint);
 
             return hero;
         }
 
         private BattleHero CreateUnit(BattleHeroStyle style, List<EquipmentItem> items, bool isHero)
         {
-            BattleHero hero = CreateUnit(unitPrefab, isHero);
-
-            hero.SetStyle(style);
-            hero.SetEquipments(items);
+            BattleHero hero = CreateUnit(unitPrefab, style, items, isHero);
 
             return hero;
         }

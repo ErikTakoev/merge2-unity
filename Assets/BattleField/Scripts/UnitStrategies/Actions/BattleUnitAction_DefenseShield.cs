@@ -3,9 +3,9 @@ using UnityEngine;
 
 namespace BattleField
 {
-    public class BattleUnitAction_DodgeRoll : BattleUnitAction
+    public class BattleUnitAction_DefenseShield : BattleUnitAction
     {
-        public BattleUnitAction_DodgeRoll(IBattleUnitStrategy strategy)
+        public BattleUnitAction_DefenseShield(IBattleUnitStrategy strategy)
             : base (strategy)
         {
         }

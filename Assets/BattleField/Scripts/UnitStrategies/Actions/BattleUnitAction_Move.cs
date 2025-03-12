@@ -7,8 +7,10 @@ namespace BattleField
     public class BattleUnitAction_Move : BattleUnitAction
     {
         
-        protected bool isPathfinding;
-        protected BattleCell movingToCell;
+        bool isPathfinding;
+        BattleCell movingToCell;
+        bool updateEnable = true;
+
         
         public BattleUnitAction_Move(IBattleUnitStrategy strategy)
             : base (strategy)
@@ -70,16 +72,8 @@ namespace BattleField
                 movingToCell = null;
                 return;
             }
-            if (path.Count > 0 && path[path.Count - 1].IsReserved)
-            {
-                if (Unit.LogEnable)
-                {
-                    Debug.LogWarning($"Pathfinding: {Unit.name} last cell is reserved: Cell x:{movingToCell.CellPos.x}, y:{movingToCell.CellPos.y} from x: {Unit.Cell.CellPos.x}, y: {Unit.Cell.CellPos.y}");
-                }
-                movingToCell = null;
-                return;
-            }
-            Unit.MoveTo(path);
+            strategy.MoveTo(path);
+            updateEnable = true;
             if (Unit.LogEnable)
             {
                 Debug.Log($"Pathfinding complete for :{Unit.name}, moving to Cell x:{movingToCell.CellPos.x}, y:{movingToCell.CellPos.y} from x: {Unit.Cell.CellPos.x}, y: {Unit.Cell.CellPos.y}");
@@ -88,20 +82,20 @@ namespace BattleField
         
         public override void Update()
         {
-            var unit = Unit;
-            if (unit.NextCell != unit.Cell)
-            {
-                unit.transform.position = Vector3.MoveTowards(unit.transform.position, unit.NextCell.WorldPosition, 0.3f * Time.deltaTime);
-                if (Vector3.Distance( unit.transform.position, unit.NextCell.WorldPosition) < 0.02f)
-                {
-                    unit.Cell = unit.NextCell;
+            if (!updateEnable) return;
 
-                    if (!unit.MoveToNextCell())
-                    {
-                        unit.Character.SetState(CharacterState.Idle);
-                        unit.MoveStop();
-                        unit.NextCell = unit.Cell;
-                    }
+            var unit = Unit;
+            unit.transform.position = Vector3.MoveTowards(unit.transform.position, unit.NextCell.WorldPosition, 0.3f * Time.deltaTime);
+            if (Vector3.Distance( unit.transform.position, unit.NextCell.WorldPosition) < 0.02f)
+            {
+                unit.Cell = unit.NextCell;
+
+                if (!strategy.MoveToNextCell())
+                {
+                    updateEnable = false;
+                    unit.Character.SetState(CharacterState.Idle);
+                    strategy.MoveStop();
+                    unit.NextCell = unit.Cell;
                 }
             }
         }

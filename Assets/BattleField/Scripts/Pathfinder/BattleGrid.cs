@@ -43,6 +43,7 @@ namespace BattleField
                 for (int y = 0; y < height; y++)
                 {
                     Vector3 cellPosition = transform.position + offset + new Vector3(x * cellWidth + cellWidth / 2, y * cellHeight + cellHeight / 2, 0);
+                    cellPosition.z = cellPosition.y * 0.01f;
                     bool isWalkable = !IsColliderAtPosition(cellPosition);
                     cells[x, y] = new BattleCell(x, y, isWalkable, cellWidth, cellHeight, cellPosition); // Встановлення кожної клітинки з її розмірами та позицією
                 }
@@ -68,11 +69,7 @@ namespace BattleField
                 {
                     Vector3 cellPosition = cells[x, y].WorldPosition;
                     var cell = cells[x, y];
-                    if (cell.IsReserved)
-                    {
-                        Gizmos.color = Color.yellow;
-                    }
-                    else if (!cell.IsAvailableCell())
+                    if (!cell.IsAvailableCell())
                     {
                         Gizmos.color = Color.red;
                     }

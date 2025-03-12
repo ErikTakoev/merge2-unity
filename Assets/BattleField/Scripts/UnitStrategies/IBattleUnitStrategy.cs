@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Assets.HeroEditor.Common.Scripts.CharacterScripts;
 using HeroEditor.Common.Enums;
 using UnityEngine;
 
@@ -18,6 +19,7 @@ namespace BattleField
         public BattleHero Target;
         public Dictionary<EquipmentPart, EquipmentItem> Items { get { return Unit.Items; } }
         public List<BattleHero> Attackers;
+        public List<BattleCell> Path;
 
         protected List<BattleUnitAction> Actions;
         
@@ -49,22 +51,88 @@ namespace BattleField
 
         public virtual void Update()
         {
+            
+            if (Unit.IsStunning)
+            {
+                if (Unit.LogEnable)
+                {
+                    Debug.Log($"{Unit.name} is stunned");
+                }
+                
+                return;
+            }
+            else
+            {
+                for (int i = 0; i < Actions.Count; i++)
+                {
+                    if (Actions[i].Action())
+                        break;
+                }
+            }
+            
             for (int i = 0; i < Actions.Count; i++)
             {
                 Actions[i].Update();
             }
-            if (Unit.IsStunning && Unit.LogEnable)
+        }
+
+        public void MoveTo(List<BattleCell> newPath)
+        {
+            Path = newPath;
+            var unit = Unit;
+            if (unit.LogEnable)
             {
-                Debug.Log($"Unit: {Unit.name} is stunned");
-                return;
+                Debug.Log($"{unit.name} MoveTo for:{unit.name}, path:{Path.Count}");
             }
             
-
-            for (int i = 0; i < Actions.Count; i++)
+            if (Path.Count > 0)
             {
-                if (Actions[i].Action())
-                    return;
+                if (unit.NextCell == unit.Cell)
+                {
+                    unit.Character.SetState(CharacterState.Run);
+                    MoveToNextCell();
+                }
             }
+        }
+
+        public void MoveStop()
+        {
+            var unit = Unit;
+            if (unit.LogEnable)
+            {
+                Debug.Log($"{unit.name} MoveStop");
+            }
+            Path = null;
+        }
+        public bool MoveToNextCell()
+        {
+            var unit = Unit;
+            
+            if (Path == null || Path.Count == 0)
+            {
+                return false;
+            }
+            var cell = Path[0];
+            Path.RemoveAt(0);
+
+            if (cell == unit.Cell)
+            {
+                if (Path.Count == 0)
+                {
+                    MoveStop();
+                    return false;
+                }
+                cell = Path[0];
+                Path.RemoveAt(0);
+            }
+            if (!cell.IsAvailableCell())
+            {
+                MoveStop();
+                return false;
+            }
+            unit.NextCell = cell;
+            unit.Turn(unit.NextCell.WorldPosition);
+            return true;
         }
     }
 }

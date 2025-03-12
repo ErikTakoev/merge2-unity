@@ -56,10 +56,11 @@ namespace BattleField
             });
 
             target.IsStunning = true;
-            target.MoveStop();
+            target.Strategy.MoveStop();
             target.Character.SetState(CharacterState.Idle);
             target.Character.Animator.SetTrigger("Stun");
-            target.transform.DOMove(targetNewCell.WorldPosition, 0.5f).SetEase(Ease.OutQuad)
+            var targetNewPos = targetNewCell.WorldPosition;
+            target.transform.DOMove(targetNewPos, 1f).SetEase(Ease.OutExpo)
                 .OnComplete(() =>
                 {
                     target.IsStunning = false;
