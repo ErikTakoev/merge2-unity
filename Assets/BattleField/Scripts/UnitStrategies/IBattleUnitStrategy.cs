@@ -6,66 +6,64 @@ namespace BattleField
 {
     public abstract class IBattleUnitStrategy
     {
-        public IBattleUnitStrategy(BattleHero unit, List<EquipmentItem> items)
+        public IBattleUnitStrategy(BattleHero unit)
         {
             Unit = unit;
-            Items = new Dictionary<EquipmentPart, EquipmentItem>();
-            if (items != null)
-            {
-                foreach (var item in items)
-                {
-                    Items.Add(item.EquipmentPart, item);
-                }
-            }
             
             Attackers = new List<BattleHero>();
+            Actions = new List<BattleUnitAction>();
         }
         
-        protected BattleHero Unit;
-        public Dictionary<EquipmentPart, EquipmentItem> Items { get; private set; }
-        protected List<BattleHero> Attackers;
-        
-        protected bool isPathfinding;
-        protected BattleHero target;
-        protected BattleCell movingToCell;
+        public BattleHero Unit;
+        public BattleHero Target;
+        public Dictionary<EquipmentPart, EquipmentItem> Items { get { return Unit.Items; } }
+        public List<BattleHero> Attackers;
 
-        protected abstract bool FindTarget();
-        protected abstract bool DodgeRoll();
-        protected abstract bool Move();
-        protected abstract bool SpecialAttack();
-        protected abstract bool Attack();
+        protected List<BattleUnitAction> Actions;
+        
 
         public virtual void AddAttacker(BattleHero attacker)
         {
             Attackers.Add(attacker);
         }
 
+        public Vector2Int? IsMeleeBattle()
+        {
+            if (Target == null)
+            {
+                return null;
+            }
+            var targetPos = Target.NextCell.CellPos;
+            var unitPos = Unit.NextCell.CellPos;
+            var diff = targetPos - unitPos;
+            if (Mathf.Abs(diff.x) <= 1 && Mathf.Abs(diff.y) <= 1)
+            {
+                if (diff.x == 0 && Mathf.Abs(diff.y) == 1)
+                {
+                    return null;
+                }
+                return diff;
+            }
+            return null;
+        }
+
         public virtual void Update()
         {
-            if (Unit.IsStunning)
+            for (int i = 0; i < Actions.Count; i++)
+            {
+                Actions[i].Update();
+            }
+            if (Unit.IsStunning && Unit.LogEnable)
             {
                 Debug.Log($"Unit: {Unit.name} is stunned");
                 return;
             }
-            if (FindTarget())
+            
+
+            for (int i = 0; i < Actions.Count; i++)
             {
-                return;
-            }
-            if (DodgeRoll())
-            {
-                return;
-            }
-            if (SpecialAttack())
-            {
-                return;
-            }
-            if (Attack())
-            {
-                return;
-            }
-            if (Move())
-            {
-                return;
+                if (Actions[i].Action())
+                    return;
             }
         }
     }

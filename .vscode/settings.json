@@ -3,6 +3,7 @@
     "dotnet.defaultSolution": "merge2-unity.sln",
     "cSpell.words": [
         "Behaviour",
+        "Cooldown",
         "Findpathing",
         "Mathf",
         "Pathfinding",

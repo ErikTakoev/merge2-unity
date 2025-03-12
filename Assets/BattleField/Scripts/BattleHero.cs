@@ -1,8 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
-using System.Threading;
 using Assets.HeroEditor.Common.Scripts.CharacterScripts;
 using DG.Tweening;
 using HeroEditor.Common.Enums;
@@ -14,11 +12,13 @@ namespace BattleField
     {
         [SerializeReference]
         Character character;
+
+        public Character Character { get { return character; } }
         BattleCell nextCell;
-        public BattleCell Cell  { get; private set; }
+        public BattleCell Cell  { get; set; }
         public BattleCell NextCell { 
             get { return nextCell; }
-            private set
+            set
             {
                 if (nextCell != null)
                 {
@@ -33,12 +33,12 @@ namespace BattleField
         }
 
         IBattleUnitStrategy strategy;
-        List<EquipmentItem> items;
+        public Dictionary<EquipmentPart, EquipmentItem> Items { get; private set; }
 
         List<BattleCell> path;
         public bool IsMoving { get { return path != null; } }
-        public bool IsAttacking { get; private set; }
-        public bool IsStunning { get; private set; }
+        public bool IsAttacking { get; set; }
+        public bool IsStunning { get; set; }
 
         const float CooldownToReady = 0.5f;
         float cooldownToReadyLeft = 0.0f;
@@ -57,7 +57,7 @@ namespace BattleField
         }
 
         public bool IsAttackReady { get { return !IsAttacking && !IsStunning && !NeedTimeToReady; } }
-        public bool IsDodgeRolling { get; private set; }
+        public bool IsDodgeRolling { get; set; }
 
         public bool IsHero { get; set; }
 
@@ -80,6 +80,14 @@ namespace BattleField
 
         public void SetEquipments(List<EquipmentItem> items)
         {
+            Items = new Dictionary<EquipmentPart, EquipmentItem>();
+            if (items != null)
+            {
+                foreach (var item in items)
+                {
+                    Items.Add(item.EquipmentPart, item);
+                }
+            }
             foreach (var item in items)
             {
                 BattleCharacterUtils.EquipItem(character, item);
@@ -88,7 +96,7 @@ namespace BattleField
 
         void Start()
         {
-            strategy = new BattleUnitStrategy(this, items);
+            strategy = new BattleUnitStrategy(this);
             Collider = GetComponent<Collider2D>();
         }
 
@@ -104,17 +112,6 @@ namespace BattleField
 
         public void MoveTo(List<BattleCell> newPath)
         {
-            if (path != null)
-            {
-                if (path.Count > 0)
-                {
-                    //path[path.Count - 1].IsReserved = false;
-                }
-                else
-                {
-                    //NextCell.IsReserved = false;
-                }
-            }
             path = newPath;
             if (LogEnable)
             {
@@ -123,7 +120,6 @@ namespace BattleField
             
             if (path.Count > 0)
             {
-                //path[path.Count - 1].IsReserved = true;
                 if (NextCell == Cell)
                 {
                     character.SetState(CharacterState.Run);
@@ -137,10 +133,6 @@ namespace BattleField
             {
                 Debug.Log($"{name} MoveStop for:{name}");
             }
-            if (path != null && path.Count > 0)
-            {
-                //path[path.Count - 1].IsReserved = false;
-            }
             path = null;
         }
 
@@ -149,74 +141,18 @@ namespace BattleField
             strategy.AddAttacker(unit);
         }
 
-        public void Attack(BattleHero target)
-        {
-            if (LogEnable)
-            {
-                Debug.Log($"{name} Attack target:{target.name}");
-            }
-            Turn(target.transform.position);
-            IsAttacking = true;
-            StartCoroutine(AttackCoroutine(target));
-        }
+        
 
-        private IEnumerator AttackCoroutine(BattleHero target)
-        {
-            yield return new WaitUntil(() => !IsDodgeRolling);
-            target.AddAttacker(this);
-            if (UnityEngine.Random.value > 0.5)
-            {
-                character.Slash();
-            }
-            else
-            {
-                character.Jab();
-            }
-            yield return new WaitForSeconds(0.4f);
-            IsAttacking = false;
-            NeedTimeToReady = true;
-        }
-
-        public void DodgeRoll(BattleHero target)
-        {
-            if (LogEnable)
-            {
-                Debug.Log($"{name} DodgeRoll target:{target.name}");
-            }
-            StartCoroutine(DodgeRollCoroutine(target));
-        }
-
-        private IEnumerator DodgeRollCoroutine(BattleHero target)
-        {
-            IsDodgeRolling = true;
-            character.Animator.SetTrigger("ShieldDefense");
-            yield return new WaitForSeconds(1.0f);
-            IsDodgeRolling = false;
-        }
+        
 
         void Update()
         {
             cooldownToReadyLeft += Time.deltaTime;
             strategy.Update();
-            if (NextCell != Cell)
-            {
-                transform.position = Vector3.MoveTowards(transform.position, NextCell.WorldPosition, 0.3f * Time.deltaTime);
-                if (Vector3.Distance( transform.position, NextCell.WorldPosition) < 0.02f)
-                {
-                    Cell = NextCell;
-
-                    if (!MoveToNextCell())
-                    {
-                        //Cell.IsReserved = false;
-                        character.SetState(CharacterState.Idle);
-                        path = null;
-                        NextCell = Cell;
-                    }
-                }
-            }
+            
         }
 
-        private bool MoveToNextCell()
+        public bool MoveToNextCell()
         {
             if (path == null || path.Count == 0)
             {
@@ -239,7 +175,7 @@ namespace BattleField
             return true;
         }
 
-        private void Turn(Vector3 target)
+        public void Turn(Vector3 target)
         {
             var localScale = character.transform.localScale;
             var direction = target.x - transform.position.x;
@@ -248,32 +184,6 @@ namespace BattleField
         }
 
 
-        public void AttackShield(BattleHero target, BattleCell targetNewCell)
-        {
-            IsAttacking = true;
-            var tmpCell = target.NextCell;
-            target.SetCell(targetNewCell, false);
-            SetCell(tmpCell, false);
-
-            var newPos = tmpCell.WorldPosition;
-            character.SetState(CharacterState.Run);
-            character.Animator.SetTrigger("AttackShield");
-            transform.DOMove(newPos, 0.2f).SetEase(Ease.OutQuad).OnComplete(() => {
-                IsAttacking = false;
-                NeedTimeToReady = false;
-                character.SetState(CharacterState.Idle);
-            });
-
-            target.IsStunning = true;
-            target.MoveStop();
-            target.character.SetState(CharacterState.Idle);
-            target.character.Animator.SetTrigger("Stun");
-            target.transform.DOMove(targetNewCell.WorldPosition, 0.5f).SetEase(Ease.OutQuad)
-                .OnComplete(() =>
-                {
-                    target.IsStunning = false;
-                    target.NeedTimeToReady = true;
-                });
-        }
+        
     }
 }
