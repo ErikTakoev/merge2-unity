@@ -12,18 +12,39 @@ namespace BattleField
             Unit = unit;
             
             Attackers = new List<BattleHero>();
+            Followers = new List<BattleHero>();
             Actions = new List<BattleUnitAction>();
+            Mover = new BattleUnitMover(this);
         }
         
         public BattleHero Unit;
-        public BattleHero Target;
+        BattleHero target;
+        public BattleHero Target
+        {
+            get { return target; }
+            set {
+                if (target == value)
+                {
+                    return;
+                }
+                if (target != null)
+                {
+                    target.Strategy.Followers.Remove(Unit);
+                }
+                target = value;
+                if (target != null)
+                {
+                    target.Strategy.Followers.Add(Unit);
+                }
+            }
+        }
         public Dictionary<EquipmentPart, EquipmentItem> Items { get { return Unit.Items; } }
         public List<BattleHero> Attackers;
-        public List<BattleCell> Path;
+        public List<BattleHero> Followers;
+        public BattleUnitMover Mover;
 
         protected List<BattleUnitAction> Actions;
         
-
         public virtual void AddAttacker(BattleHero attacker)
         {
             Attackers.Add(attacker);
@@ -51,12 +72,13 @@ namespace BattleField
 
         public virtual void Update()
         {
-            
-            if (Unit.IsStunning)
+            var unit = Unit;
+
+            if (unit.IsStunning)
             {
-                if (Unit.LogEnable)
+                if (unit.LogEnable)
                 {
-                    Debug.Log($"{Unit.name} is stunned");
+                    Debug.Log($"{unit.name} is stunned");
                 }
                 
                 return;
@@ -74,65 +96,7 @@ namespace BattleField
             {
                 Actions[i].Update();
             }
-        }
-
-        public void MoveTo(List<BattleCell> newPath)
-        {
-            Path = newPath;
-            var unit = Unit;
-            if (unit.LogEnable)
-            {
-                Debug.Log($"{unit.name} MoveTo for:{unit.name}, path:{Path.Count}");
-            }
-            
-            if (Path.Count > 0)
-            {
-                if (unit.NextCell == unit.Cell)
-                {
-                    unit.Character.SetState(CharacterState.Run);
-                    MoveToNextCell();
-                }
-            }
-        }
-
-        public void MoveStop()
-        {
-            var unit = Unit;
-            if (unit.LogEnable)
-            {
-                Debug.Log($"{unit.name} MoveStop");
-            }
-            Path = null;
-        }
-        public bool MoveToNextCell()
-        {
-            var unit = Unit;
-            
-            if (Path == null || Path.Count == 0)
-            {
-                return false;
-            }
-            var cell = Path[0];
-            Path.RemoveAt(0);
-
-            if (cell == unit.Cell)
-            {
-                if (Path.Count == 0)
-                {
-                    MoveStop();
-                    return false;
-                }
-                cell = Path[0];
-                Path.RemoveAt(0);
-            }
-            if (!cell.IsAvailableCell())
-            {
-                MoveStop();
-                return false;
-            }
-            unit.NextCell = cell;
-            unit.Turn(unit.NextCell.WorldPosition);
-            return true;
+            Mover.Update();
         }
     }
 }

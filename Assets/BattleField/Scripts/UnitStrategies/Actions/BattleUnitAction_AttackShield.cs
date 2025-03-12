@@ -56,7 +56,7 @@ namespace BattleField
             });
 
             target.IsStunning = true;
-            target.Strategy.MoveStop();
+            target.Strategy.Mover.MoveStop();
             target.Character.SetState(CharacterState.Idle);
             target.Character.Animator.SetTrigger("Stun");
             var targetNewPos = targetNewCell.WorldPosition;

@@ -9,12 +9,14 @@ namespace BattleField
         
         bool isPathfinding;
         BattleCell movingToCell;
-        bool updateEnable = true;
+
+        BattleUnitMover mover;
 
         
         public BattleUnitAction_Move(IBattleUnitStrategy strategy)
             : base (strategy)
         {
+            mover = strategy.Mover;
         }
 
 
@@ -31,7 +33,7 @@ namespace BattleField
                 return true;
             }
 
-            if (Unit.IsMoving)
+            if (mover.IsMoving)
             {
                 result = true;
             }
@@ -72,31 +74,10 @@ namespace BattleField
                 movingToCell = null;
                 return;
             }
-            strategy.MoveTo(path);
-            updateEnable = true;
+            mover.MoveTo(path);
             if (Unit.LogEnable)
             {
                 Debug.Log($"Pathfinding complete for :{Unit.name}, moving to Cell x:{movingToCell.CellPos.x}, y:{movingToCell.CellPos.y} from x: {Unit.Cell.CellPos.x}, y: {Unit.Cell.CellPos.y}");
-            }
-        }
-        
-        public override void Update()
-        {
-            if (!updateEnable) return;
-
-            var unit = Unit;
-            unit.transform.position = Vector3.MoveTowards(unit.transform.position, unit.NextCell.WorldPosition, 0.3f * Time.deltaTime);
-            if (Vector3.Distance( unit.transform.position, unit.NextCell.WorldPosition) < 0.02f)
-            {
-                unit.Cell = unit.NextCell;
-
-                if (!strategy.MoveToNextCell())
-                {
-                    updateEnable = false;
-                    unit.Character.SetState(CharacterState.Idle);
-                    strategy.MoveStop();
-                    unit.NextCell = unit.Cell;
-                }
             }
         }
     }

@@ -5,10 +5,10 @@ using UnityEngine;
 
 namespace BattleField
 {
-    public class BattleUnitStrategy : IBattleUnitStrategy
+    public class BattleUnitShieldStrategy : IBattleUnitStrategy
     {
         
-        public BattleUnitStrategy(BattleHero unit)
+        public BattleUnitShieldStrategy(BattleHero unit)
             : base(unit)
         {
             Actions.Add(new BattleUnitAction_FindTarget(this));

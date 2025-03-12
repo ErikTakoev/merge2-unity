@@ -42,21 +42,21 @@ namespace BattleField
             }
 
             heroBoss = CreateUnit(heroBossPrefab, null, null, true);
-            CreateUnit(heroBossPrefab, null, null, true);
-            CreateUnit(heroBossPrefab, null, null, true);
-            CreateUnit(heroBossPrefab, null, null, true);
-            CreateUnit(heroBossPrefab, null, null, true);
-            CreateUnit(heroBossPrefab, null, null, true);
-            CreateUnit(heroBossPrefab, null, null, true);
+            // CreateUnit(heroBossPrefab, null, null, true);
+            // CreateUnit(heroBossPrefab, null, null, true);
+            // CreateUnit(heroBossPrefab, null, null, true);
+            // CreateUnit(heroBossPrefab, null, null, true);
+            // CreateUnit(heroBossPrefab, null, null, true);
+            // CreateUnit(heroBossPrefab, null, null, true);
             enemyBoss = CreateUnit(enemyBossPrefab, null, null, false);
-            CreateUnit(enemyBossPrefab, null, null, false);
-            CreateUnit(enemyBossPrefab, null, null, false);
-            CreateUnit(enemyBossPrefab, null, null, false);
-            CreateUnit(enemyBossPrefab, null, null, false);
-            CreateUnit(enemyBossPrefab, null, null, false);
-            CreateUnit(enemyBossPrefab, null, null, false);
-            CreateUnit(enemyBossPrefab, null, null, false);
-            CreateUnit(enemyBossPrefab, null, null, false);
+            // CreateUnit(enemyBossPrefab, null, null, false);
+            // CreateUnit(enemyBossPrefab, null, null, false);
+            // CreateUnit(enemyBossPrefab, null, null, false);
+            // CreateUnit(enemyBossPrefab, null, null, false);
+            // CreateUnit(enemyBossPrefab, null, null, false);
+            // CreateUnit(enemyBossPrefab, null, null, false);
+            // CreateUnit(enemyBossPrefab, null, null, false);
+            // CreateUnit(enemyBossPrefab, null, null, false);
         }
 
         public void OnDraggedHeroToBattleField(BattleHeroStyle style, List<EquipmentItem> items)
@@ -139,16 +139,20 @@ namespace BattleField
 
             BattleHero hero = Instantiate(prefab, transform).GetComponent<BattleHero>();
             hero.name = (isHero ? "Hero" : "Enemy") + (heroes.Count + enemies.Count);
-
-            hero.Init(style, items, new BattleUnitStrategy(hero), spawnPoint, isHero);
+            IBattleUnitStrategy strategy;
             if (isHero)
             {
                 heroes.Add(hero);
+                strategy = new BattleUnitShieldStrategy(hero);
             }
             else
             {
                 enemies.Add(hero);
+                strategy = new BattleUnitBowStrategy(hero);
             }
+
+            hero.Init(style, items, strategy, spawnPoint, isHero);
+            
 
             return hero;
         }

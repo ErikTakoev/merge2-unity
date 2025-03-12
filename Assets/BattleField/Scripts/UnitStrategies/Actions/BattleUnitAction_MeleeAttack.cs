@@ -20,7 +20,7 @@ namespace BattleField
                 result = true;
                 if (Unit.IsAttackReady)
                 {
-                    strategy.MoveStop();
+                    strategy.Mover.MoveStop();
                     Attack(Target);
                 }
             }

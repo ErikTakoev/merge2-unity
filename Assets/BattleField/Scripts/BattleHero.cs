@@ -35,7 +35,7 @@ namespace BattleField
         public IBattleUnitStrategy Strategy { get; private set; }
         public Dictionary<EquipmentPart, EquipmentItem> Items { get; private set; }
 
-        public bool IsMoving { get { return Strategy.Path != null; } }
+        public bool IsMoving { get { return Strategy.Mover.IsMoving; } }
         public bool IsAttacking { get; set; }
         public bool IsStunning { get; set; }
 
