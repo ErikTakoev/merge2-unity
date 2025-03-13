@@ -98,5 +98,13 @@ namespace BattleField
             }
             Mover.Update();
         }
+
+        public virtual void LateUpdate()
+        {
+            for (int i = 0; i < Actions.Count; i++)
+            {
+                Actions[i].LateUpdate();
+            }
+        }
     }
 }

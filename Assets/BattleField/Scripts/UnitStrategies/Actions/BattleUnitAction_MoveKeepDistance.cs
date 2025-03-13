@@ -14,7 +14,7 @@ namespace BattleField
         BattleUnitMover mover;
 
         bool isJumping;
-        const int CellJumpCount = 2;
+        const int CellJumpCount = 3;
         const float CooldownToReady = 5f;
         float cooldownToReadyTimeLeft = CooldownToReady;
 
@@ -40,7 +40,7 @@ namespace BattleField
             }
             
             var distance = Pathfinding.GetManhattanDistance(Target.NextCell, Unit.NextCell);
-            if (distance <= 5)
+            if (distance <= 6)
             {
                 strategy.Mover.MoveStop();
                 return true;
@@ -111,11 +111,21 @@ namespace BattleField
                     isJumping = true;
                     strategy.Mover.MoveStop();
                     Unit.SetCell(cell, false);
-                    Unit.transform.DOMove(cell.WorldPosition, 0.5f).SetEase(Ease.OutQuad)
+
+                    const float time = 0.5f;
+                    Sequence jumpSequence = DOTween.Sequence();
+                    jumpSequence.Join(Unit.transform.DOMove(cell.WorldPosition, time).SetEase(Ease.OutCubic))
+                        .Join(Unit.transform.DOScale(1.1f, time * 0.1f).SetEase(Ease.OutCubic))
+                        .Append(Unit.transform.DOScale(1f, time * 0.4f).SetEase(Ease.OutCubic))
                         .OnComplete(() =>
                         {
+                            Unit.Turn(Target.transform.position);
                             isJumping = false;
                         });
+                    jumpSequence.Play();
+
+                    
+                    
                     return true;
                 }
             }

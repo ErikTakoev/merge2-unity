@@ -15,5 +15,6 @@ namespace BattleField
 
         public abstract bool Action();
         public virtual void Update() {}
+        public virtual void LateUpdate() {}
     }
 }

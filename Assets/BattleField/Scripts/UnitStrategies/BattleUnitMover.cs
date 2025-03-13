@@ -22,7 +22,7 @@ namespace BattleField
         {
             if (moveUpdateEnable)
             {
-                unit.transform.position = Vector3.MoveTowards(unit.transform.position, unit.NextCell.WorldPosition, 0.3f * Time.deltaTime);
+                unit.transform.position = Vector3.MoveTowards(unit.transform.position, unit.NextCell.WorldPosition, 0.6f * Time.deltaTime);
                 if (Vector3.Distance( unit.transform.position, unit.NextCell.WorldPosition) < 0.02f)
                 {
                     unit.Cell = unit.NextCell;
@@ -51,7 +51,7 @@ namespace BattleField
                 if (unit.NextCell == unit.Cell)
                 {
                     moveUpdateEnable = true;
-                    unit.Character.SetState(CharacterState.Run);
+                    unit.Character.SetState(CharacterState.Walk);
                     MoveToNextCell();
                 }
             }

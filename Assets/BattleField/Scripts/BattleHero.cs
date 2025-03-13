@@ -1,8 +1,6 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using Assets.HeroEditor.Common.Scripts.CharacterScripts;
-using DG.Tweening;
 using HeroEditor.Common.Enums;
 using UnityEngine;
 
@@ -135,6 +133,11 @@ namespace BattleField
         {
             cooldownToReadyLeft += Time.deltaTime;
             Strategy.Update();
+        }
+
+        void LateUpdate()
+        {
+            Strategy.LateUpdate();
         }
 
 

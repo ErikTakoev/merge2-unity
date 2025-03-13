@@ -12,6 +12,7 @@ namespace BattleField
             : base(unit)
         {
             Actions.Add(new BattleUnitAction_FindTarget(this));
+            Actions.Add(new BattleUnitAction_BowAttack(this));
             Actions.Add(new BattleUnitAction_MoveKeepDistance(this));
             Actions.Add(new BattleUnitAction_Move(this));
         }
