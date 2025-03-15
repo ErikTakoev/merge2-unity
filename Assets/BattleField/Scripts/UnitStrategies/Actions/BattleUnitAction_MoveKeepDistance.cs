@@ -114,9 +114,13 @@ namespace BattleField
 
                     const float time = 0.5f;
                     Sequence jumpSequence = DOTween.Sequence();
+                    
+                    Sequence scaleSequence = DOTween.Sequence();
+                    scaleSequence.Append(Unit.transform.DOScale(1.1f, time * 0.1f).SetEase(Ease.OutCubic))
+                        .Append(Unit.transform.DOScale(1f, time * 0.5f).SetEase(Ease.InCubic));
+                    
                     jumpSequence.Join(Unit.transform.DOMove(cell.WorldPosition, time).SetEase(Ease.OutCubic))
-                        .Join(Unit.transform.DOScale(1.1f, time * 0.1f).SetEase(Ease.OutCubic))
-                        .Append(Unit.transform.DOScale(1f, time * 0.4f).SetEase(Ease.OutCubic))
+                        .Join(scaleSequence)
                         .OnComplete(() =>
                         {
                             Unit.Turn(Target.transform.position);

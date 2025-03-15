@@ -22,6 +22,7 @@ namespace BattleField
 
         public override bool Action()
         {
+            if (Target == null) return false;
             bool result = false;
             
             if (isPathfinding)

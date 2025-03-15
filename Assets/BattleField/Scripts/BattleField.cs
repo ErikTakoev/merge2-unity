@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Assets.HeroEditor.Common.Scripts.CharacterScripts;
 using UnityEngine;
+using Unity.Cinemachine;
 
 namespace BattleField
 {
@@ -9,8 +10,6 @@ namespace BattleField
     {
         [SerializeReference]
         GameObject unitPrefab;
-        [SerializeField]
-        Transform[] heroesStartPositions;
 
         [SerializeField]
         BattleGrid grid;
@@ -25,7 +24,14 @@ namespace BattleField
         [SerializeField]
         BattleHero enemyBoss;
         [SerializeField]
-        GameObject enemyBossPrefab;
+        GameObject[] enemyList;
+        [SerializeField]
+        TextAsset enemyDataSpawn;
+
+        BattleFieldEnemySpawner enemySpawner;
+
+        [SerializeReference]
+        CinemachineTargetGroup cinemachineTargetGroup;
 
         public static BattleField Instance;
 
@@ -35,28 +41,36 @@ namespace BattleField
             heroes = new List<BattleHero>();
             enemies = new List<BattleHero>();
 
-            if (heroBossPrefab == null || enemyBossPrefab == null)
+            if (heroBossPrefab == null)
             {
                 Debug.LogError("BattleField: heroBossPrefab or enemyBossPrefab is empty");
                 return;
             }
+            if (cinemachineTargetGroup == null)
+            {
+                Debug.LogError("BattleField: cinemachineTargetGroup is empty");
+                return;
+            }
+            if (enemyDataSpawn == null)
+            {
+                Debug.LogError("BattleField: enemyDataSpawn is empty");
+                return;
+            }
+            enemySpawner = new BattleFieldEnemySpawner(enemyDataSpawn.text.Split('\n'));
+            enemySpawner.OnSpawn += OnSpawnEnemy;
 
             heroBoss = CreateUnit(heroBossPrefab, null, null, true);
-            // CreateUnit(heroBossPrefab, null, null, true);
-            // CreateUnit(heroBossPrefab, null, null, true);
-            // CreateUnit(heroBossPrefab, null, null, true);
-            // CreateUnit(heroBossPrefab, null, null, true);
-            // CreateUnit(heroBossPrefab, null, null, true);
-            // CreateUnit(heroBossPrefab, null, null, true);
-            enemyBoss = CreateUnit(enemyBossPrefab, null, null, false);
-            // CreateUnit(enemyBossPrefab, null, null, false);
-            // CreateUnit(enemyBossPrefab, null, null, false);
-            // CreateUnit(enemyBossPrefab, null, null, false);
-            // CreateUnit(enemyBossPrefab, null, null, false);
-            // CreateUnit(enemyBossPrefab, null, null, false);
-            // CreateUnit(enemyBossPrefab, null, null, false);
-            // CreateUnit(enemyBossPrefab, null, null, false);
-            // CreateUnit(enemyBossPrefab, null, null, false);
+            CreateUnit(heroBossPrefab, null, null, true);
+            CreateUnit(heroBossPrefab, null, null, true);
+            CreateUnit(heroBossPrefab, null, null, true);
+            CreateUnit(heroBossPrefab, null, null, true);
+            CreateUnit(heroBossPrefab, null, null, true);
+            CreateUnit(heroBossPrefab, null, null, true);
+        }
+
+        void OnSpawnEnemy(int posY, int enemyIndex)
+        {
+            CreateUnit(enemyList[enemyIndex], null, null, false, posY);
         }
 
         public void OnDraggedHeroToBattleField(BattleHeroStyle style, List<EquipmentItem> items)
@@ -133,25 +147,38 @@ namespace BattleField
         }
 
 
-        BattleHero CreateUnit(GameObject prefab, BattleHeroStyle? style, List<EquipmentItem> items,  bool isHero)
+        BattleHero CreateUnit(GameObject prefab, BattleHeroStyle? style, List<EquipmentItem> items,  bool isHero, int spawnPosY = -1)
         {
-            BattleCell spawnPoint = grid.GetRandomSpawnPoint(isHero);
-
-            BattleHero hero = Instantiate(prefab, transform).GetComponent<BattleHero>();
-            hero.name = (isHero ? "Hero" : "Enemy") + (heroes.Count + enemies.Count);
-            IBattleUnitStrategy strategy;
-            if (isHero)
+            BattleCell spawnPoint;
+            if (spawnPosY == -1)
             {
-                heroes.Add(hero);
-                strategy = new BattleUnitShieldStrategy(hero);
+                spawnPoint = grid.GetRandomSpawnPoint(isHero);
             }
             else
             {
-                enemies.Add(hero);
+                spawnPoint = grid.GetCell(isHero ? 0 : grid.width - 1, spawnPosY);
+            }
+
+            BattleHero hero = Instantiate(prefab, transform).GetComponent<BattleHero>();
+            hero.name = (isHero ? "Hero" : "Enemy") + (heroes.Count + enemies.Count);
+            var units = isHero ? heroes : enemies;
+            units.Add(hero);
+
+            IBattleUnitStrategy strategy = null;
+            if (hero.Character.WeaponType == HeroEditor.Common.Enums.WeaponType.Bow)
+            {
                 strategy = new BattleUnitBowStrategy(hero);
+            }
+            else if (hero.Character.WeaponType == HeroEditor.Common.Enums.WeaponType.Melee1H)
+            {
+                strategy = new BattleUnitShieldStrategy(hero);
             }
 
             hero.Init(style, items, strategy, spawnPoint, isHero);
+            if (isHero)
+            {
+                cinemachineTargetGroup.AddMember(hero.transform, 1, 0.1f);
+            }
             
 
             return hero;
@@ -162,6 +189,11 @@ namespace BattleField
             BattleHero hero = CreateUnit(unitPrefab, style, items, isHero);
 
             return hero;
+        }
+
+        void Update()
+        {
+            enemySpawner.Update();
         }
     }
 }

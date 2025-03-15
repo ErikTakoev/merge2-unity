@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Unity.VisualScripting.YamlDotNet.Core.Tokens;
 using UnityEngine;
 
 namespace BattleField
@@ -54,6 +55,8 @@ namespace BattleField
         {
             // Перевірка наявності коллайдера в заданій позиції
             Collider2D hitColliders = Physics2D.OverlapBox(position, new Vector2(cellWidth / 2, cellHeight / 2), 0f);
+            if (hitColliders != null && gameObject.layer != hitColliders.gameObject.layer)
+                return false;
             return hitColliders != null;
         }
 

@@ -2,7 +2,8 @@
     "name": "BattleField",
     "rootNamespace": "BattleField",
     "references": [
-        "Hero"
+        "Hero",
+        "Unity.Cinemachine"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
