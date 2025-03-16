@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ItemId: 'MilitiamanHelmet2 [Paint]'
   EquipmentPart: 1
-  MinusChanceCrit: 0
+  ChanceMinusCrit: 20

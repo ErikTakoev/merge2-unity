@@ -8,10 +8,11 @@ namespace BattleField
     public class BattleUnitBowStrategy : IBattleUnitStrategy
     {
         
-        public BattleUnitBowStrategy(BattleHero unit)
+        public BattleUnitBowStrategy(BattleUnit unit)
             : base(unit)
         {
             Actions.Add(new BattleUnitAction_FindTarget(this));
+            Actions.Add(new BattleUnitAction_Defense(this));
             Actions.Add(new BattleUnitAction_BowAttack(this));
             Actions.Add(new BattleUnitAction_MoveKeepDistance(this));
             Actions.Add(new BattleUnitAction_Move(this));

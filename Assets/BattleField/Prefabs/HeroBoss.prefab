@@ -7042,6 +7042,7 @@ GameObject:
   - component: {fileID: 5325532122359514536}
   - component: {fileID: 6103848980997341195}
   - component: {fileID: 3759559453459053104}
+  - component: {fileID: 4153717717208565850}
   m_Layer: 3
   m_Name: HeroBoss
   m_TagString: Untagged
@@ -7078,6 +7079,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   character: {fileID: 4841423546578199555}
+  unitStats: {fileID: 4153717717208565850}
   LogEnable: 0
 --- !u!58 &6103848980997341195
 CircleCollider2D:
@@ -7142,6 +7144,24 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &4153717717208565850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3127848223022159906}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d156f770b143cc8409f2bdfee12be499, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Health: 100
+  Defense: 5
+  ChanceBlockDamage: 25
+  ChanceMinusCrit: 25
+  MinAttackDamage: 10
+  MaxAttackDamage: 1
 --- !u!1 &3173982401157446152
 GameObject:
   m_ObjectHideFlags: 0

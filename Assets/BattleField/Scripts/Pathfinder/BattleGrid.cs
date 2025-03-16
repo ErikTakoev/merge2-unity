@@ -22,12 +22,30 @@ namespace BattleField
             GenerateIsWalkableValues();
         }
 
-        public BattleCell GetRandomSpawnPoint(bool isHero)
+        public BattleCell GetRandomSpawnPoint(BattleUnit heroBoss)
         {
-            // Вибір випадкової клітинки для спавну
-            int x = isHero ? 0 : width - 1;
-            int y = UnityEngine.Random.Range(0, height);
-            return cells[x, y];
+            if (heroBoss == null)
+            {
+                return cells[0, height / 2];
+            }
+            var heroBossPosX = heroBoss.Cell.CellPos.x;
+            (int, int) minMaxRandom;
+            minMaxRandom.Item1 = heroBossPosX - 5;
+            minMaxRandom.Item1 = Math.Max(minMaxRandom.Item1, 0);
+            minMaxRandom.Item2 = minMaxRandom.Item1 + 2;
+            
+            int x, y;
+            while (true)
+            {
+                x = UnityEngine.Random.Range(minMaxRandom.Item1, minMaxRandom.Item2);
+                y = UnityEngine.Random.Range(0, height);
+
+                BattleCell cell = cells[x, y];
+                if (cell != null && cell.IsAvailableCell())
+                {
+                    return cell;
+                }
+            }
         }
 
         public void GenerateIsWalkableValues()

@@ -2702,6 +2702,7 @@ GameObject:
   - component: {fileID: 5325532122359514536}
   - component: {fileID: 6103848980997341195}
   - component: {fileID: 3759559453459053104}
+  - component: {fileID: 5390891821326682366}
   m_Layer: 3
   m_Name: BattleHero
   m_TagString: Untagged
@@ -2738,6 +2739,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   character: {fileID: 8942311496344071428}
+  unitStats: {fileID: 5390891821326682366}
   LogEnable: 0
 --- !u!58 &6103848980997341195
 CircleCollider2D:
@@ -2802,6 +2804,24 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &5390891821326682366
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3127848223022159906}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d156f770b143cc8409f2bdfee12be499, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Health: 50
+  Defense: 0
+  ChanceBlockDamage: 0
+  ChanceMinusCrit: 0
+  MinAttackDamage: 3
+  MaxAttackDamage: 6
 --- !u!1 &3182364254101968630
 GameObject:
   m_ObjectHideFlags: 0

@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ItemId: SteelTowerShield
   EquipmentPart: 13
-  ChanceBlockDamage: 0
+  ChanceBlockDamage: 33

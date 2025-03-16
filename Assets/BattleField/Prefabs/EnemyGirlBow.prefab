@@ -13956,6 +13956,7 @@ GameObject:
   - component: {fileID: 2904106917877233727}
   - component: {fileID: 3328156945132703463}
   - component: {fileID: 8413320539671646867}
+  - component: {fileID: 3662349202989085286}
   m_Layer: 3
   m_Name: EnemyGirlBow
   m_TagString: Untagged
@@ -13992,6 +13993,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   character: {fileID: 8008053873211733962}
+  unitStats: {fileID: 3662349202989085286}
   LogEnable: 0
 --- !u!58 &3328156945132703463
 CircleCollider2D:
@@ -14056,6 +14058,24 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &3662349202989085286
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4136473883588979583}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d156f770b143cc8409f2bdfee12be499, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Health: 50
+  Defense: 0
+  ChanceBlockDamage: 0
+  ChanceMinusCrit: 0
+  MinAttackDamage: 3
+  MaxAttackDamage: 6
 --- !u!1 &4342810361749774120
 GameObject:
   m_ObjectHideFlags: 0

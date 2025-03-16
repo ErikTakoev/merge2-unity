@@ -2,16 +2,22 @@ using System;
 using System.Collections.Generic;
 using Assets.HeroEditor.Common.Scripts.CharacterScripts;
 using HeroEditor.Common.Enums;
+using DG.Tweening;
 using UnityEngine;
 
 namespace BattleField
 {
-    public class BattleHero : MonoBehaviour
+    public class BattleUnit : MonoBehaviour
     {
         [SerializeReference]
         Character character;
+        [SerializeReference]
+        BattleUnitStats unitStats;
+
+        public event Action<BattleUnit> OnUnitDeadEvent;
 
         public Character Character { get { return character; } }
+        public BattleUnitStats Stats { get { return unitStats; } }
         BattleCell nextCell;
         public BattleCell Cell  { get; set; }
         public BattleCell NextCell { 
@@ -31,11 +37,11 @@ namespace BattleField
         }
 
         public IBattleUnitStrategy Strategy { get; private set; }
-        public Dictionary<EquipmentPart, EquipmentItem> Items { get; private set; }
 
         public bool IsMoving { get { return Strategy.Mover.IsMoving; } }
         public bool IsAttacking { get; set; }
         public bool IsStunning { get; set; }
+        public bool IsDead { get; private set;}
 
         const float CooldownToReady = 0.5f;
         float cooldownToReadyLeft = 0.0f;
@@ -69,7 +75,7 @@ namespace BattleField
             }
             if (styleValue == null)
             {
-                Debug.LogWarning("BattleHero: style is null");
+                Debug.LogWarning("BattleUnit: style is null");
                 return;
             }
             var style = styleValue.Value;
@@ -81,16 +87,12 @@ namespace BattleField
 
         void SetEquipments(List<EquipmentItem> items)
         {
-            Items = new Dictionary<EquipmentPart, EquipmentItem>();
             if (items == null)
             {
-                Debug.LogWarning("BattleHero: items is null");
+                Debug.LogWarning("BattleUnit: items is null");
                 return;
             }
-            foreach (var item in items)
-            {
-                Items.Add(item.EquipmentPart, item);
-            }
+
             foreach (var item in items)
             {
                 BattleCharacterUtils.EquipItem(character, item);
@@ -102,9 +104,31 @@ namespace BattleField
             SetStyle(style);
             SetEquipments(items);
 
+            if (unitStats == null)
+            {
+                Debug.LogError("BattleUnit: unitStats is empty");
+                return;
+            }
+            unitStats.Init(items);
+            unitStats.OnUnitDeadEvent += OnUnitDead;
+
             Strategy = strategy;
             SetCell(cell);
             IsHero = isHero;
+        }
+
+        void OnUnitDead()
+        {
+            IsDead = true;
+            Character.SetState(CharacterState.DeathB);
+            var pos = transform.position;
+            pos.z += 1f;
+            transform.position = pos;
+            transform.DOScale(0.7f, 0.3f);
+            transform.DORotate(new Vector3(0, 0, UnityEngine.Random.Range(-20, 20)), 0.3f);
+            OnUnitDeadEvent?.Invoke(this);
+            OnUnitDeadEvent = null;
+            NextCell.SetTemporaryBusy(false);
         }
 
 
@@ -120,7 +144,7 @@ namespace BattleField
 
         
 
-        public void AddAttacker(BattleHero unit)
+        public void AddAttacker(BattleUnit unit)
         {
             Strategy.AddAttacker(unit);
         }
@@ -131,12 +155,16 @@ namespace BattleField
 
         void Update()
         {
+            if (IsDead) return;
+
             cooldownToReadyLeft += Time.deltaTime;
             Strategy.Update();
         }
 
         void LateUpdate()
         {
+            if (IsDead) return;
+
             Strategy.LateUpdate();
         }
 

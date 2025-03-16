@@ -10,8 +10,8 @@ namespace BattleField
             this.strategy = strategy;
         }
 
-        protected BattleHero Unit { get { return strategy.Unit; }}
-        protected BattleHero Target { get { return strategy.Target; }}
+        protected BattleUnit Unit { get { return strategy.Unit; }}
+        protected BattleUnit Target { get { return strategy.Target; }}
 
         public abstract bool Action();
         public virtual void Update() {}

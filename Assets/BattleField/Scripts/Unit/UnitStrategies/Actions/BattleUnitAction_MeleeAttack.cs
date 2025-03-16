@@ -28,7 +28,7 @@ namespace BattleField
             return result;
         }
 
-        public void Attack(BattleHero target)
+        public void Attack(BattleUnit target)
         {
             var Unit = this.Unit;
             if (Unit.LogEnable)
@@ -40,7 +40,7 @@ namespace BattleField
             Unit.StartCoroutine(AttackCoroutine(target));
         }
 
-        private IEnumerator AttackCoroutine(BattleHero target)
+        private IEnumerator AttackCoroutine(BattleUnit target)
         {
             var Unit = this.Unit;
             yield return new WaitUntil(() => !Unit.IsDodgeRolling);

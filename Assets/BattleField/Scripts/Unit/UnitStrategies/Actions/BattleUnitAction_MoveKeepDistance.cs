@@ -28,6 +28,10 @@ namespace BattleField
 
         public override bool Action()
         {
+            if (Target == null)
+            {
+                return false;
+            }
             if (isJumping)
             {
                 return true;
@@ -60,7 +64,7 @@ namespace BattleField
             var followers = strategy.Followers;
             int minDistance = int.MaxValue;
 
-            BattleHero nearestFollower = null;
+            BattleUnit nearestFollower = null;
             for (int i = 0; i < followers.Count; i++)
             {
                 var follower = followers[i];

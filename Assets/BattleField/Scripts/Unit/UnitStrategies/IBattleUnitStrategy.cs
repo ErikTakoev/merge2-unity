@@ -7,19 +7,19 @@ namespace BattleField
 {
     public abstract class IBattleUnitStrategy
     {
-        public IBattleUnitStrategy(BattleHero unit)
+        public IBattleUnitStrategy(BattleUnit unit)
         {
             Unit = unit;
             
-            Attackers = new List<BattleHero>();
-            Followers = new List<BattleHero>();
+            Attackers = new List<BattleUnit>();
+            Followers = new List<BattleUnit>();
             Actions = new List<BattleUnitAction>();
             Mover = new BattleUnitMover(this);
         }
         
-        public BattleHero Unit;
-        BattleHero target;
-        public BattleHero Target
+        public BattleUnit Unit;
+        BattleUnit target;
+        public BattleUnit Target
         {
             get { return target; }
             set {
@@ -38,14 +38,13 @@ namespace BattleField
                 }
             }
         }
-        public Dictionary<EquipmentPart, EquipmentItem> Items { get { return Unit.Items; } }
-        public List<BattleHero> Attackers;
-        public List<BattleHero> Followers;
+        public List<BattleUnit> Attackers;
+        public List<BattleUnit> Followers;
         public BattleUnitMover Mover;
 
         protected List<BattleUnitAction> Actions;
         
-        public virtual void AddAttacker(BattleHero attacker)
+        public virtual void AddAttacker(BattleUnit attacker)
         {
             Attackers.Add(attacker);
         }

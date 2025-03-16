@@ -24,6 +24,6 @@ MonoBehaviour:
     - Weight: 100
       ChipData: {fileID: 11400000, guid: 1a20db2ae37062f4ba89c6a45e86eaf9, type: 2}
     IsStartCharged: 0
-    ChargeCount: 1
-    ChargingTime: 5
+    ChargeCount: 2
+    ChargingTime: 10
     NextChipData: {fileID: 11400000, guid: 3f5a9425bb16e5745acfcbf1c89c3429, type: 2}

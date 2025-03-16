@@ -1,42 +1,40 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
 namespace BattleField
 {
-    public class BattleUnitAction_DefenseShield : BattleUnitAction
+    public class BattleUnitAction_DefenseShield : BattleUnitAction_Defense
     {
         public BattleUnitAction_DefenseShield(IBattleUnitStrategy strategy)
             : base (strategy)
         {
         }
 
-
-        public override bool Action()
+        protected override bool Defense(BattleUnit attacker)
         {
-            if (strategy.Attackers.Count == 0)
+            var unit = Unit;
+            var unitStats = unit.Stats;
+
+            if (!unit.IsAttacking && !unit.IsStunning && !unit.IsDodgeRolling && unitStats.IsBlocking())
             {
-                return false;
-            }
-            if (!Unit.IsAttacking && !Unit.IsStunning && !Unit.IsDodgeRolling && UnityEngine.Random.value > 0.5f)
-            {
-                DodgeRoll(strategy.Attackers[0]);
+                ShieldBlock(attacker);
                 return true;
             }
-            strategy.Attackers.Clear();
-            return false;
+            return base.Defense(attacker);
         }
 
-        public void DodgeRoll(BattleHero target)
+        public void ShieldBlock(BattleUnit target)
         {
             var unit = Unit;
             if (unit.LogEnable)
             {
                 Debug.Log($"{unit.name} DodgeRoll target:{target.name}");
             }
-            unit.StartCoroutine(DodgeRollCoroutine(target));
+            unit.StartCoroutine(ShieldBlockCoroutine(target));
         }
 
-        private IEnumerator DodgeRollCoroutine(BattleHero target)
+        private IEnumerator ShieldBlockCoroutine(BattleUnit target)
         {
             var unit = Unit;
             unit.IsDodgeRolling = true;

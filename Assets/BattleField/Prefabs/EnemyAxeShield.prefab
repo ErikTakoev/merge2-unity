@@ -8363,6 +8363,7 @@ GameObject:
   - component: {fileID: 2904106917877233727}
   - component: {fileID: 3328156945132703463}
   - component: {fileID: 8413320539671646867}
+  - component: {fileID: 502380775912015696}
   m_Layer: 3
   m_Name: EnemyAxeShield
   m_TagString: Untagged
@@ -8399,6 +8400,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   character: {fileID: 2425677526377024721}
+  unitStats: {fileID: 502380775912015696}
   LogEnable: 0
 --- !u!58 &3328156945132703463
 CircleCollider2D:
@@ -8463,6 +8465,24 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &502380775912015696
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4136473883588979583}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d156f770b143cc8409f2bdfee12be499, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Health: 50
+  Defense: 4
+  ChanceBlockDamage: 15
+  ChanceMinusCrit: 20
+  MinAttackDamage: 3
+  MaxAttackDamage: 6
 --- !u!1 &4143736089556140527
 GameObject:
   m_ObjectHideFlags: 0

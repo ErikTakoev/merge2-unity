@@ -37,7 +37,7 @@ namespace BattleField
             return false;
         }
 
-        void AttackShield(BattleHero target, BattleCell targetNewCell)
+        void AttackShield(BattleUnit target, BattleCell targetNewCell)
         {
             var unit = this.Unit;
 

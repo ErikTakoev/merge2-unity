@@ -14,15 +14,15 @@ namespace BattleField
         [SerializeField]
         BattleGrid grid;
 
-        List<BattleHero> heroes;
+        List<BattleUnit> heroes;
         [SerializeField]
-        BattleHero heroBoss;
+        BattleUnit heroBoss;
         [SerializeField]
         GameObject heroBossPrefab;
 
-        List<BattleHero> enemies;
+        List<BattleUnit> enemies;
         [SerializeField]
-        BattleHero enemyBoss;
+        BattleUnit enemyBoss;
         [SerializeField]
         GameObject[] enemyList;
         [SerializeField]
@@ -38,8 +38,8 @@ namespace BattleField
         void Start()
         {
             Instance = this;
-            heroes = new List<BattleHero>();
-            enemies = new List<BattleHero>();
+            heroes = new List<BattleUnit>();
+            enemies = new List<BattleUnit>();
 
             if (heroBossPrefab == null)
             {
@@ -60,12 +60,11 @@ namespace BattleField
             enemySpawner.OnSpawn += OnSpawnEnemy;
 
             heroBoss = CreateUnit(heroBossPrefab, null, null, true);
-            CreateUnit(heroBossPrefab, null, null, true);
-            CreateUnit(heroBossPrefab, null, null, true);
-            CreateUnit(heroBossPrefab, null, null, true);
-            CreateUnit(heroBossPrefab, null, null, true);
-            CreateUnit(heroBossPrefab, null, null, true);
-            CreateUnit(heroBossPrefab, null, null, true);
+        }
+
+        public int GetUnitCount(bool isHero)
+        {
+            return isHero ? heroes.Count : enemies.Count;
         }
 
         void OnSpawnEnemy(int posY, int enemyIndex)
@@ -84,14 +83,14 @@ namespace BattleField
             CreateUnit(style, items, true);
         }
 
-        public BattleHero FindTarget(BattleHero unit, BattleHero cashedTarget)
+        public BattleUnit FindTarget(BattleUnit unit, BattleUnit cashedTarget)
         {
-            List<BattleHero> targets = unit.IsHero ? enemies : heroes;
+            List<BattleUnit> targets = unit.IsHero ? enemies : heroes;
 
-            BattleHero target = null;
+            BattleUnit target = null;
             float minDistance = float.MaxValue;
 
-            foreach (BattleHero t in targets)
+            foreach (BattleUnit t in targets)
             {
                 var unitCell = unit.NextCell;
                 var targetCell = t.NextCell;
@@ -147,22 +146,24 @@ namespace BattleField
         }
 
 
-        BattleHero CreateUnit(GameObject prefab, BattleHeroStyle? style, List<EquipmentItem> items,  bool isHero, int spawnPosY = -1)
+        BattleUnit CreateUnit(GameObject prefab, BattleHeroStyle? style, List<EquipmentItem> items,  bool isHero, int spawnPosY = -1)
         {
             BattleCell spawnPoint;
             if (spawnPosY == -1)
             {
-                spawnPoint = grid.GetRandomSpawnPoint(isHero);
+                spawnPoint = grid.GetRandomSpawnPoint(heroBoss);
             }
             else
             {
                 spawnPoint = grid.GetCell(isHero ? 0 : grid.width - 1, spawnPosY);
             }
 
-            BattleHero hero = Instantiate(prefab, transform).GetComponent<BattleHero>();
+            BattleUnit hero = Instantiate(prefab, transform).GetComponent<BattleUnit>();
             hero.name = (isHero ? "Hero" : "Enemy") + (heroes.Count + enemies.Count);
             var units = isHero ? heroes : enemies;
             units.Add(hero);
+
+            hero.OnUnitDeadEvent += OnUnitDead;
 
             IBattleUnitStrategy strategy = null;
             if (hero.Character.WeaponType == HeroEditor.Common.Enums.WeaponType.Bow)
@@ -179,14 +180,20 @@ namespace BattleField
             {
                 cinemachineTargetGroup.AddMember(hero.transform, 1, 0.1f);
             }
-            
 
             return hero;
         }
 
-        private BattleHero CreateUnit(BattleHeroStyle style, List<EquipmentItem> items, bool isHero)
+        private void OnUnitDead(BattleUnit unit)
         {
-            BattleHero hero = CreateUnit(unitPrefab, style, items, isHero);
+            var units = unit.IsHero ? heroes : enemies;
+            cinemachineTargetGroup.RemoveMember(unit.transform);
+            units.Remove(unit);
+        }
+
+        private BattleUnit CreateUnit(BattleHeroStyle style, List<EquipmentItem> items, bool isHero)
+        {
+            BattleUnit hero = CreateUnit(unitPrefab, style, items, isHero);
 
             return hero;
         }

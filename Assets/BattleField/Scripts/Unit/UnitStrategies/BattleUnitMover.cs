@@ -9,7 +9,8 @@ namespace BattleField
         public bool IsMoving { get { return Path != null; } }
         private IBattleUnitStrategy strategy;
         bool moveUpdateEnable = true;
-        BattleHero unit;
+        BattleCell movingToCell;
+        BattleUnit unit;
         List<BattleCell> Path;
 
         public BattleUnitMover(IBattleUnitStrategy strategy)
@@ -20,6 +21,8 @@ namespace BattleField
 
         public void Update()
         {
+            if (unit.IsDead) return;
+
             if (moveUpdateEnable)
             {
                 unit.transform.position = Vector3.MoveTowards(unit.transform.position, unit.NextCell.WorldPosition, 0.6f * Time.deltaTime);
@@ -38,8 +41,23 @@ namespace BattleField
             }
         }
 
+        public void SetMovingCell(BattleCell cell)
+        {
+            movingToCell = cell;
+        }
+
+        public BattleCell GetMovingCell()
+        {
+            return movingToCell;
+        }
+
         public void MoveTo(List<BattleCell> newPath)
         {
+            if (unit.IsDead)
+            {
+                return;
+            }
+            
             Path = newPath;
             if (unit.LogEnable)
             {
@@ -64,6 +82,7 @@ namespace BattleField
                 Debug.Log($"{unit.name} MoveStop");
             }
             Path = null;
+            movingToCell = null;
         }
         public bool MoveToNextCell()
         {

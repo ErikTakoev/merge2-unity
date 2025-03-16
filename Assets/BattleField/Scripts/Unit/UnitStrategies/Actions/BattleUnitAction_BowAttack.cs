@@ -23,6 +23,10 @@ namespace BattleField
 
         public override bool Action()
         {
+            if (Target == null)
+            {
+                return false;
+            }
             bool result = false;
 
             var distance = Pathfinding.GetManhattanDistance(Target.NextCell, Unit.NextCell);
@@ -31,16 +35,18 @@ namespace BattleField
                 strategy.Mover.MoveStop();
                 //result = true;
                 unitAnimator.SetBool("Ready", true);
+                
+                if (Unit.IsAttackReady)
+                {
+                    Attack(Target);
+                }
             }
-            if (Unit.IsAttackReady)
-            {
-                Attack(Target);
-            }
+            
 
             return result;
         }
 
-        public void Attack(BattleHero target)
+        public void Attack(BattleUnit target)
         {
             var Unit = this.Unit;
             if (Unit.LogEnable)
@@ -52,7 +58,7 @@ namespace BattleField
             Unit.StartCoroutine(AttackCoroutine(target));
         }
 
-        private IEnumerator AttackCoroutine(BattleHero target)
+        private IEnumerator AttackCoroutine(BattleUnit target)
         {
             var Unit = this.Unit;
             target.AddAttacker(Unit);
