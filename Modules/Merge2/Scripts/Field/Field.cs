@@ -59,7 +59,7 @@ namespace Merge2
                 (1, 2),
                 (3, 2),
                 (1, 4),
-                (3, 4)
+                (0, 0)
             };
             for (int i = 0; i < chipData.Length; i++)
             {
