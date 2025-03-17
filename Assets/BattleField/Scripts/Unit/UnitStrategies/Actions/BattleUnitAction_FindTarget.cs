@@ -4,7 +4,7 @@ namespace BattleField
 {
     public class BattleUnitAction_FindTarget : BattleUnitAction
     {
-        public BattleUnitAction_FindTarget(IBattleUnitStrategy strategy)
+        public BattleUnitAction_FindTarget(BattleUnitAbstractStrategy strategy)
             : base (strategy)
         {
         }

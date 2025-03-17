@@ -3,7 +3,8 @@
     "rootNamespace": "BattleField",
     "references": [
         "Hero",
-        "Unity.Cinemachine"
+        "Unity.Cinemachine",
+        "Unity.TextMeshPro"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -33,6 +33,9 @@ MonoBehaviour:
     - Type: 0
       TypeOrId: Helmet
       Count: 1
+    - Type: 0
+      TypeOrId: Bow
+      Count: 1
     NextChipData: {fileID: 0}
   ChipGeneratorData:
     Data: []

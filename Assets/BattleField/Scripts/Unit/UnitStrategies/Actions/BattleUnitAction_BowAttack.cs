@@ -10,7 +10,7 @@ namespace BattleField
         Transform bowTransform;
         Animator unitAnimator;
 
-        public BattleUnitAction_BowAttack(IBattleUnitStrategy strategy)
+        public BattleUnitAction_BowAttack(BattleUnitAbstractStrategy strategy)
             : base (strategy)
         {
             var sculptor = Unit.Character.GetComponent<CharacterBodySculptor>();
@@ -30,10 +30,10 @@ namespace BattleField
             bool result = false;
 
             var distance = Pathfinding.GetManhattanDistance(Target.NextCell, Unit.NextCell);
-            if (distance <= 5)
+            if (distance <= 6)
             {
                 strategy.Mover.MoveStop();
-                //result = true;
+                result = true;
                 unitAnimator.SetBool("Ready", true);
                 
                 if (Unit.IsAttackReady)

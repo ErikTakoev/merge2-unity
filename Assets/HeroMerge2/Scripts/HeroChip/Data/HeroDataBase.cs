@@ -11,6 +11,8 @@ public class HeroDataBase : ScriptableObject
     [SerializeField]
     public Data[] Weapons;
     [SerializeField]
+    public Data[] Bows;
+    [SerializeField]
     public Data[] Helmets;
     
     [SerializeField]
@@ -43,6 +45,7 @@ public class HeroDataBase : ScriptableObject
             caches = new Dictionary<ChipData, Data>();
             AddCacheData(Armors);
             AddCacheData(Weapons);
+            AddCacheData(Bows);
             AddCacheData(Helmets);
             AddCacheData(Shields);
         }

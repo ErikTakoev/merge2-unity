@@ -13,7 +13,7 @@ namespace BattleField
         BattleUnitMover mover;
 
         
-        public BattleUnitAction_Move(IBattleUnitStrategy strategy)
+        public BattleUnitAction_Move(BattleUnitAbstractStrategy strategy)
             : base (strategy)
         {
             mover = strategy.Mover;

@@ -49,13 +49,17 @@ public class HeroChip : ChipContainer
 
     private void SetCharacterStyle()
     {
+        int[] filterHair = new []{ 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 17 };
+        int[] filterEyebrows = new []{ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 21, 22, 23, 25 };
+        int[] filterEye = new []{ 3, 5, 13, 15, 16, 17, 18, 23, 24, 25, 28 };
+        int[] filterMouth = new []{ 1, 2, 3, 4, 5, 9, 10, 24, 27, 28 };
         style = new BattleHeroStyle();
-        style.HairIndex = Random.Range(0, character.SpriteCollection.Hair.Count);
+        style.HairIndex = filterHair[Random.Range(0, filterHair.Length)];
         style.HairColor = new Color(Random.Range(0, 1f), Random.Range(0, 1f), Random.Range(0, 1f), 1f);
-        style.EyebrowsIndex = Random.Range(0, character.SpriteCollection.Eyebrows.Count);
-        style.EyesIndex = Random.Range(0, character.SpriteCollection.Eyes.Count);
+        style.EyebrowsIndex = filterEyebrows[Random.Range(0, filterEyebrows.Length)];
+        style.EyesIndex = filterEye[Random.Range(0, filterEye.Length)];
         style.EyesColor = new Color(Random.Range(0, 1f), Random.Range(0, 1f), Random.Range(0, 1f), 1f);
-        style.MouthIndex = Random.Range(0, character.SpriteCollection.Mouth.Count);
+        style.MouthIndex = filterMouth[Random.Range(0, filterMouth.Length)];
 
         character.SetBody(character.SpriteCollection.Hair[style.HairIndex], BodyPart.Hair, style.HairColor);
         character.SetBody(character.SpriteCollection.Eyebrows[style.EyebrowsIndex], BodyPart.Eyebrows);
@@ -90,9 +94,16 @@ public class HeroChip : ChipContainer
                     {
                         RemoveSlot(EquipmentPart.Shield);
                     }
+                    RemoveSlot(EquipmentPart.Bow);
                     break;
                 case "Shield":
                     RemoveSlot(EquipmentPart.MeleeWeapon1H);
+                    RemoveSlot(EquipmentPart.Bow);
+                    break;
+                case "Bow":
+                    RemoveSlot(EquipmentPart.MeleeWeapon1H);
+                    RemoveSlot(EquipmentPart.MeleeWeapon1H);
+                    RemoveSlot(EquipmentPart.Shield);
                     break;
             }
         }

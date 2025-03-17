@@ -8,7 +8,7 @@ namespace BattleField
     {
         float attackShieldCooldown = 3;
 
-        public BattleUnitAction_AttackShield(IBattleUnitStrategy strategy)
+        public BattleUnitAction_AttackShield(BattleUnitAbstractStrategy strategy)
             : base (strategy)
         {
         }

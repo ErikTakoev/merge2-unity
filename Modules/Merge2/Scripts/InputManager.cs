@@ -20,11 +20,11 @@ namespace Merge2
         Camera mainCamera;
 
         [SerializeField]
-        float timeForOnTap = 0.3f;
+        float timeForOnTap = 0.4f;
         float timeLeftOnTap;
 
         [SerializeField]
-        float offsetPosForStartDragging = 0.3f;
+        float offsetPosForStartDragging = 0.4f;
         Vector2 startPos;
 
         bool press = false;

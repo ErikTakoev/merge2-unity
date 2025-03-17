@@ -5,9 +5,9 @@ using UnityEngine;
 
 namespace BattleField
 {
-    public abstract class IBattleUnitStrategy
+    public abstract class BattleUnitAbstractStrategy : MonoBehaviour
     {
-        public IBattleUnitStrategy(BattleUnit unit)
+        public virtual void Init(BattleUnit unit)
         {
             Unit = unit;
             
@@ -17,7 +17,7 @@ namespace BattleField
             Mover = new BattleUnitMover(this);
         }
         
-        public BattleUnit Unit;
+        public BattleUnit Unit { get; private set; }
         BattleUnit target;
         public BattleUnit Target
         {
@@ -38,11 +38,11 @@ namespace BattleField
                 }
             }
         }
-        public List<BattleUnit> Attackers;
-        public List<BattleUnit> Followers;
-        public BattleUnitMover Mover;
+        public List<BattleUnit> Attackers { get; private set; }
+        public List<BattleUnit> Followers { get; private set; }
+        public BattleUnitMover Mover { get; private set; }
 
-        protected List<BattleUnitAction> Actions;
+        protected List<BattleUnitAction> Actions { get; private set; }
         
         public virtual void AddAttacker(BattleUnit attacker)
         {
@@ -72,6 +72,8 @@ namespace BattleField
         public virtual void Update()
         {
             var unit = Unit;
+            
+            if (unit.IsDead) return;
 
             if (unit.IsStunning)
             {
@@ -100,6 +102,7 @@ namespace BattleField
 
         public virtual void LateUpdate()
         {
+            if (Unit.IsDead) return;
             for (int i = 0; i < Actions.Count; i++)
             {
                 Actions[i].LateUpdate();

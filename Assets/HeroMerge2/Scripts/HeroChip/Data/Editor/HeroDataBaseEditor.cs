@@ -37,6 +37,10 @@ public class HeroDataBaseEditor : Editor
         {
             AddInfo(data, EquipmentPart.MeleeWeapon1H);
         }
+        foreach (var data in dataBase.Bows)
+        {
+            AddInfo(data, EquipmentPart.Bow);
+        }
         EditorUtility.SetDirty(dataBase);
         AssetDatabase.SaveAssets();
     }
@@ -71,6 +75,7 @@ public class HeroDataBaseEditor : Editor
                     type = typeof(EquipmentShieldItem);
                 break;
                 case EquipmentPart.MeleeWeapon1H:
+                case EquipmentPart.Bow:
                     type = typeof(EquipmentWeaponItem);
                 break;
                 default:

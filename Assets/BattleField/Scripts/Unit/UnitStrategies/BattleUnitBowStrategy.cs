@@ -5,12 +5,13 @@ using UnityEngine;
 
 namespace BattleField
 {
-    public class BattleUnitBowStrategy : IBattleUnitStrategy
+    public class BattleUnitBowStrategy : BattleUnitAbstractStrategy
     {
         
-        public BattleUnitBowStrategy(BattleUnit unit)
-            : base(unit)
+        public override void Init(BattleUnit unit)
         {
+            base.Init(unit);
+
             Actions.Add(new BattleUnitAction_FindTarget(this));
             Actions.Add(new BattleUnitAction_Defense(this));
             Actions.Add(new BattleUnitAction_BowAttack(this));

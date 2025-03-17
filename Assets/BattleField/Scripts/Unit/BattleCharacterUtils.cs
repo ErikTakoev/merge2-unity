@@ -26,6 +26,9 @@ namespace BattleField
                 case EquipmentPart.Helmet:
                     collection = character.SpriteCollection.Helmet;
                     break;
+                case EquipmentPart.Bow:
+                    collection = character.SpriteCollection.Bow;
+                    break;
             }
             if (collection == null)
             {

@@ -7,13 +7,13 @@ namespace BattleField
     public class BattleUnitMover
     {
         public bool IsMoving { get { return Path != null; } }
-        private IBattleUnitStrategy strategy;
+        private BattleUnitAbstractStrategy strategy;
         bool moveUpdateEnable = true;
         BattleCell movingToCell;
         BattleUnit unit;
         List<BattleCell> Path;
 
-        public BattleUnitMover(IBattleUnitStrategy strategy)
+        public BattleUnitMover(BattleUnitAbstractStrategy strategy)
         {
             this.strategy = strategy;
             unit = strategy.Unit;

@@ -26,6 +26,13 @@ MonoBehaviour:
     Item: {fileID: 11400000, guid: 873e841800cfb8a45b7a57b2f2d1d1a6, type: 2}
   - ChipData: {fileID: 11400000, guid: 22078ae0bfee1f844ac9c35be2d28af0, type: 2}
     Item: {fileID: 11400000, guid: 7fb0c15253ee86740bd14717b3fca179, type: 2}
+  Bows:
+  - ChipData: {fileID: 11400000, guid: f6afec7deafc1b6429e3b754467905a8, type: 2}
+    Item: {fileID: 11400000, guid: 7ce83197ec3d2d047b52328b405dd77e, type: 2}
+  - ChipData: {fileID: 11400000, guid: 6807bf5d8d5849f499c2fff9eb2df7d1, type: 2}
+    Item: {fileID: 11400000, guid: c482d13b3fed86f4d9251535876aa86a, type: 2}
+  - ChipData: {fileID: 11400000, guid: 9ac6c1cda89140e47867a9f70866b7d7, type: 2}
+    Item: {fileID: 11400000, guid: 7b14ca6187340a84993a36173d521910, type: 2}
   Helmets:
   - ChipData: {fileID: 11400000, guid: 7cb35642c3492694b9dc5841941be8f0, type: 2}
     Item: {fileID: 11400000, guid: ccd6fcf1f6ac57f45aef9f4876e60e29, type: 2}

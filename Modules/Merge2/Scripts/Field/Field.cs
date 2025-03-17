@@ -54,12 +54,14 @@ namespace Merge2
         {
             (int, int)[] positions = new (int, int)[]
             {
+                (2, 2),
                 (2, 1),
                 (2, 2),
                 (1, 2),
                 (3, 2),
                 (1, 4),
-                (0, 0)
+                (0, 0),
+                (0, 2)
             };
             for (int i = 0; i < chipData.Length; i++)
             {

@@ -5,7 +5,7 @@ namespace BattleField
 {
     public class BattleUnitAction_MeleeAttack : BattleUnitAction
     {
-        public BattleUnitAction_MeleeAttack(IBattleUnitStrategy strategy)
+        public BattleUnitAction_MeleeAttack(BattleUnitAbstractStrategy strategy)
             : base (strategy)
         {
         }

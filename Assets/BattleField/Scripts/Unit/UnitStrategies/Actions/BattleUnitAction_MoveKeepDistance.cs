@@ -19,7 +19,7 @@ namespace BattleField
         float cooldownToReadyTimeLeft = CooldownToReady;
 
         
-        public BattleUnitAction_MoveKeepDistance(IBattleUnitStrategy strategy)
+        public BattleUnitAction_MoveKeepDistance(BattleUnitAbstractStrategy strategy)
             : base (strategy)
         {
             mover = strategy.Mover;

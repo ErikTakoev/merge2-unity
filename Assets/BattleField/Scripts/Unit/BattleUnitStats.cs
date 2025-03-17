@@ -8,6 +8,7 @@ namespace BattleField
     {
         [SerializeField]
         int Health = 50;
+        int FullHealth;
 
         [SerializeField]
         int Defense = 0;
@@ -24,6 +25,7 @@ namespace BattleField
         int MaxAttackDamage = 6;
 
         public event Action OnUnitDeadEvent;
+        public event Action<int, int> OnChangeHealth;
 
         public void Init(List<EquipmentItem> items)
         {
@@ -54,6 +56,11 @@ namespace BattleField
             }
         }
 
+        void Start()
+        {
+            FullHealth = Health;
+        }
+
         public bool IsBlocking()
         {
             if (ChanceBlockDamage == 0)
@@ -71,6 +78,11 @@ namespace BattleField
             return Defense;
         }
 
+        public int GetHealth()
+        {
+            return Health;
+        }
+
         public bool IsCritDamage()
         {
             return UnityEngine.Random.value * 100f < (50 - ChanceMinusCrit);
@@ -86,9 +98,13 @@ namespace BattleField
             if (Health <= 0)
             {
                 Health = 0;
+                OnChangeHealth?.Invoke(Health, FullHealth);
+                OnChangeHealth = null;
                 OnUnitDeadEvent?.Invoke();
                 OnUnitDeadEvent = null;
+                return;
             }
+            OnChangeHealth?.Invoke(Health, FullHealth);
         }
     }
 }

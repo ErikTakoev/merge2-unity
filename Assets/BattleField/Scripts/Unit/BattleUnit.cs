@@ -36,7 +36,7 @@ namespace BattleField
             }
         }
 
-        public IBattleUnitStrategy Strategy { get; private set; }
+        public BattleUnitAbstractStrategy Strategy { get; private set; }
 
         public bool IsMoving { get { return Strategy.Mover.IsMoving; } }
         public bool IsAttacking { get; set; }
@@ -99,7 +99,7 @@ namespace BattleField
             }
         }
 
-        public void Init(BattleHeroStyle? style, List<EquipmentItem> items, IBattleUnitStrategy strategy, BattleCell cell, bool isHero)
+        public void Init(BattleHeroStyle? style, List<EquipmentItem> items, BattleCell cell, bool isHero)
         {
             SetStyle(style);
             SetEquipments(items);
@@ -112,9 +112,23 @@ namespace BattleField
             unitStats.Init(items);
             unitStats.OnUnitDeadEvent += OnUnitDead;
 
-            Strategy = strategy;
             SetCell(cell);
             IsHero = isHero;
+            Strategy = GetComponent<BattleUnitAbstractStrategy>();
+            if (Strategy == null)
+            {
+                Strategy = GetStrategy();
+            }
+            Strategy.Init(this);
+        }
+
+        private BattleUnitAbstractStrategy GetStrategy()
+        {
+            if (Character.WeaponType == WeaponType.Bow)
+            {
+                return gameObject.AddComponent<BattleUnitBowStrategy>();
+            }
+            return gameObject.AddComponent<BattleUnitShieldStrategy>();
         }
 
         void OnUnitDead()
@@ -158,14 +172,6 @@ namespace BattleField
             if (IsDead) return;
 
             cooldownToReadyLeft += Time.deltaTime;
-            Strategy.Update();
-        }
-
-        void LateUpdate()
-        {
-            if (IsDead) return;
-
-            Strategy.LateUpdate();
         }
 
 

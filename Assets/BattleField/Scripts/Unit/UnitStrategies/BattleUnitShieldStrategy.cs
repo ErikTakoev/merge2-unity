@@ -5,12 +5,13 @@ using UnityEngine;
 
 namespace BattleField
 {
-    public class BattleUnitShieldStrategy : IBattleUnitStrategy
+    public class BattleUnitShieldStrategy : BattleUnitAbstractStrategy
     {
         
-        public BattleUnitShieldStrategy(BattleUnit unit)
-            : base(unit)
+        public override void Init(BattleUnit unit)
         {
+            base.Init(unit);
+
             Actions.Add(new BattleUnitAction_FindTarget(this));
             Actions.Add(new BattleUnitAction_DefenseShield(this));
             Actions.Add(new BattleUnitAction_Retreat(this));

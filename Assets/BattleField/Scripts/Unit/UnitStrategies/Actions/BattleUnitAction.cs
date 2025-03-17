@@ -4,8 +4,8 @@ namespace BattleField
 {
     public abstract class BattleUnitAction
     {
-        protected IBattleUnitStrategy strategy;
-        public BattleUnitAction(IBattleUnitStrategy strategy)
+        protected BattleUnitAbstractStrategy strategy;
+        public BattleUnitAction(BattleUnitAbstractStrategy strategy)
         {
             this.strategy = strategy;
         }

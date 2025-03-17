@@ -11,7 +11,7 @@ namespace BattleField
         BattleUnitMover mover;
 
         
-        public BattleUnitAction_Retreat(IBattleUnitStrategy strategy)
+        public BattleUnitAction_Retreat(BattleUnitAbstractStrategy strategy)
             : base (strategy)
         {
             mover = strategy.Mover;

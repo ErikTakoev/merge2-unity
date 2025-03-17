@@ -6,7 +6,7 @@ namespace BattleField
 {
     public class BattleUnitAction_DefenseShield : BattleUnitAction_Defense
     {
-        public BattleUnitAction_DefenseShield(IBattleUnitStrategy strategy)
+        public BattleUnitAction_DefenseShield(BattleUnitAbstractStrategy strategy)
             : base (strategy)
         {
         }

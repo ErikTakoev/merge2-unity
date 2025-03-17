@@ -6,6 +6,7 @@
         "Cinemachine",
         "Cooldown",
         "Findpathing",
+        "Lerp",
         "Mathf",
         "Pathfinding",
         "Scriptable"

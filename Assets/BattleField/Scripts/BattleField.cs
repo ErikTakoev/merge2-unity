@@ -9,6 +9,8 @@ namespace BattleField
     public class BattleField : MonoBehaviour
     {
         [SerializeReference]
+        BattleHeroHealthBar healthBar;
+        [SerializeReference]
         GameObject unitPrefab;
 
         [SerializeField]
@@ -60,6 +62,10 @@ namespace BattleField
             enemySpawner.OnSpawn += OnSpawnEnemy;
 
             heroBoss = CreateUnit(heroBossPrefab, null, null, true);
+            cinemachineTargetGroup.AddMember(heroBoss.transform, 1, 0.1f);
+            heroBoss.Stats.OnChangeHealth += healthBar.OnChangeHealth;
+            var health = heroBoss.Stats.GetHealth();
+            healthBar.OnChangeHealth(health, health);
         }
 
         public int GetUnitCount(bool isHero)
@@ -165,21 +171,7 @@ namespace BattleField
 
             hero.OnUnitDeadEvent += OnUnitDead;
 
-            IBattleUnitStrategy strategy = null;
-            if (hero.Character.WeaponType == HeroEditor.Common.Enums.WeaponType.Bow)
-            {
-                strategy = new BattleUnitBowStrategy(hero);
-            }
-            else if (hero.Character.WeaponType == HeroEditor.Common.Enums.WeaponType.Melee1H)
-            {
-                strategy = new BattleUnitShieldStrategy(hero);
-            }
-
-            hero.Init(style, items, strategy, spawnPoint, isHero);
-            if (isHero)
-            {
-                cinemachineTargetGroup.AddMember(hero.transform, 1, 0.1f);
-            }
+            hero.Init(style, items, spawnPoint, isHero);
 
             return hero;
         }
