@@ -55,6 +55,7 @@ namespace BattleField
             BattleCell unitCell = Unit.NextCell;
 
             mover.SetMovingCell(targetCell);
+            movingToCell = targetCell;
             if (Unit.LogEnable)
             {
                 Debug.Log($"Pathfinding: {Unit.name} start to find path to: Cell x:{movingToCell.CellPos.x}, y:{movingToCell.CellPos.y} from x: {Unit.Cell.CellPos.x}, y: {Unit.Cell.CellPos.y}");

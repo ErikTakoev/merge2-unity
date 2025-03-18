@@ -33,7 +33,7 @@ namespace BattleField
             if (distance <= 6)
             {
                 strategy.Mover.MoveStop();
-                result = true;
+                //result = true;
                 unitAnimator.SetBool("Ready", true);
                 
                 if (Unit.IsAttackReady)

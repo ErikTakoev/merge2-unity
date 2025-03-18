@@ -13,7 +13,7 @@ namespace BattleField
         TextMeshProUGUI textMesh;
         float originalWidth;
 
-        void Start()
+        void Awake()
         {
             originalWidth = healthValue.sizeDelta.x;
             healthImage = healthValue.GetComponent<Image>();

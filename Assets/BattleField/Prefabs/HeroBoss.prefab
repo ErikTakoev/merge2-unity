@@ -7080,7 +7080,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   character: {fileID: 4841423546578199555}
   unitStats: {fileID: 4153717717208565850}
-  LogEnable: 0
+  LogEnable: 1
 --- !u!58 &6103848980997341195
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -16915,7 +16915,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: -0.06, z: 0}
-  m_LocalScale: {x: 0.4, y: 0.4, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1624862221281330563}

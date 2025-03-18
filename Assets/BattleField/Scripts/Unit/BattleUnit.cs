@@ -64,6 +64,8 @@ namespace BattleField
 
         public bool IsHero { get; private set; }
 
+        Transform AnimationNode;
+
         public bool LogEnable = true;
 
         void SetStyle(BattleHeroStyle? styleValue)
@@ -103,6 +105,7 @@ namespace BattleField
         {
             SetStyle(style);
             SetEquipments(items);
+            AnimationNode = character.transform.parent;
 
             if (unitStats == null)
             {
@@ -134,6 +137,7 @@ namespace BattleField
         void OnUnitDead()
         {
             IsDead = true;
+            Strategy.Target = null;
             Character.SetState(CharacterState.DeathB);
             var pos = transform.position;
             pos.z += 1f;
@@ -178,10 +182,15 @@ namespace BattleField
 
         public void Turn(Vector3 target)
         {
-            var localScale = character.transform.localScale;
-            var direction = target.x - transform.position.x;
+            
+            var localScale = AnimationNode.localScale;
+            var direction = Mathf.Sign(target.x - AnimationNode.position.x);
+            if (LogEnable)
+            {
+                Debug.LogWarning($"Turn direction: {direction}");
+            }
 
-            character.transform.localScale = new Vector3(Mathf.Sign(direction) * localScale.y, localScale.y, 1);
+            AnimationNode.localScale = new Vector3(direction * localScale.y, localScale.y, 1);
         }
     }
 }

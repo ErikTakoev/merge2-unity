@@ -115,6 +115,11 @@ namespace BattleField
                     isJumping = true;
                     strategy.Mover.MoveStop();
                     Unit.SetCell(cell, false);
+                    for (int i = 0; i < followers.Count; i++)
+                    {
+                        // Всі хто атакував цього юніта - повинні знайти новий шлях до нього
+                        followers[i].Strategy.Mover.MoveStop();
+                    }
 
                     const float time = 0.5f;
                     Sequence jumpSequence = DOTween.Sequence();
