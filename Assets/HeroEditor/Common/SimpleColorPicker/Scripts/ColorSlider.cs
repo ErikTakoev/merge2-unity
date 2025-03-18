@@ -56,7 +56,7 @@ namespace Assets.HeroEditor4D.SimpleColorPicker.Scripts
 				var integer = Mathf.Min(int.Parse(value), MaxValue);
 
 				InputField.text = integer.ToString();
-				Slider.value = (float) integer / MaxValue;
+				Slider.value = (float)integer / MaxValue;
 				ColorPicker.OnSliderChanged();
 			}
 		}

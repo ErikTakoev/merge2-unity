@@ -6,92 +6,92 @@ using UnityEngine;
 
 namespace Assets.HeroEditor.FantasyHeroes.TestRoom.Scripts
 {
-    /// <summary>
-    /// The main script to control monsters.
-    /// </summary>
-    public class Monster : MonoBehaviour
-    {
-        public SpriteRenderer Head;
-        public List<Sprite> HeadSprites;
-        public Animator Animator;
-        public bool Variations;
-        public event Action<string> OnEvent = eventName => { };
-        
-        /// <summary>
-        /// Called on Awake.
-        /// </summary>
-        public void Awake()
-        {
-            if (Variations)
-            {
-                var variations = GetComponents<MonsterVariation>();
-                var random = UnityEngine.Random.Range(0, variations.Length + 1);
+	/// <summary>
+	/// The main script to control monsters.
+	/// </summary>
+	public class Monster : MonoBehaviour
+	{
+		public SpriteRenderer Head;
+		public List<Sprite> HeadSprites;
+		public Animator Animator;
+		public bool Variations;
+		public event Action<string> OnEvent = eventName => { };
 
-                if (random > 0)
-                {
-                    variations[random - 1].Apply();
-                }
-            }
+		/// <summary>
+		/// Called on Awake.
+		/// </summary>
+		public void Awake()
+		{
+			if (Variations)
+			{
+				var variations = GetComponents<MonsterVariation>();
+				var random = UnityEngine.Random.Range(0, variations.Length + 1);
 
-            GetComponent<LayerManager>().SetSortingGroupOrder((int) -transform.localPosition.y);
+				if (random > 0)
+				{
+					variations[random - 1].Apply();
+				}
+			}
 
-            var stateHandler = Animator.GetBehaviours<StateHandler>().SingleOrDefault(i => i.Name == "Death");
+			GetComponent<LayerManager>().SetSortingGroupOrder((int)-transform.localPosition.y);
 
-            if (stateHandler)
-            {
-                stateHandler.StateExit.AddListener(() => SetHead(0));
-            }
-        }
+			var stateHandler = Animator.GetBehaviours<StateHandler>().SingleOrDefault(i => i.Name == "Death");
 
-        /// <summary>
-        /// Set animation parameter State to control transitions. Play different state animations (except Attack).
-        /// </summary>
-        public void SetState(MonsterState state)
-        {
-            Animator.SetInteger("State", (int) state);
-        }
+			if (stateHandler)
+			{
+				stateHandler.StateExit.AddListener(() => SetHead(0));
+			}
+		}
 
-        /// <summary>
-        /// Play Attack animation.
-        /// </summary>
-        public void Attack()
-        {
-            Animator.SetTrigger("Attack");
-        }
+		/// <summary>
+		/// Set animation parameter State to control transitions. Play different state animations (except Attack).
+		/// </summary>
+		public void SetState(MonsterState state)
+		{
+			Animator.SetInteger("State", (int)state);
+		}
 
-        /// <summary>
-        /// Play scale spring animation.
-        /// </summary>
-        public virtual void Spring()
-        {
-            ScaleSpring.Begin(this, 1f, 1.1f, 40, 2);
-        }
+		/// <summary>
+		/// Play Attack animation.
+		/// </summary>
+		public void Attack()
+		{
+			Animator.SetTrigger("Attack");
+		}
 
-        // Play Die animation.
-        public void Die()
-        {
-            SetState(MonsterState.Death);
-        }
+		/// <summary>
+		/// Play scale spring animation.
+		/// </summary>
+		public virtual void Spring()
+		{
+			ScaleSpring.Begin(this, 1f, 1.1f, 40, 2);
+		}
 
-        /// <summary>
-        /// Called from animation. Can be used by the game to handle animation events.
-        /// </summary>
-        public void Event(string eventName)
-        {
-            OnEvent(eventName);
-        }
+		// Play Die animation.
+		public void Die()
+		{
+			SetState(MonsterState.Death);
+		}
 
-        /// <summary>
-        /// Called from animation.
-        /// </summary>
-        public void SetHead(int index)
-        {
-            if (index != 2 && Animator.GetInteger("State") == (int) MonsterState.Death) return;
+		/// <summary>
+		/// Called from animation. Can be used by the game to handle animation events.
+		/// </summary>
+		public void Event(string eventName)
+		{
+			OnEvent(eventName);
+		}
 
-            if (index < HeadSprites.Count)
-            {
-                Head.sprite = HeadSprites[index];
-            }
-        }
-    }
+		/// <summary>
+		/// Called from animation.
+		/// </summary>
+		public void SetHead(int index)
+		{
+			if (index != 2 && Animator.GetInteger("State") == (int)MonsterState.Death) return;
+
+			if (index < HeadSprites.Count)
+			{
+				Head.sprite = HeadSprites[index];
+			}
+		}
+	}
 }

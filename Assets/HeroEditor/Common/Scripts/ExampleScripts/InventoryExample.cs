@@ -7,29 +7,29 @@ using UnityEngine;
 
 namespace Assets.HeroEditor.Common.Scripts.ExampleScripts
 {
-    public class InventoryExample : MonoBehaviour
-    {
-        public ItemCollection ItemCollection;
-        public ScrollInventory Inventory;
-        public Character Character;
-        public AppearanceExample AppearanceExample;
+	public class InventoryExample : MonoBehaviour
+	{
+		public ItemCollection ItemCollection;
+		public ScrollInventory Inventory;
+		public Character Character;
+		public AppearanceExample AppearanceExample;
 
-        public void Awake()
-        {
-            // You must to set an active collection (as there may be several different collections in Resources).
-            ItemCollection.Active = ItemCollection;
-        }
+		public void Awake()
+		{
+			// You must to set an active collection (as there may be several different collections in Resources).
+			ItemCollection.Active = ItemCollection;
+		}
 
-        public void Start()
-        {
-            var items = ItemCollection.Items.Select(i => new Item(i.Id)).ToList();
+		public void Start()
+		{
+			var items = ItemCollection.Items.Select(i => new Item(i.Id)).ToList();
 
-            InventoryItem.OnLeftClick = item =>
-            {
-                Character.Equip(item);
-                AppearanceExample.Refresh();
-            };
-            Inventory.Initialize(ref items);
-        }
-    }
+			InventoryItem.OnLeftClick = item =>
+			{
+				Character.Equip(item);
+				AppearanceExample.Refresh();
+			};
+			Inventory.Initialize(ref items);
+		}
+	}
 }

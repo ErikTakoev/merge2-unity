@@ -19,7 +19,7 @@ namespace Assets.HeroEditor.Common.Scripts.CharacterScripts
 		{
 			if (SpriteCollection == null) throw new Exception("SpriteCollection is not set!");
 
-            var description = new Dictionary<string, string>
+			var description = new Dictionary<string, string>
 			{
 				{ "Head", SpriteToString(SpriteCollection.Head, HeadRenderer) },
 				{ "Body", SpriteToString(SpriteCollection.Body, BodyRenderers[0]) },
@@ -34,32 +34,32 @@ namespace Assets.HeroEditor.Common.Scripts.CharacterScripts
 				{ "Shield", SpriteToString(SpriteCollection.Shield, ShieldRenderer) },
 				{ "WeaponType", WeaponType.ToString() },
 				{ "Expression", Expression },
-                { "HideEars", HideEars.ToString() },
-                { "FullHair", FullHair.ToString() },
+				{ "HideEars", HideEars.ToString() },
+				{ "FullHair", FullHair.ToString() },
 				{ "BodyScaleX", BodyScale.x.ToString(CultureInfo.InvariantCulture) },
-                { "BodyScaleY", BodyScale.y.ToString(CultureInfo.InvariantCulture) }
+				{ "BodyScaleY", BodyScale.y.ToString(CultureInfo.InvariantCulture) }
 			};
 
-            switch (WeaponType)
-            {
-                case WeaponType.Melee1H:
-                case WeaponType.Melee2H:
-                case WeaponType.MeleePaired:
+			switch (WeaponType)
+			{
+				case WeaponType.Melee1H:
+				case WeaponType.Melee2H:
+				case WeaponType.MeleePaired:
 					description.Add("PrimaryMeleeWeapon", SpriteToString(GetWeaponCollection(WeaponType), PrimaryMeleeWeaponRenderer));
-                    description.Add("SecondaryMeleeWeapon", SpriteToString(GetWeaponCollection(WeaponType), SecondaryMeleeWeaponRenderer));
+					description.Add("SecondaryMeleeWeapon", SpriteToString(GetWeaponCollection(WeaponType), SecondaryMeleeWeaponRenderer));
 					break;
 				case WeaponType.Bow:
-                    description.Add("Bow", SpriteToString(SpriteCollection.Bow, BowRenderers[0]));
+					description.Add("Bow", SpriteToString(SpriteCollection.Bow, BowRenderers[0]));
 					break;
-                case WeaponType.Firearm1H:
-                case WeaponType.Firearm2H:
+				case WeaponType.Firearm1H:
+				case WeaponType.Firearm2H:
 					description.Add("Firearms", SpriteToString(GetWeaponCollection(WeaponType), FirearmsRenderers[0]));
-                    description.Add("FirearmParams", Firearm.Params.Name);
+					description.Add("FirearmParams", Firearm.Params.Name);
 					break;
 			}
 
 			for (var i = 0; i < ArmorRenderers.Count; i++)
-            {
+			{
 				description.Add($"Armor[{i}]", SpriteToString(SpriteCollection.Armor, ArmorRenderers[i]));
 			}
 
@@ -67,7 +67,7 @@ namespace Assets.HeroEditor.Common.Scripts.CharacterScripts
 			{
 				description.Add($"Expression.{expression.Name}.Eyebrows", SpriteToString(SpriteCollection.Eyebrows, expression.Eyebrows, EyebrowsRenderer.color));
 				description.Add($"Expression.{expression.Name}.Eyes", SpriteToString(SpriteCollection.Eyes, expression.Eyes, EyesRenderer.color));
-                description.Add($"Expression.{expression.Name}.EyesColor", "#" + ColorUtility.ToHtmlStringRGBA(expression.EyesColor));
+				description.Add($"Expression.{expression.Name}.EyesColor", "#" + ColorUtility.ToHtmlStringRGBA(expression.EyesColor));
 				description.Add($"Expression.{expression.Name}.Mouth", SpriteToString(SpriteCollection.Mouth, expression.Mouth, MouthRenderer.color));
 			}
 
@@ -76,7 +76,7 @@ namespace Assets.HeroEditor.Common.Scripts.CharacterScripts
 
 		public override void FromJson(string serialized)
 		{
-            if (SpriteCollection == null) throw new Exception("SpriteCollection is not set!");
+			if (SpriteCollection == null) throw new Exception("SpriteCollection is not set!");
 
 			var description = Serializer.DeserializeDict(serialized);
 
@@ -89,47 +89,47 @@ namespace Assets.HeroEditor.Common.Scripts.CharacterScripts
 			RestoreFromString(ref Glasses, GlassesRenderer, SpriteCollection.Glasses, description["Glasses"]);
 			RestoreFromString(ref Mask, MaskRenderer, SpriteCollection.Mask, description["Mask"]);
 
-            Armor = new List<Sprite>();
+			Armor = new List<Sprite>();
 			Bow = new List<Sprite>();
 			Firearms = new List<Sprite>();
 
 			for (var i = 0; i < ArmorRenderers.Count; i++)
-            {
-                Sprite sprite = null;
+			{
+				Sprite sprite = null;
 				RestoreFromString(ref sprite, ArmorRenderers[i], SpriteCollection.Armor, description[$"Armor[{i}]"], byRendererName: true);
 
 				if (sprite != null && !Armor.Contains(sprite)) Armor.Add(sprite);
 			}
-			
-			WeaponType = (WeaponType) Enum.Parse(typeof(WeaponType), description["WeaponType"]);
 
-            if (description.ContainsKey("PrimaryMeleeWeapon"))
-            {
-                RestoreFromString(ref PrimaryMeleeWeapon, PrimaryMeleeWeaponRenderer, GetWeaponCollection(WeaponType), description["PrimaryMeleeWeapon"]);
+			WeaponType = (WeaponType)Enum.Parse(typeof(WeaponType), description["WeaponType"]);
+
+			if (description.ContainsKey("PrimaryMeleeWeapon"))
+			{
+				RestoreFromString(ref PrimaryMeleeWeapon, PrimaryMeleeWeaponRenderer, GetWeaponCollection(WeaponType), description["PrimaryMeleeWeapon"]);
 			}
 
-            if (description.ContainsKey("SecondaryMeleeWeapon"))
-            {
-                RestoreFromString(ref SecondaryMeleeWeapon, SecondaryMeleeWeaponRenderer, GetWeaponCollection(WeaponType), description["SecondaryMeleeWeapon"]);
+			if (description.ContainsKey("SecondaryMeleeWeapon"))
+			{
+				RestoreFromString(ref SecondaryMeleeWeapon, SecondaryMeleeWeaponRenderer, GetWeaponCollection(WeaponType), description["SecondaryMeleeWeapon"]);
 			}
 
-            if (description.ContainsKey("Bow"))
-            {
+			if (description.ContainsKey("Bow"))
+			{
 				RestoreFromString(ref Bow, BowRenderers, SpriteCollection.Bow, description["Bow"]);
 			}
 
-            if (description.ContainsKey("Firearms"))
-            {
+			if (description.ContainsKey("Firearms"))
+			{
 				RestoreFromString(ref Firearms, FirearmsRenderers, GetWeaponCollection(WeaponType), description["Firearms"]);
 				Firearm.Params = FindFirearmParams(description["FirearmParams"]);
 				PrimaryMeleeWeapon = SecondaryMeleeWeapon = null;
-                Bow = null;
-            }
-            else
-            {
-                Firearm.Params = new FirearmParams();
-                Firearms = null;
-            }
+				Bow = null;
+			}
+			else
+			{
+				Firearm.Params = new FirearmParams();
+				Firearms = null;
+			}
 
 			RestoreFromString(ref Cape, CapeRenderer, SpriteCollection.Cape, description["Cape"]);
 			RestoreFromString(ref Back, BackRenderer, SpriteCollection.Back, description["Back"]);
@@ -160,7 +160,7 @@ namespace Assets.HeroEditor.Common.Scripts.CharacterScripts
 						case "Eyes":
 							RestoreFromString(ref expression.Eyes, EyesRenderer, SpriteCollection.Eyes, description[key]);
 							break;
-                        case "EyesColor":
+						case "EyesColor":
 							ColorUtility.TryParseHtmlString(description[key], out var color);
 							//if (Mathf.Approximately(color.a, 0)) color = expressionName == "Dead" ? new Color32(255, 255, 255, 255) : new Color32(0, 200, 255, 255);
 							expression.EyesColor = color;
@@ -174,7 +174,7 @@ namespace Assets.HeroEditor.Common.Scripts.CharacterScripts
 				}
 			}
 
-            HideEars = bool.Parse(description["HideEars"]);
+			HideEars = bool.Parse(description["HideEars"]);
 			FullHair = bool.Parse(description["FullHair"]);
 			BodyScale = new Vector2(float.Parse(description["BodyScaleX"], CultureInfo.InvariantCulture), float.Parse(description["BodyScaleY"], CultureInfo.InvariantCulture));
 			Initialize();
@@ -209,10 +209,10 @@ namespace Assets.HeroEditor.Common.Scripts.CharacterScripts
 
 			var entry = collection.SingleOrDefault(i => i.Sprites.Contains(sprite));
 
-		    if (entry == null)
-		    {
-		        throw new Exception($"Can't find {sprite.name} in SpriteCollection.");
-		    }
+			if (entry == null)
+			{
+				throw new Exception($"Can't find {sprite.name} in SpriteCollection.");
+			}
 
 			var result = color == Color.white ? entry.Id : entry.Id + "#" + ColorUtility.ToHtmlStringRGBA(color);
 
@@ -242,7 +242,7 @@ namespace Assets.HeroEditor.Common.Scripts.CharacterScripts
 			switch (entries.Count)
 			{
 				case 1:
-                    sprite = byRendererName ? entries[0].Sprites.SingleOrDefault(i => i.name == renderer.name.Split('[')[0]) : entries[0].Sprite;
+					sprite = byRendererName ? entries[0].Sprites.SingleOrDefault(i => i.name == renderer.name.Split('[')[0]) : entries[0].Sprite;
 					renderer.color = color;
 					break;
 				case 0:
@@ -263,7 +263,7 @@ namespace Assets.HeroEditor.Common.Scripts.CharacterScripts
 					renderer.sprite = null;
 					renderer.color = Color.white;
 				}
-				
+
 				return;
 			}
 

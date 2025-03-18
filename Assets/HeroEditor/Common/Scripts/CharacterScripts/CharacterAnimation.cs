@@ -3,72 +3,72 @@ using UnityEngine;
 
 namespace Assets.HeroEditor.Common.Scripts.CharacterScripts
 {
-    public partial class Character
-    {
-        public void ResetAnimation()
-        {
-            SetState(CharacterState.Idle);
-            UpdateAnimation();
-        }
+	public partial class Character
+	{
+		public void ResetAnimation()
+		{
+			SetState(CharacterState.Idle);
+			UpdateAnimation();
+		}
 
-        public void GetReady()
-        {
-            Animator.SetBool("Ready", true);
-        }
+		public void GetReady()
+		{
+			Animator.SetBool("Ready", true);
+		}
 
-        public void Relax()
-        {
-            Animator.SetBool("Ready", false);
-        }
+		public void Relax()
+		{
+			Animator.SetBool("Ready", false);
+		}
 
-        public bool IsReady()
-        {
-            return Animator.GetBool("Ready");
-        }
+		public bool IsReady()
+		{
+			return Animator.GetBool("Ready");
+		}
 
-        public void SetState(CharacterState state)
-        {
-            switch (state)
-            {
-                case CharacterState.Ready:
-                    GetReady();
-                    state = CharacterState.Idle;
-                    break;
-                case CharacterState.Relax:
-                    Relax();
-                    state = CharacterState.Idle;
-                    break;
-            }
+		public void SetState(CharacterState state)
+		{
+			switch (state)
+			{
+				case CharacterState.Ready:
+					GetReady();
+					state = CharacterState.Idle;
+					break;
+				case CharacterState.Relax:
+					Relax();
+					state = CharacterState.Idle;
+					break;
+			}
 
-            Animator.SetInteger("State", (int) state);
-        }
+			Animator.SetInteger("State", (int)state);
+		}
 
-        public CharacterState GetState()
-        {
-            return (CharacterState) Animator.GetInteger("State");
-        }
+		public CharacterState GetState()
+		{
+			return (CharacterState)Animator.GetInteger("State");
+		}
 
-        public void Slash()
-        {
-            Animator.SetTrigger("Slash");
-        }
+		public void Slash()
+		{
+			Animator.SetTrigger("Slash");
+		}
 
-        public void Jab()
-        {
-            Animator.SetTrigger("Jab");
-        }
+		public void Jab()
+		{
+			Animator.SetTrigger("Jab");
+		}
 
-        public IEnumerator Shoot()
-        {
-            Animator.SetInteger("Charge", 1); // 0 = ready, 1 = charging, 2 = release, 3 = cancel.
+		public IEnumerator Shoot()
+		{
+			Animator.SetInteger("Charge", 1); // 0 = ready, 1 = charging, 2 = release, 3 = cancel.
 
-            yield return new WaitForSeconds(1);
+			yield return new WaitForSeconds(1);
 
-            Animator.SetInteger("Charge", 2);
+			Animator.SetInteger("Charge", 2);
 
-            yield return new WaitForSeconds(1);
+			yield return new WaitForSeconds(1);
 
-            Animator.SetInteger("Charge", 0);
-        }
-    }
+			Animator.SetInteger("Charge", 0);
+		}
+	}
 }

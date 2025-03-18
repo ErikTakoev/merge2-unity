@@ -8,13 +8,13 @@ namespace Assets.HeroEditor4D.SimpleColorPicker.Scripts
 	/// </summary>
 	public class RainbowGenerator : MonoBehaviour
 	{
-		public void Start ()
+		public void Start()
 		{
 			var texture = new Texture2D(1, 128);
 
 			for (var i = 0; i < texture.height; i++)
 			{
-				texture.SetPixel(0, i, Color.HSVToRGB((float) i / (texture.height - 1), 1f, 1f));
+				texture.SetPixel(0, i, Color.HSVToRGB((float)i / (texture.height - 1), 1f, 1f));
 			}
 
 			texture.Apply();

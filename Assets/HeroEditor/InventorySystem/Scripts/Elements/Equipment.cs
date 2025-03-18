@@ -9,135 +9,135 @@ using UnityEngine;
 
 namespace Assets.HeroEditor.InventorySystem.Scripts.Elements
 {
-    /// <summary>
-    /// Represents hero (player) equipment. Based on equipment slots.
-    /// </summary>
-    public class Equipment : ItemContainer
-    {
-        public Action OnRefresh;
+	/// <summary>
+	/// Represents hero (player) equipment. Based on equipment slots.
+	/// </summary>
+	public class Equipment : ItemContainer
+	{
+		public Action OnRefresh;
 
-        /// <summary>
-        /// Defines what kinds of items can be equipped.
-        /// </summary>
-        public List<ItemSlot> Slots;
+		/// <summary>
+		/// Defines what kinds of items can be equipped.
+		/// </summary>
+		public List<ItemSlot> Slots;
 
-        /// <summary>
-        /// Equipped items will be instantiated in front of equipment slots.
-        /// </summary>
-        public InventoryItem ItemPrefab;
+		/// <summary>
+		/// Equipped items will be instantiated in front of equipment slots.
+		/// </summary>
+		public InventoryItem ItemPrefab;
 
-	    /// <summary>
-	    /// Character preview.
-	    /// </summary>
+		/// <summary>
+		/// Character preview.
+		/// </summary>
 		public Character Preview;
 
-        public Transform Scheme;
-        public int BagSize;
+		public Transform Scheme;
+		public int BagSize;
 
-        public readonly List<InventoryItem> InventoryItems = new List<InventoryItem>(); 
+		public readonly List<InventoryItem> InventoryItems = new List<InventoryItem>();
 
-        public void OnValidate()
-        {
-            if (Application.isPlaying) return;
+		public void OnValidate()
+		{
+			if (Application.isPlaying) return;
 
-            Slots = GetComponentsInChildren<ItemSlot>(true).ToList();
+			Slots = GetComponentsInChildren<ItemSlot>(true).ToList();
 
-            //if (Character == null)
-            //{
-            //    Character = FindObjectOfType<Character>();
-            //}
-        }
-
-	    public void Start()
-	    {
-		    //Character.Animator.SetBool("Ready", false);
+			//if (Character == null)
+			//{
+			//    Character = FindObjectOfType<Character>();
+			//}
 		}
 
-        public void SetBagSize(int size)
-        {
-            BagSize = size;
+		public void Start()
+		{
+			//Character.Animator.SetBool("Ready", false);
+		}
 
-            var supplies = GetComponentsInChildren<ItemSlot>(true).Where(i => i.Types.Contains(ItemType.Supply)).ToList();
+		public void SetBagSize(int size)
+		{
+			BagSize = size;
 
-            for (var i = 0; i < supplies.Count; i++)
-            {
-                supplies[i].Locked = i >= size;
-            }
-        }
+			var supplies = GetComponentsInChildren<ItemSlot>(true).Where(i => i.Types.Contains(ItemType.Supply)).ToList();
 
-        public bool SelectAny()
-        {
-            if (InventoryItems.Count > 0)
-            {
-                InventoryItems[0].Select(true);
+			for (var i = 0; i < supplies.Count; i++)
+			{
+				supplies[i].Locked = i >= size;
+			}
+		}
 
-                return true;
-            }
+		public bool SelectAny()
+		{
+			if (InventoryItems.Count > 0)
+			{
+				InventoryItems[0].Select(true);
 
-            return false;
-        }
+				return true;
+			}
 
-        public override void Refresh(Item selected)
-        {
-            var items = Slots.Select(FindItem).Where(i => i != null).ToList();
+			return false;
+		}
 
-            Reset();
+		public override void Refresh(Item selected)
+		{
+			var items = Slots.Select(FindItem).Where(i => i != null).ToList();
 
-            foreach (var slot in Slots)
-            {
-                var item = FindItem(slot);
+			Reset();
 
-                slot.gameObject.SetActive(item == null);
+			foreach (var slot in Slots)
+			{
+				var item = FindItem(slot);
 
-                if (item == null) continue;
+				slot.gameObject.SetActive(item == null);
 
-                var inventoryItem = Instantiate(ItemPrefab, slot.transform.parent);
+				if (item == null) continue;
 
-                inventoryItem.Initialize(item);
-                inventoryItem.Count.text = null;
-                inventoryItem.transform.position = slot.transform.position;
-                inventoryItem.transform.SetSiblingIndex(slot.transform.GetSiblingIndex());
-                
-                if (AutoSelect) inventoryItem.Select(item == selected);
+				var inventoryItem = Instantiate(ItemPrefab, slot.transform.parent);
 
-                InventoryItems.Add(inventoryItem);
-            }
+				inventoryItem.Initialize(item);
+				inventoryItem.Count.text = null;
+				inventoryItem.transform.position = slot.transform.position;
+				inventoryItem.transform.SetSiblingIndex(slot.transform.GetSiblingIndex());
 
-            if (Preview)
-            {
-                CharacterInventorySetup.Setup(Preview, items);
-                Preview.Initialize();
-            }
+				if (AutoSelect) inventoryItem.Select(item == selected);
 
-            OnRefresh?.Invoke();
-        }
+				InventoryItems.Add(inventoryItem);
+			}
 
-        private void Reset()
-        {
-            foreach (var inventoryItem in InventoryItems)
-            {
-                Destroy(inventoryItem.gameObject);
-            }
+			if (Preview)
+			{
+				CharacterInventorySetup.Setup(Preview, items);
+				Preview.Initialize();
+			}
 
-            InventoryItems.Clear();
-        }
+			OnRefresh?.Invoke();
+		}
 
-        private Item FindItem(ItemSlot slot)
-        {
-            if (slot.Types.Contains(ItemType.Shield))
-            {
-                var copy = Items.SingleOrDefault(i => i.Params.Type == ItemType.Weapon && (i.IsTwoHanded || i.IsFirearm));
+		private void Reset()
+		{
+			foreach (var inventoryItem in InventoryItems)
+			{
+				Destroy(inventoryItem.gameObject);
+			}
 
-                if (copy != null)
-                {
-                    return copy;
-                }
-            }
+			InventoryItems.Clear();
+		}
 
-            var index = Slots.Where(i => i.Types.SequenceEqual(slot.Types)).ToList().IndexOf(slot);
-            var items = Items.Where(slot.Supports).ToList();
+		private Item FindItem(ItemSlot slot)
+		{
+			if (slot.Types.Contains(ItemType.Shield))
+			{
+				var copy = Items.SingleOrDefault(i => i.Params.Type == ItemType.Weapon && (i.IsTwoHanded || i.IsFirearm));
 
-            return index < items.Count ? items[index] : null;
-        }
-    }
+				if (copy != null)
+				{
+					return copy;
+				}
+			}
+
+			var index = Slots.Where(i => i.Types.SequenceEqual(slot.Types)).ToList().IndexOf(slot);
+			var items = Items.Where(slot.Supports).ToList();
+
+			return index < items.Count ? items[index] : null;
+		}
+	}
 }

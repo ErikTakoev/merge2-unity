@@ -5,89 +5,89 @@ using UnityEngine;
 
 namespace Assets.HeroEditor.InventorySystem.Scripts.Elements
 {
-    /// <summary>
-    /// Abstract item workspace. It can be shop or player inventory. Items can be managed here (selected, moved and so on).
-    /// </summary>
-    public abstract class ItemWorkspace : MonoBehaviour
-    {
-        public ItemCollection ItemCollection;
-        public ItemInfo ItemInfo;
+	/// <summary>
+	/// Abstract item workspace. It can be shop or player inventory. Items can be managed here (selected, moved and so on).
+	/// </summary>
+	public abstract class ItemWorkspace : MonoBehaviour
+	{
+		public ItemCollection ItemCollection;
+		public ItemInfo ItemInfo;
 
-        public static float SfxVolume = 1;
-        public const string CurrencyId = "Gold";
+		public static float SfxVolume = 1;
+		public const string CurrencyId = "Gold";
 
-        public Item SelectedItem { get; protected set; }
-        
-        public abstract void Refresh();
+		public Item SelectedItem { get; protected set; }
 
-        protected void Reset()
-        {
-            SelectedItem = null;
-            ItemInfo.Reset();
-        }
+		public abstract void Refresh();
 
-        protected void MoveItem(Item item, ItemContainer from, ItemContainer to, int amount = 1, string currencyId = null)
-        {
-            MoveItemSilent(item, from, to, amount);
-            
-            var moved = to.Items.Last(i => i.Hash == item.Hash);
+		protected void Reset()
+		{
+			SelectedItem = null;
+			ItemInfo.Reset();
+		}
 
-            if (from.Stacked)
-            {
-                if (item.Count == 0)
-                {
-                    SelectedItem = currencyId == null ? moved : from.Items.Single(i => i.Id == currencyId);
-                }
-            }
-            else
-            {
-                SelectedItem = from.Items.LastOrDefault(i => i.Hash == item.Hash) ?? moved;
-            }
+		protected void MoveItem(Item item, ItemContainer from, ItemContainer to, int amount = 1, string currencyId = null)
+		{
+			MoveItemSilent(item, from, to, amount);
 
-            Refresh();
-            from.Refresh(SelectedItem);
-            to.Refresh(SelectedItem);
-        }
+			var moved = to.Items.Last(i => i.Hash == item.Hash);
 
-        public void MoveItemSilent(Item item, ItemContainer from, ItemContainer to, int amount = 1)
-        {
-            if (item.Count <= 0) throw new ArgumentException("item.Count <= 0");
-            if (amount <= 0) throw new ArgumentException("amount <= 0");
-            if (item.Count < amount) throw new ArgumentException("item.Count < amount");
+			if (from.Stacked)
+			{
+				if (item.Count == 0)
+				{
+					SelectedItem = currencyId == null ? moved : from.Items.Single(i => i.Id == currencyId);
+				}
+			}
+			else
+			{
+				SelectedItem = from.Items.LastOrDefault(i => i.Hash == item.Hash) ?? moved;
+			}
 
-            if (to.Stacked)
-            {
-                var target = to.Items.SingleOrDefault(i => i.Hash == item.Hash);
+			Refresh();
+			from.Refresh(SelectedItem);
+			to.Refresh(SelectedItem);
+		}
 
-                if (target == null)
-                {
-                    to.Items.Add(new Item(item.Id, item.Modifier, amount));
-                }
-                else
-                {
-                    target.Count += amount;
-                }
-            }
-            else
-            {
-                to.Items.Add(new Item(item.Id, item.Modifier, amount));
-            }
+		public void MoveItemSilent(Item item, ItemContainer from, ItemContainer to, int amount = 1)
+		{
+			if (item.Count <= 0) throw new ArgumentException("item.Count <= 0");
+			if (amount <= 0) throw new ArgumentException("amount <= 0");
+			if (item.Count < amount) throw new ArgumentException("item.Count < amount");
 
-            var moved = to.Items.Last(i => i.Hash == item.Hash);
+			if (to.Stacked)
+			{
+				var target = to.Items.SingleOrDefault(i => i.Hash == item.Hash);
 
-            if (from.Stacked)
-            {
-                item.Count -= amount;
+				if (target == null)
+				{
+					to.Items.Add(new Item(item.Id, item.Modifier, amount));
+				}
+				else
+				{
+					target.Count += amount;
+				}
+			}
+			else
+			{
+				to.Items.Add(new Item(item.Id, item.Modifier, amount));
+			}
 
-                if (item.Count == 0)
-                {
-                    from.Items.Remove(item);
-                }
-            }
-            else
-            {
-                from.Items.Remove(item);
-            }
-        }
-    }
+			var moved = to.Items.Last(i => i.Hash == item.Hash);
+
+			if (from.Stacked)
+			{
+				item.Count -= amount;
+
+				if (item.Count == 0)
+				{
+					from.Items.Remove(item);
+				}
+			}
+			else
+			{
+				from.Items.Remove(item);
+			}
+		}
+	}
 }

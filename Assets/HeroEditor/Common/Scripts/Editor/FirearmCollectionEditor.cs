@@ -5,32 +5,32 @@ using UnityEngine;
 
 namespace Assets.HeroEditor.Common.Scripts.Editor
 {
-    /// <summary>
-    /// Add "Refresh" button to SpriteCollection script
-    /// </summary>
-    [CustomEditor(typeof(FirearmCollection))]
-    public class FirearmCollectionEditor : UnityEditor.Editor
-    {
-        public override void OnInspectorGUI()
-        {
-            DrawDefaultInspector();
+	/// <summary>
+	/// Add "Refresh" button to SpriteCollection script
+	/// </summary>
+	[CustomEditor(typeof(FirearmCollection))]
+	public class FirearmCollectionEditor : UnityEditor.Editor
+	{
+		public override void OnInspectorGUI()
+		{
+			DrawDefaultInspector();
 
-            var firearmCollection = (FirearmCollection) target;
+			var firearmCollection = (FirearmCollection)target;
 
-            if (GUILayout.Button("Remove excess"))
-            {
-	            firearmCollection.RemoveExcess();
-            }
+			if (GUILayout.Button("Remove excess"))
+			{
+				firearmCollection.RemoveExcess();
+			}
 
-            if (GUILayout.Button("Sort by name"))
-            {
+			if (GUILayout.Button("Sort by name"))
+			{
 				firearmCollection.Firearms = firearmCollection.Firearms.OrderBy(i => i.Name).ToList();
 			}
 
-	        if (GUILayout.Button("Update names"))
-	        {
-		        firearmCollection.UpdateNames();
-	        }
+			if (GUILayout.Button("Update names"))
+			{
+				firearmCollection.UpdateNames();
+			}
 		}
-    }
+	}
 }

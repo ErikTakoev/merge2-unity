@@ -69,7 +69,7 @@ namespace Assets.HeroEditor.Common.Scripts.ExampleScripts
 		public static Character CreateCharacter(GameObject prefab, CharacterData characterData)
 		{
 			var character = Object.Instantiate(prefab).GetComponent<Character>();
-            var spriteCollection = character.SpriteCollection;
+			var spriteCollection = character.SpriteCollection;
 
 			character.Helmet = spriteCollection.Helmet.Single(i => i.Name == characterData.Helmet).Sprite;
 			character.Armor = spriteCollection.Armor.Single(i => i.Name == characterData.Armor).Sprites;

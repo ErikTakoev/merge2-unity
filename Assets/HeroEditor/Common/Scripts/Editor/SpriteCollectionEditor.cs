@@ -5,23 +5,23 @@ using UnityEngine;
 
 namespace Assets.HeroEditor.Common.Scripts.Editor
 {
-    /// <summary>
-    /// Add "Refresh" button to SpriteCollection script
-    /// </summary>
-    [CustomEditor(typeof(SpriteCollection))]
-    public class SpriteCollectionEditor : UnityEditor.Editor
-    {
-        public override void OnInspectorGUI()
-        {
-            DrawDefaultInspector();
+	/// <summary>
+	/// Add "Refresh" button to SpriteCollection script
+	/// </summary>
+	[CustomEditor(typeof(SpriteCollection))]
+	public class SpriteCollectionEditor : UnityEditor.Editor
+	{
+		public override void OnInspectorGUI()
+		{
+			DrawDefaultInspector();
 
-            var spriteCollection = (SpriteCollection) target;
+			var spriteCollection = (SpriteCollection)target;
 
-            if (GUILayout.Button("Refresh"))
-            {
-	            Debug.ClearDeveloperConsole();
+			if (GUILayout.Button("Refresh"))
+			{
+				Debug.ClearDeveloperConsole();
 				SpriteCollectionRefresh.Refresh(spriteCollection);
-            }
-        }
-    }
+			}
+		}
+	}
 }

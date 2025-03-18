@@ -4,35 +4,35 @@ using UnityEngine.UI;
 
 namespace BattleField
 {
-    public class BattleHeroHealthBar : MonoBehaviour
-    {
-        [SerializeField]
-        RectTransform healthValue;
-        Image healthImage;
-        [SerializeField]
-        TextMeshProUGUI textMesh;
-        float originalWidth;
+	public class BattleHeroHealthBar : MonoBehaviour
+	{
+		[SerializeField]
+		RectTransform healthValue;
+		Image healthImage;
+		[SerializeField]
+		TextMeshProUGUI textMesh;
+		float originalWidth;
 
-        void Awake()
-        {
-            originalWidth = healthValue.sizeDelta.x;
-            healthImage = healthValue.GetComponent<Image>();
-        }
+		void Awake()
+		{
+			originalWidth = healthValue.sizeDelta.x;
+			healthImage = healthValue.GetComponent<Image>();
+		}
 
-        public void OnChangeHealth(int newValue, int fullHealth)
-        {
-            var value = newValue / (float)fullHealth;
-            Color redColor = Color.red;
-            Color greenColor = Color.green;
-            Color color = Color.Lerp(redColor, greenColor, value);
-            
-            var size = healthValue.sizeDelta;
-            size.x = value * originalWidth;
-            healthValue.sizeDelta = size;
+		public void OnChangeHealth(int newValue, int fullHealth)
+		{
+			var value = newValue / (float)fullHealth;
+			Color redColor = Color.red;
+			Color greenColor = Color.green;
+			Color color = Color.Lerp(redColor, greenColor, value);
 
-            healthImage.color = color;
+			var size = healthValue.sizeDelta;
+			size.x = value * originalWidth;
+			healthValue.sizeDelta = size;
 
-            textMesh.SetText($"{newValue}/{fullHealth}");
-        }
-    }
+			healthImage.color = color;
+
+			textMesh.SetText($"{newValue}/{fullHealth}");
+		}
+	}
 }

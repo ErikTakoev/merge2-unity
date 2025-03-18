@@ -12,7 +12,7 @@ namespace Assets.HeroEditor.Common.Scripts.Collections
 	[CreateAssetMenu(fileName = "FirearmCollection", menuName = "HeroEditor/FirearmCollection")]
 	public class FirearmCollection : ScriptableObject
 	{
-        public string Id;
+		public string Id;
 		public List<FirearmParams> Firearms;
 
 		public static Dictionary<string, FirearmCollection> Instances = new Dictionary<string, FirearmCollection>();
@@ -22,9 +22,9 @@ namespace Assets.HeroEditor.Common.Scripts.Collections
 		{
 			Instances = Resources.LoadAll<FirearmCollection>("").ToDictionary(i => i.Id, i => i);
 		}
-		
+
 		public void OnValidate()
-        {
+		{
 			var spriteCollection = FindObjectOfType<SpriteCollection>();
 
 			if (spriteCollection == null) return;

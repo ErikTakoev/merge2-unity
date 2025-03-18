@@ -15,15 +15,15 @@ namespace Assets.HeroEditor.Common.Scripts.ExampleScripts
 			Character.ResetAnimation();
 		}
 
-        public void GetReady()
-        {
-            Character.GetReady();
-        }
+		public void GetReady()
+		{
+			Character.GetReady();
+		}
 
-        public void Relax()
-        {
-            Character.Relax();
-        }
+		public void Relax()
+		{
+			Character.Relax();
+		}
 
 		public void Idle()
 		{
@@ -32,17 +32,17 @@ namespace Assets.HeroEditor.Common.Scripts.ExampleScripts
 
 		public void Walk()
 		{
-            Character.SetState(CharacterState.Walk);
+			Character.SetState(CharacterState.Walk);
 		}
 
 		public void Run()
 		{
-            Character.SetState(CharacterState.Run);
+			Character.SetState(CharacterState.Run);
 		}
 
 		public void Jump()
 		{
-            Character.SetState(CharacterState.Jump);
+			Character.SetState(CharacterState.Jump);
 		}
 
 		public void Slash()
@@ -55,8 +55,8 @@ namespace Assets.HeroEditor.Common.Scripts.ExampleScripts
 			Character.Jab();
 		}
 
-        public void Die()
-        {
+		public void Die()
+		{
 			Character.SetState(CharacterState.DeathB);
 		}
 	}

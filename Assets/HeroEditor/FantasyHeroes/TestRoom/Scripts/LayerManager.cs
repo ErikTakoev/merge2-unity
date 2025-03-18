@@ -5,113 +5,113 @@ using UnityEngine.Rendering;
 
 namespace Assets.HeroEditor.FantasyHeroes.TestRoom.Scripts
 {
-    /// <summary>
-    /// Used to order sprite layers (monster parts).
-    /// </summary>
-    public class LayerManager : MonoBehaviour
-    {
-        /// <summary>
-        /// Full list of sprites
-        /// </summary>
-        public List<SpriteRenderer> Sprites;
+	/// <summary>
+	/// Used to order sprite layers (monster parts).
+	/// </summary>
+	public class LayerManager : MonoBehaviour
+	{
+		/// <summary>
+		/// Full list of sprites
+		/// </summary>
+		public List<SpriteRenderer> Sprites;
 
-        /// <summary>
-        /// SortingGroup can be used when you have multiple monster on scene.
-        /// </summary>
-        public SortingGroup SortingGroup;
+		/// <summary>
+		/// SortingGroup can be used when you have multiple monster on scene.
+		/// </summary>
+		public SortingGroup SortingGroup;
 
 		/// <summary>
 		/// Two different characters must have different offsets (0 and 1000 for example).
 		/// </summary>
 		public int SortingOrderOffset;
 
-        /// <summary>
-        /// Step between two sprites (layers).
-        /// </summary>
-        public int SortingOrderStep = 5;
+		/// <summary>
+		/// Step between two sprites (layers).
+		/// </summary>
+		public int SortingOrderStep = 5;
 
-        /// <summary>
-        /// Step between two sprites (layers).
-        /// </summary>
-        public float ZStep = 0.00001f;
+		/// <summary>
+		/// Step between two sprites (layers).
+		/// </summary>
+		public float ZStep = 0.00001f;
 
-        /// <summary>
-        /// Set layers order by Sorting Order.
-        /// </summary>
-        public void SetOrderBySortingOrder()
-        {
-            for (var i = 0; i < Sprites.Count; i++)
-            {
-                Sprites[i].sortingOrder = SortingOrderStep * i + SortingOrderOffset;
-                SetLocalZ(Sprites[i], 0);
-            }
+		/// <summary>
+		/// Set layers order by Sorting Order.
+		/// </summary>
+		public void SetOrderBySortingOrder()
+		{
+			for (var i = 0; i < Sprites.Count; i++)
+			{
+				Sprites[i].sortingOrder = SortingOrderStep * i + SortingOrderOffset;
+				SetLocalZ(Sprites[i], 0);
+			}
 
-            SetDirty();
-        }
+			SetDirty();
+		}
 
-        /// <summary>
-        /// Set layers order by Z coordinate.
-        /// </summary>
-        public void SetOrderByZCoordinate()
-        {
-            Debug.LogWarning("Note: you may need to disable hair masks to avoid hair operlapping issues! In current Unity version [2017] masks are applied to all sprites by Sorting Order.");
+		/// <summary>
+		/// Set layers order by Z coordinate.
+		/// </summary>
+		public void SetOrderByZCoordinate()
+		{
+			Debug.LogWarning("Note: you may need to disable hair masks to avoid hair operlapping issues! In current Unity version [2017] masks are applied to all sprites by Sorting Order.");
 
-            for (var j = 0; j < 10; j++) // Workaround for nested structure for setting Z world coordinate.
-            for (var i = 0; i < Sprites.Count; i++)
-            {
-                Sprites[i].sortingOrder = 10;
-                SetZ(Sprites[i], -i * ZStep);
-            }
+			for (var j = 0; j < 10; j++) // Workaround for nested structure for setting Z world coordinate.
+				for (var i = 0; i < Sprites.Count; i++)
+				{
+					Sprites[i].sortingOrder = 10;
+					SetZ(Sprites[i], -i * ZStep);
+				}
 
-            SetDirty();
-        }
+			SetDirty();
+		}
 
-        /// <summary>
-        /// Read ordered sprite list by Sorting Order.
-        /// </summary>
-        public void ReadCurrentOrderBySortingOrder()
-        {
-            Sprites = GetComponentsInChildren<SpriteRenderer>(true).OrderBy(i => i.sortingOrder).ToList();
-            SetDirty();
-        }
+		/// <summary>
+		/// Read ordered sprite list by Sorting Order.
+		/// </summary>
+		public void ReadCurrentOrderBySortingOrder()
+		{
+			Sprites = GetComponentsInChildren<SpriteRenderer>(true).OrderBy(i => i.sortingOrder).ToList();
+			SetDirty();
+		}
 
-        /// <summary>
-        /// Read ordered sprite list by Z coordinate.
-        /// </summary>
-        public void ReadCurrentOrderByZCoordinate()
-        {
-            Sprites = GetComponentsInChildren<SpriteRenderer>(true).OrderBy(i => -i.transform.position.z).ToList();
-            SetDirty();
-        }
+		/// <summary>
+		/// Read ordered sprite list by Z coordinate.
+		/// </summary>
+		public void ReadCurrentOrderByZCoordinate()
+		{
+			Sprites = GetComponentsInChildren<SpriteRenderer>(true).OrderBy(i => -i.transform.position.z).ToList();
+			SetDirty();
+		}
 
-	    public void SetSortingGroupOrder(int index)
-	    {
-		    SortingGroup.sortingOrder = index;
-	    }
+		public void SetSortingGroupOrder(int index)
+		{
+			SortingGroup.sortingOrder = index;
+		}
 
 		private static void SetZ(SpriteRenderer spriteRenderer, float z)
-        {
-            var p = spriteRenderer.transform.position;
+		{
+			var p = spriteRenderer.transform.position;
 
-            p.z = z;
+			p.z = z;
 
-            spriteRenderer.transform.position = p;
-        }
+			spriteRenderer.transform.position = p;
+		}
 
-        private static void SetLocalZ(SpriteRenderer spriteRenderer, float z)
-        {
-            var p = spriteRenderer.transform.localPosition;
+		private static void SetLocalZ(SpriteRenderer spriteRenderer, float z)
+		{
+			var p = spriteRenderer.transform.localPosition;
 
-            p.z = 0;
+			p.z = 0;
 
-            spriteRenderer.transform.localPosition = p;
-        }
+			spriteRenderer.transform.localPosition = p;
+		}
 
-        private void SetDirty()
-        {
-            #if UNITY_EDITOR
-            UnityEditor.EditorUtility.SetDirty(this);
-            #endif
-        }
-    }
+		private void SetDirty()
+		{
+#if UNITY_EDITOR
+			UnityEditor.EditorUtility.SetDirty(this);
+#endif
+		}
+	}
 }

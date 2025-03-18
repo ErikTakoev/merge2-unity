@@ -5,7 +5,7 @@ namespace Assets.HeroEditor.Common.Scripts.Common
 {
 	public static class StandaloneFilePicker
 	{
-		#if UNITY_EDITOR
+#if UNITY_EDITOR
 
 		public static IEnumerator OpenFile(string title, string directory, string extension, Action<bool, string, byte[]> callback)
 		{
@@ -41,8 +41,8 @@ namespace Assets.HeroEditor.Common.Scripts.Common
 
 			yield break;
 		}
-	
-		#elif UNITY_STANDALONE_WIN || UNITY_WSA
+
+#elif UNITY_STANDALONE_WIN || UNITY_WSA
 
 		public static IEnumerator OpenFile(string title, string directory, string extension, Action<bool, string, byte[]> callback)
 		{
@@ -56,7 +56,7 @@ namespace Assets.HeroEditor.Common.Scripts.Common
 			//yield return SimpleFileBrowserForWindows.WindowsFileBrowser.SaveFile(title, directory, defaultName, "Prefab", extension, bytes, callback);
 		}
 
-		#elif UNITY_WEBGL
+#elif UNITY_WEBGL
 
 		public static IEnumerator OpenFile(string title, string directory, string extension, Action<bool, string, byte[]> callback)
 		{
@@ -70,7 +70,7 @@ namespace Assets.HeroEditor.Common.Scripts.Common
             //SimpleFileBrowserForWebGL.WebFileBrowser.Download(defaultName, bytes);
 		}
 
-		#else
+#else
 
 		public static IEnumerator OpenFile(string title, string directory, string extension, Action<bool, string, byte[]> callback)
 		{
@@ -82,6 +82,6 @@ namespace Assets.HeroEditor.Common.Scripts.Common
 			throw new NotSupportedException();
 		}
 
-		#endif
+#endif
 	}
 }

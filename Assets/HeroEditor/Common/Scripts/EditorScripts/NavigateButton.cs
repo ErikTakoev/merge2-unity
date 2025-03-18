@@ -9,15 +9,15 @@ namespace Assets.HeroEditor.Common.Scripts.EditorScripts
 	{
 		public void Navigate(string url)
 		{
-            #if UNITY_WEBGL && !UNITY_EDITOR
+#if UNITY_WEBGL && !UNITY_EDITOR
 
             Application.ExternalEval($"window.open('{url}')");
 
-            #else
+#else
 
 			Application.OpenURL(url);
 
-            #endif
+#endif
 		}
 	}
 }

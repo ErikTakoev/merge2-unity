@@ -5,165 +5,165 @@ using UnityEngine;
 
 namespace BattleField
 {
-    public class BattleUnitAction_MoveKeepDistance : BattleUnitAction
-    {
-        
-        bool isPathfinding;
-        BattleCell movingToCell;
+	public class BattleUnitAction_MoveKeepDistance : BattleUnitAction
+	{
 
-        BattleUnitMover mover;
+		bool isPathfinding;
+		BattleCell movingToCell;
 
-        bool isJumping;
-        const int CellJumpCount = 3;
-        const float CooldownToReady = 5f;
-        float cooldownToReadyTimeLeft = CooldownToReady;
+		BattleUnitMover mover;
 
-        
-        public BattleUnitAction_MoveKeepDistance(BattleUnitAbstractStrategy strategy)
-            : base (strategy)
-        {
-            mover = strategy.Mover;
-        }
+		bool isJumping;
+		const int CellJumpCount = 3;
+		const float CooldownToReady = 5f;
+		float cooldownToReadyTimeLeft = CooldownToReady;
 
 
-        public override bool Action()
-        {
-            if (Target == null)
-            {
-                return false;
-            }
-            if (isJumping)
-            {
-                return true;
-            }
-            bool result = false;
-
-            if (Jump())
-            {
-                return true;
-            }
-            
-            var distance = Pathfinding.GetManhattanDistance(Target.NextCell, Unit.NextCell);
-            if (distance <= 6)
-            {
-                strategy.Mover.MoveStop();
-                return true;
-            }
+		public BattleUnitAction_MoveKeepDistance(BattleUnitAbstractStrategy strategy)
+			: base(strategy)
+		{
+			mover = strategy.Mover;
+		}
 
 
-            return result;
-        }
+		public override bool Action()
+		{
+			if (Target == null)
+			{
+				return false;
+			}
+			if (isJumping)
+			{
+				return true;
+			}
+			bool result = false;
 
-        private bool Jump()
-        {
-            if ( cooldownToReadyTimeLeft > 0)
-            {
-                return false;
-            }
+			if (Jump())
+			{
+				return true;
+			}
 
-            var followers = strategy.Followers;
-            int minDistance = int.MaxValue;
+			var distance = Pathfinding.GetManhattanDistance(Target.NextCell, Unit.NextCell);
+			if (distance <= 6)
+			{
+				strategy.Mover.MoveStop();
+				return true;
+			}
 
-            BattleUnit nearestFollower = null;
-            for (int i = 0; i < followers.Count; i++)
-            {
-                var follower = followers[i];
-                var distance = Pathfinding.GetManhattanDistance(follower.NextCell, Unit.NextCell);
-                if (distance < minDistance)
-                {
-                    minDistance = distance;
-                    nearestFollower = follower;
-                }
-            }
-            if (nearestFollower == null)
-            {
-                return false;
-            }
-            var diff = nearestFollower.NextCell.CellPos - Unit.NextCell.CellPos;
-            if (Mathf.Abs(diff.x) <= 1 && Mathf.Abs(diff.y) <= 1)
-            {
-                BattleCell cell = null;
 
-                diff.x = diff.x * -1;
-                
-                int randomDirection = Random.value > 0.5f ? 1 : -1;
-                int maxDistance = 0;
-                diff.y = randomDirection;
-                FindJumpCell(diff, ref maxDistance, ref cell);
+			return result;
+		}
 
-                if (maxDistance != CellJumpCount)
-                {
-                    diff.y *= -1;
-                    FindJumpCell(diff, ref maxDistance, ref cell);
-                }
-                
-                if (maxDistance != CellJumpCount)
-                {
-                    diff.x *= -1;
-                    FindJumpCell(diff, ref maxDistance, ref cell);
-                }
+		private bool Jump()
+		{
+			if (cooldownToReadyTimeLeft > 0)
+			{
+				return false;
+			}
 
-                if (maxDistance != CellJumpCount)
-                {
-                    diff.y *= -1;
-                    FindJumpCell(diff, ref maxDistance, ref cell);
-                }
+			var followers = strategy.Followers;
+			int minDistance = int.MaxValue;
 
-                if (cell != null)
-                {
-                    cooldownToReadyTimeLeft = CooldownToReady;
-                    isJumping = true;
-                    strategy.Mover.MoveStop();
-                    Unit.SetCell(cell, false);
-                    for (int i = 0; i < followers.Count; i++)
-                    {
-                        // Всі хто атакував цього юніта - повинні знайти новий шлях до нього
-                        followers[i].Strategy.Mover.MoveStop();
-                    }
+			BattleUnit nearestFollower = null;
+			for (int i = 0; i < followers.Count; i++)
+			{
+				var follower = followers[i];
+				var distance = Pathfinding.GetManhattanDistance(follower.NextCell, Unit.NextCell);
+				if (distance < minDistance)
+				{
+					minDistance = distance;
+					nearestFollower = follower;
+				}
+			}
+			if (nearestFollower == null)
+			{
+				return false;
+			}
+			var diff = nearestFollower.NextCell.CellPos - Unit.NextCell.CellPos;
+			if (Mathf.Abs(diff.x) <= 1 && Mathf.Abs(diff.y) <= 1)
+			{
+				BattleCell cell = null;
 
-                    const float time = 0.5f;
-                    Sequence jumpSequence = DOTween.Sequence();
-                    
-                    Sequence scaleSequence = DOTween.Sequence();
-                    scaleSequence.Append(Unit.transform.DOScale(1.1f, time * 0.1f).SetEase(Ease.OutCubic))
-                        .Append(Unit.transform.DOScale(1f, time * 0.5f).SetEase(Ease.InCubic));
-                    
-                    jumpSequence.Join(Unit.transform.DOMove(cell.WorldPosition, time).SetEase(Ease.OutCubic))
-                        .Join(scaleSequence)
-                        .OnComplete(() =>
-                        {
-                            Unit.Turn(Target.transform.position);
-                            isJumping = false;
-                        });
-                    jumpSequence.Play();
+				diff.x = diff.x * -1;
 
-                    
-                    
-                    return true;
-                }
-            }
+				int randomDirection = Random.value > 0.5f ? 1 : -1;
+				int maxDistance = 0;
+				diff.y = randomDirection;
+				FindJumpCell(diff, ref maxDistance, ref cell);
 
-            return false;
-        }
+				if (maxDistance != CellJumpCount)
+				{
+					diff.y *= -1;
+					FindJumpCell(diff, ref maxDistance, ref cell);
+				}
 
-        public override void Update()
-        {
-            cooldownToReadyTimeLeft -= Time.deltaTime;
-        }
+				if (maxDistance != CellJumpCount)
+				{
+					diff.x *= -1;
+					FindJumpCell(diff, ref maxDistance, ref cell);
+				}
 
-        private void FindJumpCell(Vector2Int diff, ref int maxDistance, ref BattleCell cell)
-        {
-            for (int i = 1; i <= CellJumpCount; i++)
-            {
-                Vector2Int cellPos = Unit.NextCell.CellPos - diff * i;
-                var tmpCell = BattleField.Instance.GetCell(cellPos.x, cellPos.y);
-                if (tmpCell == null || !tmpCell.IsAvailableCell())
-                {
-                    break;
-                }
-                maxDistance = i;
-                cell = tmpCell;
-            }
-        }
-    }
+				if (maxDistance != CellJumpCount)
+				{
+					diff.y *= -1;
+					FindJumpCell(diff, ref maxDistance, ref cell);
+				}
+
+				if (cell != null)
+				{
+					cooldownToReadyTimeLeft = CooldownToReady;
+					isJumping = true;
+					strategy.Mover.MoveStop();
+					Unit.SetCell(cell, false);
+					for (int i = 0; i < followers.Count; i++)
+					{
+						// Всі хто атакував цього юніта - повинні знайти новий шлях до нього
+						followers[i].Strategy.Mover.MoveStop();
+					}
+
+					const float time = 0.5f;
+					Sequence jumpSequence = DOTween.Sequence();
+
+					Sequence scaleSequence = DOTween.Sequence();
+					scaleSequence.Append(Unit.transform.DOScale(1.1f, time * 0.1f).SetEase(Ease.OutCubic))
+						.Append(Unit.transform.DOScale(1f, time * 0.5f).SetEase(Ease.InCubic));
+
+					jumpSequence.Join(Unit.transform.DOMove(cell.WorldPosition, time).SetEase(Ease.OutCubic))
+						.Join(scaleSequence)
+						.OnComplete(() =>
+						{
+							Unit.Turn(Target.transform.position);
+							isJumping = false;
+						});
+					jumpSequence.Play();
+
+
+
+					return true;
+				}
+			}
+
+			return false;
+		}
+
+		public override void Update()
+		{
+			cooldownToReadyTimeLeft -= Time.deltaTime;
+		}
+
+		private void FindJumpCell(Vector2Int diff, ref int maxDistance, ref BattleCell cell)
+		{
+			for (int i = 1; i <= CellJumpCount; i++)
+			{
+				Vector2Int cellPos = Unit.NextCell.CellPos - diff * i;
+				var tmpCell = BattleField.Instance.GetCell(cellPos.x, cellPos.y);
+				if (tmpCell == null || !tmpCell.IsAvailableCell())
+				{
+					break;
+				}
+				maxDistance = i;
+				cell = tmpCell;
+			}
+		}
+	}
 }

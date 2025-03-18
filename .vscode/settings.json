@@ -1,14 +1,14 @@
 {
-    "dotnet.preferCSharpExtension": true,
-    "dotnet.defaultSolution": "merge2-unity.sln",
-    "cSpell.words": [
-        "Behaviour",
-        "Cinemachine",
-        "Cooldown",
-        "Findpathing",
-        "Lerp",
-        "Mathf",
-        "Pathfinding",
-        "Scriptable"
-    ]
+	"dotnet.preferCSharpExtension": true,
+	"dotnet.defaultSolution": "merge2-unity.sln",
+	"cSpell.words": [
+		"Behaviour",
+		"Cinemachine",
+		"Cooldown",
+		"Findpathing",
+		"Lerp",
+		"Mathf",
+		"Pathfinding",
+		"Scriptable"
+	]
 }

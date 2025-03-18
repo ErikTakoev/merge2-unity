@@ -40,7 +40,7 @@ namespace Assets.HeroEditor.Common.Scripts.CharacterScripts
 		public void OnWidthChanged(float value)
 		{
 			var delta = value - 1;
-			
+
 			SetScale(Head, Mathf.Min(0, delta * 0.5f));
 			SetScaleByX(Torso, delta);
 			SetScale(ArmL, Mathf.Min(0, delta * 0.5f));
@@ -51,7 +51,7 @@ namespace Assets.HeroEditor.Common.Scripts.CharacterScripts
 			SetScaleByX(LegR, delta * 0.5f);
 
 			SetOffsetByX(ArmL, delta, 0.375f);
-			SetOffsetByX(ArmR[0], delta,  -0.375f);
+			SetOffsetByX(ArmR[0], delta, -0.375f);
 			SetOffsetByX(ArmR[1], delta, -0.375f);
 			SetOffsetByX(LegL, delta, 0.25f);
 			SetOffsetByX(LegR, delta, -0.25f);
@@ -78,24 +78,24 @@ namespace Assets.HeroEditor.Common.Scripts.CharacterScripts
 		}
 
 		public void ResetWidth()
-        {
-            OnWidthChanged(1);
+		{
+			OnWidthChanged(1);
 
 			if (WidthSlider != null)
-            {
-                WidthSlider.value = 1;
-            }
+			{
+				WidthSlider.value = 1;
+			}
 		}
 
 		public void ResetHeight()
 		{
-            OnHeightChanged(1);
+			OnHeightChanged(1);
 
 			if (HeightSlider != null)
-            {
-                HeightSlider.value = 1;
-            }
-        }
+			{
+				HeightSlider.value = 1;
+			}
+		}
 
 		public void OnCharacterLoaded(Character character)
 		{
@@ -104,10 +104,10 @@ namespace Assets.HeroEditor.Common.Scripts.CharacterScripts
 
 		public void OnCharacterLoaded(Vector2 bodyScale)
 		{
-            if (WidthSlider != null && HeightSlider != null)
-            {
-                WidthSlider.value = bodyScale.x;
-                HeightSlider.value = 1 + 2 * (bodyScale.y - 1);
+			if (WidthSlider != null && HeightSlider != null)
+			{
+				WidthSlider.value = bodyScale.x;
+				HeightSlider.value = 1 + 2 * (bodyScale.y - 1);
 			}
 		}
 

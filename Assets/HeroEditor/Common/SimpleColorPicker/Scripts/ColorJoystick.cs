@@ -39,7 +39,7 @@ namespace Assets.HeroEditor4D.SimpleColorPicker.Scripts
 
 			Color.RGBToHSV(ColorPicker.Color, out h, out s, out v);
 
-			var color = Color.HSVToRGB(ColorPicker.H.Value, x / texture.width,  y / texture.height);
+			var color = Color.HSVToRGB(ColorPicker.H.Value, x / texture.width, y / texture.height);
 
 			ColorPicker.SetColor(color, picker: false);
 		}

@@ -23,14 +23,14 @@ namespace Assets.HeroEditor.Common.Scripts.ExampleScripts
 			var head = Character.SpriteCollection.Head.SingleOrDefault(i => i.Name == headName && i.Collection == headCollection);
 			var body = Character.SpriteCollection.Body.SingleOrDefault(i => i.Name == bodyName && i.Collection == bodyCollection);
 
-            Character.SetBody(head, BodyPart.Head);
-            Character.SetBody(body, BodyPart.Body);
+			Character.SetBody(head, BodyPart.Head);
+			Character.SetBody(body, BodyPart.Body);
 		}
 
 		public void EquipMeleeWeapon1H(string spriteName, string collectionName)
 		{
 			var entry = Character.SpriteCollection.MeleeWeapon1H.SingleOrDefault(i => i.Name == spriteName && i.Collection == collectionName);
-			
+
 			Character.Equip(entry, EquipmentPart.MeleeWeapon1H);
 		}
 
@@ -51,9 +51,9 @@ namespace Assets.HeroEditor.Common.Scripts.ExampleScripts
 		public void EquipFirearm1H(string spriteName, string collectionName)
 		{
 			var entry = Character.SpriteCollection.Firearm1H.SingleOrDefault(i => i.Name == spriteName && i.Collection == collectionName);
-			
+
 			Character.Equip(entry, EquipmentPart.Firearm1H);
-            Character.Firearm.Params = FirearmCollection.Instances[Character.SpriteCollection.Id].Firearms.SingleOrDefault(i => i.Name == spriteName);
+			Character.Firearm.Params = FirearmCollection.Instances[Character.SpriteCollection.Id].Firearms.SingleOrDefault(i => i.Name == spriteName);
 		}
 
 		public void EquipShield(string spriteName, string collectionName)
@@ -74,18 +74,18 @@ namespace Assets.HeroEditor.Common.Scripts.ExampleScripts
 		{
 			var entry = Character.SpriteCollection.Helmet.SingleOrDefault(i => i.Name == spriteName && i.Collection == collectionName);
 
-            Character.Equip(entry, EquipmentPart.Helmet);
+			Character.Equip(entry, EquipmentPart.Helmet);
 		}
 
 		public void RemoveHelmet()
 		{
-            Character.UnEquip(EquipmentPart.Helmet); // Simply put null to remove equipment.
+			Character.UnEquip(EquipmentPart.Helmet); // Simply put null to remove equipment.
 		}
 
-        public void RemoveHair()
-        {
-            Character.Hair = null; // Alternatively, you can work with properties directly (or write your own wrappers).
-            Character.Initialize();
+		public void RemoveHair()
+		{
+			Character.Hair = null; // Alternatively, you can work with properties directly (or write your own wrappers).
+			Character.Initialize();
 		}
 	}
 }

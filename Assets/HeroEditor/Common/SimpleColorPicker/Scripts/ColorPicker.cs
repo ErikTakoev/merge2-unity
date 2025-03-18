@@ -28,7 +28,7 @@ namespace Assets.HeroEditor4D.SimpleColorPicker.Scripts
 
 		[HideInInspector] public Texture2D Texture;
 
-        public Action<Color> OnColorChanged;
+		public Action<Color> OnColorChanged;
 
 		/// <summary>
 		/// Called on app start if script is enabled.
@@ -39,10 +39,10 @@ namespace Assets.HeroEditor4D.SimpleColorPicker.Scripts
 			Gradient.sprite = Sprite.Create(Texture, new Rect(0f, 0f, Texture.width, Texture.height), new Vector2(0.5f, 0.5f), 100f);
 		}
 
-        public void OnEnable()
-        {
-            SetColor(Color);
-            CompareLook[0].color = Color;
+		public void OnEnable()
+		{
+			SetColor(Color);
+			CompareLook[0].color = Color;
 		}
 
 		/// <summary>
@@ -67,7 +67,7 @@ namespace Assets.HeroEditor4D.SimpleColorPicker.Scripts
 		/// </summary>
 		public void SetColor(Color color, bool picker = true, bool sliders = true, bool hex = true, bool hue = true)
 		{
-            Color.RGBToHSV(color, out var h, out var s, out var v);
+			Color.RGBToHSV(color, out var h, out var s, out var v);
 			SetColor(s > 0 ? h : H.Value, s, v, color.a, picker, sliders, hex, hue);
 		}
 
@@ -106,7 +106,7 @@ namespace Assets.HeroEditor4D.SimpleColorPicker.Scripts
 
 			Locked = false;
 			UpdateGradient();
-            OnColorChanged?.Invoke(Color);
+			OnColorChanged?.Invoke(Color);
 		}
 
 		/// <summary>
@@ -116,7 +116,7 @@ namespace Assets.HeroEditor4D.SimpleColorPicker.Scripts
 		{
 			if (Locked) return;
 
-            Color.RGBToHSV(Color, out var h, out var s, out var v);
+			Color.RGBToHSV(Color, out var h, out var s, out var v);
 			h = value;
 			SetColor(h, s, v, A.Value, hue: false);
 		}
@@ -148,7 +148,7 @@ namespace Assets.HeroEditor4D.SimpleColorPicker.Scripts
 			value = Regex.Replace(value.ToUpper(), "[^0-9A-F]", "");
 			Hex.text = value;
 
-            if (ColorUtility.TryParseHtmlString("#" + value, out var color))
+			if (ColorUtility.TryParseHtmlString("#" + value, out var color))
 			{
 				SetColor(color, hex: false);
 			}
@@ -181,7 +181,7 @@ namespace Assets.HeroEditor4D.SimpleColorPicker.Scripts
 			{
 				for (var x = 0; x < Texture.width; x++)
 				{
-					pixels.Add(Color.HSVToRGB(Hue.value, (float) x / Texture.width, (float) y / Texture.height));
+					pixels.Add(Color.HSVToRGB(Hue.value, (float)x / Texture.width, (float)y / Texture.height));
 				}
 			}
 

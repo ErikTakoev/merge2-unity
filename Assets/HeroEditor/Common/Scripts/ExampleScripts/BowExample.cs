@@ -4,45 +4,45 @@ using UnityEngine;
 
 namespace Assets.HeroEditor.Common.Scripts.ExampleScripts
 {
-    /// <summary>
-    /// Bow shooting behaviour (charge/release bow, create arrow). It's just an example!
-    /// </summary>
-    public class BowExample : MonoBehaviour
-    {
-        public Character Character;
-        public AnimationClip ClipCharge;
-	    public Transform FireTransform;
-	    public GameObject ArrowPrefab;
-        public bool CreateArrows;
+	/// <summary>
+	/// Bow shooting behaviour (charge/release bow, create arrow). It's just an example!
+	/// </summary>
+	public class BowExample : MonoBehaviour
+	{
+		public Character Character;
+		public AnimationClip ClipCharge;
+		public Transform FireTransform;
+		public GameObject ArrowPrefab;
+		public bool CreateArrows;
 
-        /// <summary>
-        /// Should be set outside (by input manager or AI).
-        /// </summary>
-        [HideInInspector] public bool ChargeButtonDown;
-        [HideInInspector] public bool ChargeButtonUp;
+		/// <summary>
+		/// Should be set outside (by input manager or AI).
+		/// </summary>
+		[HideInInspector] public bool ChargeButtonDown;
+		[HideInInspector] public bool ChargeButtonUp;
 
-        private float _chargeTime;
+		private float _chargeTime;
 
-        public void Update()
-        {
-            if (ChargeButtonDown)
-            {
-                _chargeTime = Time.time;
-                Character.Animator.SetInteger("Charge", 1);
-            }
+		public void Update()
+		{
+			if (ChargeButtonDown)
+			{
+				_chargeTime = Time.time;
+				Character.Animator.SetInteger("Charge", 1);
+			}
 
-            if (ChargeButtonUp)
-            {
-                var charged = Time.time - _chargeTime > ClipCharge.length;
+			if (ChargeButtonUp)
+			{
+				var charged = Time.time - _chargeTime > ClipCharge.length;
 
-                Character.Animator.SetInteger("Charge", charged ? 2 : 3);
+				Character.Animator.SetInteger("Charge", charged ? 2 : 3);
 
-                if (charged && CreateArrows)
-                {
-	                CreateArrow();
-                }
-            }
-        }
+				if (charged && CreateArrows)
+				{
+					CreateArrow();
+				}
+			}
+		}
 
 		private void CreateArrow()
 		{
@@ -50,7 +50,7 @@ namespace Assets.HeroEditor.Common.Scripts.ExampleScripts
 			var sr = arrow.GetComponent<SpriteRenderer>();
 			var rb = arrow.GetComponent<Rigidbody>();
 			const float speed = 18.75f; // TODO: Change this!
-			
+
 			arrow.transform.localPosition = Vector3.zero;
 			arrow.transform.localRotation = Quaternion.identity;
 			arrow.transform.SetParent(null);
