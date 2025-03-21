@@ -132,7 +132,10 @@ namespace BattleField
 						.Join(scaleSequence)
 						.OnComplete(() =>
 						{
-							Unit.Turn(Target.transform.position);
+							if (Target != null)
+							{
+								Unit.Turn(Target.transform.position);
+							}
 							isJumping = false;
 						});
 					jumpSequence.Play();

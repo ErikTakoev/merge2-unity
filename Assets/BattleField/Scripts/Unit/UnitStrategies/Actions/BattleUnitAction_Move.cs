@@ -55,7 +55,7 @@ namespace BattleField
 					Debug.Log($"Pathfinding: {Unit.name} start to find path to: Cell x:{movingToCell.CellPos.x}, y:{movingToCell.CellPos.y} from x: {Unit.Cell.CellPos.x}, y: {Unit.Cell.CellPos.y}");
 				}
 
-				BattleField.Instance.FindPathToTarget(unitCell, movingToCell, OnPathfindingComplete);
+				BattleField.Instance.FindPathToUnitAttackPosition(unitCell, movingToCell, OnPathfindingComplete);
 				result = true;
 			}
 

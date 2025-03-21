@@ -1,4 +1,5 @@
 using System.Collections;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace BattleField
@@ -21,14 +22,14 @@ namespace BattleField
 				if (Unit.IsAttackReady)
 				{
 					strategy.Mover.MoveStop();
-					Attack(Target);
+					Attack(Target).Forget();
 				}
 			}
 
 			return result;
 		}
 
-		public void Attack(BattleUnit target)
+		async UniTask Attack(BattleUnit target)
 		{
 			var Unit = this.Unit;
 			if (Unit.LogEnable)
@@ -37,13 +38,9 @@ namespace BattleField
 			}
 			Unit.Turn(target.transform.position);
 			Unit.IsAttacking = true;
-			Unit.StartCoroutine(AttackCoroutine(target));
-		}
 
-		private IEnumerator AttackCoroutine(BattleUnit target)
-		{
-			var Unit = this.Unit;
-			yield return new WaitUntil(() => !Unit.IsDodgeRolling);
+			await UniTask.WaitUntil(() => !Unit.IsDodgeRolling);
+
 			target.AddAttacker(Unit);
 			if (UnityEngine.Random.value > 0.5)
 			{
@@ -53,7 +50,7 @@ namespace BattleField
 			{
 				Unit.Character.Jab();
 			}
-			yield return new WaitForSeconds(0.4f);
+			await UniTask.WaitForSeconds(0.4f);
 			Unit.IsAttacking = false;
 			Unit.NeedTimeToReady = true;
 		}

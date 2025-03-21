@@ -1,5 +1,5 @@
-using System.Collections;
 using Assets.HeroEditor.Common.Scripts.CharacterScripts;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace BattleField
@@ -38,39 +38,35 @@ namespace BattleField
 
 				if (Unit.IsAttackReady)
 				{
-					Attack(Target);
+					Attack(Target).Forget();
 				}
 			}
-
 
 			return result;
 		}
 
-		public void Attack(BattleUnit target)
+		async UniTask Attack(BattleUnit target)
 		{
 			var Unit = this.Unit;
 			if (Unit.LogEnable)
 			{
 				Debug.Log($"{Unit.name} Attack target:{target.name}");
 			}
+
 			Unit.Turn(target.transform.position);
 			Unit.IsAttacking = true;
-			Unit.StartCoroutine(AttackCoroutine(target));
-		}
 
-		private IEnumerator AttackCoroutine(BattleUnit target)
-		{
-			var Unit = this.Unit;
 			target.AddAttacker(Unit);
 			unitAnimator.SetInteger("Charge", 1);
 
-			yield return new WaitForSeconds(0.4f);
+			await UniTask.WaitForSeconds(0.4f);
 			unitAnimator.SetInteger("Charge", 2);
-			yield return new WaitForSeconds(0.2f);
+			await UniTask.WaitForSeconds(0.2f);
 
 			Unit.IsAttacking = false;
 			Unit.NeedTimeToReady = true;
 		}
+
 		public override void LateUpdate()
 		{
 			if (Target == null)

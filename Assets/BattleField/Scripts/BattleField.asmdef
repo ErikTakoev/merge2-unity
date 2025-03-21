@@ -4,7 +4,10 @@
     "references": [
         "Hero",
         "Unity.Cinemachine",
-        "Unity.TextMeshPro"
+        "Unity.TextMeshPro",
+        "UniTask",
+        "UniTask.DOTween",
+        "UniTask.Linq"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

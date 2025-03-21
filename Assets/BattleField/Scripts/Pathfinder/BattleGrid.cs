@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using Unity.VisualScripting.YamlDotNet.Core.Tokens;
 using UnityEngine;
 
@@ -106,10 +107,10 @@ namespace BattleField
 			}
 		}
 
-		public async void FindPathAsync(BattleCell startCell, List<BattleCell> targets, Action<List<BattleCell>> callback)
+		public async UniTask FindPathAsync(BattleCell startCell, List<BattleCell> targets, Action<List<BattleCell>> callback)
 		{
 			// Виконання пошуку шляху в паралельному потоці
-			List<BattleCell> path = await Task.Run(() => Pathfinding.FindPath(cells, startCell, targets));
+			List<BattleCell> path = await UniTask.RunOnThreadPool(() => Pathfinding.FindPath(cells, startCell, targets));
 
 			// Виклик колбеку з результатом
 			callback?.Invoke(path);

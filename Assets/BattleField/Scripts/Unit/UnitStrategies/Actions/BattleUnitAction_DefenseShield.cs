@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace BattleField
@@ -18,28 +19,22 @@ namespace BattleField
 
 			if (!unit.IsAttacking && !unit.IsStunning && !unit.IsDodgeRolling && unitStats.IsBlocking())
 			{
-				ShieldBlock(attacker);
+				ShieldBlock(attacker).Forget();
 				return true;
 			}
 			return base.Defense(attacker);
 		}
 
-		public void ShieldBlock(BattleUnit target)
+		async UniTask ShieldBlock(BattleUnit target)
 		{
 			var unit = Unit;
 			if (unit.LogEnable)
 			{
 				Debug.Log($"{unit.name} DodgeRoll target:{target.name}");
 			}
-			unit.StartCoroutine(ShieldBlockCoroutine(target));
-		}
-
-		private IEnumerator ShieldBlockCoroutine(BattleUnit target)
-		{
-			var unit = Unit;
 			unit.IsDodgeRolling = true;
 			unit.Character.Animator.SetTrigger("ShieldDefense");
-			yield return new WaitForSeconds(1.0f);
+			await UniTask.WaitForSeconds(1f);
 			unit.IsDodgeRolling = false;
 		}
 

@@ -22,7 +22,7 @@ namespace BattleField
 		{
 			if (Target != null)
 			{
-				if (Target.NextCell.CellPos.x < 10)
+				if (Target.NextCell.CellPos.x < 15)
 				{
 					movingToStartPosition = false;
 					// Відступати нікуди
@@ -60,8 +60,8 @@ namespace BattleField
 			{
 				Debug.Log($"Pathfinding: {Unit.name} start to find path to: Cell x:{movingToCell.CellPos.x}, y:{movingToCell.CellPos.y} from x: {Unit.Cell.CellPos.x}, y: {Unit.Cell.CellPos.y}");
 			}
-
-			BattleField.Instance.FindPathToTarget(unitCell, targetCell, OnPathfindingComplete);
+			movingToStartPosition = true;
+			field.FindPathToUnitAttackPosition(unitCell, targetCell, OnPathfindingComplete);
 			result = true;
 
 

@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
 using Assets.HeroEditor.Common.Scripts.CharacterScripts;
-using UnityEngine;
+using Cysharp.Threading.Tasks;
 using Unity.Cinemachine;
+using UnityEngine;
 
 namespace BattleField
 {
@@ -126,7 +127,7 @@ namespace BattleField
 		}
 
 
-		public void FindPathToTarget(BattleCell unitCell, BattleCell targetCell, System.Action<List<BattleCell>> callback)
+		public void FindPathToUnitAttackPosition(BattleCell unitCell, BattleCell targetCell, System.Action<List<BattleCell>> callback)
 		{
 			var targetCellPos = targetCell.CellPos;
 			List<BattleCell> targetsCell = new List<BattleCell>();
@@ -143,7 +144,12 @@ namespace BattleField
 					}
 				}
 			}
-			grid.FindPathAsync(unitCell, targetsCell, callback);
+			grid.FindPathAsync(unitCell, targetsCell, callback).Forget();
+		}
+
+		public void FindPathToCell(BattleCell unitCell, BattleCell targetCell, System.Action<List<BattleCell>> callback)
+		{
+			grid.FindPathAsync(unitCell, new List<BattleCell>() { targetCell }, callback).Forget();
 		}
 
 		public BattleCell GetCell(int x, int y)
