@@ -8,7 +8,7 @@ namespace BattleField
 	{
 		public bool IsMoving { get { return Path != null; } }
 		private BattleUnitAbstractStrategy strategy;
-		bool moveUpdateEnable = true;
+		bool moveUpdateEnable = false;
 		BattleCell movingToCell;
 		BattleUnit unit;
 		List<BattleCell> Path;
@@ -86,6 +86,10 @@ namespace BattleField
 		}
 		public bool MoveToNextCell()
 		{
+			if (unit.LogEnable)
+			{
+				Debug.Log($"{unit.name} MoveToNextCell");
+			}
 			if (Path == null || Path.Count == 0)
 			{
 				return false;
@@ -97,7 +101,6 @@ namespace BattleField
 			{
 				if (Path.Count == 0)
 				{
-					MoveStop();
 					return false;
 				}
 				cell = Path[0];
@@ -105,7 +108,6 @@ namespace BattleField
 			}
 			if (!cell.IsAvailableCell())
 			{
-				MoveStop();
 				return false;
 			}
 			unit.NextCell = cell;

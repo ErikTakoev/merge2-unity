@@ -40,28 +40,22 @@ namespace BattleField
 			}
 
 			bool result = false;
-			var movingToCell = mover.GetMovingCell();
 
 			if (movingToStartPosition)
 			{
-				if (Unit.LogEnable)
-				{
-					Debug.Log($"Pathfinding in progress... for :{Unit.name}, moving to Cell x:{movingToCell.CellPos.x}, y:{movingToCell.CellPos.y} from x: {Unit.Cell.CellPos.x}, y: {Unit.Cell.CellPos.y}");
-				}
 				return true;
 			}
 
-			BattleCell targetCell = field.GetCell(Random.Range(2, 5), Random.Range(4, 7));
+			BattleCell targetCell = field.GetCell(5, 7);
 			BattleCell unitCell = Unit.NextCell;
 
 			mover.SetMovingCell(targetCell);
-			movingToCell = targetCell;
 			if (Unit.LogEnable)
 			{
-				Debug.Log($"Pathfinding: {Unit.name} start to find path to: Cell x:{movingToCell.CellPos.x}, y:{movingToCell.CellPos.y} from x: {Unit.Cell.CellPos.x}, y: {Unit.Cell.CellPos.y}");
+				Debug.Log($"Pathfinding: {Unit.name} start to find path to: Cell x:{targetCell.CellPos.x}, y:{targetCell.CellPos.y} from x: {Unit.Cell.CellPos.x}, y: {Unit.Cell.CellPos.y}");
 			}
 			movingToStartPosition = true;
-			field.FindPathToUnitAttackPosition(unitCell, targetCell, OnPathfindingComplete);
+			field.FindPathToCell(unitCell, targetCell, OnPathfindingComplete);
 			result = true;
 
 
