@@ -12,12 +12,12 @@ namespace BattleField
 		{
 			base.Init(unit);
 
-			Actions.Add(new BattleUnitAction_FindTarget(this));
-			Actions.Add(new BattleUnitAction_DefenseShield(this));
-			Actions.Add(new BattleUnitAction_Retreat(this));
-			Actions.Add(new BattleUnitAction_AttackShield(this));
-			Actions.Add(new BattleUnitAction_MeleeAttack(this));
-			Actions.Add(new BattleUnitAction_Move(this));
+			AddAction(new BattleUnitAction_FindTarget(this));
+			AddAction(new BattleUnitAction_DefenseShield(this));
+			AddAction(new BattleUnitAction_Retreat(this));
+			AddAction(new BattleUnitAction_AttackShield(this));
+			AddAction(new BattleUnitAction_MeleeAttack(this));
+			AddAction(new BattleUnitAction_Move(this));
 		}
 	}
 }

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using Assets.HeroEditor.Common.Scripts.CharacterScripts;
 using UnityEngine;
+using VContainer;
 
 namespace BattleField
 {
@@ -11,6 +11,7 @@ namespace BattleField
 		BattleCell movingToCell;
 
 		BattleUnitMover mover;
+		[Inject] BattleField field;
 
 
 		public BattleUnitAction_Move(BattleUnitAbstractStrategy strategy)
@@ -55,7 +56,7 @@ namespace BattleField
 					Debug.Log($"Pathfinding: {Unit.name} start to find path to: Cell x:{movingToCell.CellPos.x}, y:{movingToCell.CellPos.y} from x: {Unit.Cell.CellPos.x}, y: {Unit.Cell.CellPos.y}");
 				}
 
-				BattleField.Instance.FindPathToUnitAttackPosition(unitCell, movingToCell, OnPathfindingComplete);
+				field.FindPathToUnitAttackPosition(unitCell, movingToCell, OnPathfindingComplete);
 				result = true;
 			}
 

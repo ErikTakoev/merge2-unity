@@ -1,6 +1,8 @@
 using Assets.HeroEditor.Common.Scripts.CharacterScripts;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using VContainer;
+using VContainer.Unity;
 
 namespace BattleField
 {
@@ -9,6 +11,8 @@ namespace BattleField
 		Transform armLTransform;
 		Transform bowTransform;
 		Animator unitAnimator;
+
+		[Inject] BattleArrowController arrowController;
 
 		public BattleUnitAction_BowAttack(BattleUnitAbstractStrategy strategy)
 			: base(strategy)
@@ -27,6 +31,8 @@ namespace BattleField
 			{
 				return false;
 			}
+
+			Debug.LogError($"Inject: {arrowController != null}");
 			bool result = false;
 
 			var distance = Pathfinding.GetManhattanDistance(Target.NextCell, Unit.NextCell);
@@ -56,11 +62,11 @@ namespace BattleField
 			Unit.Turn(target.transform.position);
 			Unit.IsAttacking = true;
 
-			target.AddAttacker(Unit);
 			unitAnimator.SetInteger("Charge", 1);
 
 			await UniTask.WaitForSeconds(0.4f);
 			unitAnimator.SetInteger("Charge", 2);
+			target.AddAttacker(Unit);
 			await UniTask.WaitForSeconds(0.2f);
 
 			Unit.IsAttacking = false;

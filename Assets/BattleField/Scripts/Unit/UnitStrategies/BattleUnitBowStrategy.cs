@@ -12,11 +12,11 @@ namespace BattleField
 		{
 			base.Init(unit);
 
-			Actions.Add(new BattleUnitAction_FindTarget(this));
-			Actions.Add(new BattleUnitAction_Defense(this));
-			Actions.Add(new BattleUnitAction_BowAttack(this));
-			Actions.Add(new BattleUnitAction_MoveKeepDistance(this));
-			Actions.Add(new BattleUnitAction_Move(this));
+			AddAction(new BattleUnitAction_FindTarget(this));
+			AddAction(new BattleUnitAction_Defense(this));
+			AddAction(new BattleUnitAction_BowAttack(this));
+			AddAction(new BattleUnitAction_MoveKeepDistance(this));
+			AddAction(new BattleUnitAction_Move(this));
 		}
 	}
 }

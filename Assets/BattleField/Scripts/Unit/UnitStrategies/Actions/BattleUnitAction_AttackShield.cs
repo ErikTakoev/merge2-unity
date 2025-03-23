@@ -1,13 +1,14 @@
 using Assets.HeroEditor.Common.Scripts.CharacterScripts;
-using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
+using VContainer;
 
 namespace BattleField
 {
 	public class BattleUnitAction_AttackShield : BattleUnitAction
 	{
 		float attackShieldCooldown = 3;
+		[Inject] BattleField field;
 
 		public BattleUnitAction_AttackShield(BattleUnitAbstractStrategy strategy)
 			: base(strategy)
@@ -26,7 +27,7 @@ namespace BattleField
 				{
 					diff = diff.Value * 2;
 					var result = Unit.NextCell.CellPos + diff.Value;
-					var cell = BattleField.Instance.GetCell(result.x, result.y);
+					var cell = field.GetCell(result.x, result.y);
 					if (cell != null && cell.IsAvailableCell())
 					{
 						attackShieldCooldown = 3;

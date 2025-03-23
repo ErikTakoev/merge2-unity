@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace BattleField
 {
 	public abstract class BattleUnitAction

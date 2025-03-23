@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using Assets.HeroEditor.Common.Scripts.CharacterScripts;
-using HeroEditor.Common.Enums;
 using DG.Tweening;
+using HeroEditor.Common.Enums;
 using UnityEngine;
 
 namespace BattleField

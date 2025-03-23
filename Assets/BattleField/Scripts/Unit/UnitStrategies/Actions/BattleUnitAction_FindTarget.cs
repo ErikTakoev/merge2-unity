@@ -1,9 +1,11 @@
-using UnityEngine;
+using VContainer;
 
 namespace BattleField
 {
 	public class BattleUnitAction_FindTarget : BattleUnitAction
 	{
+		[Inject] BattleField field;
+
 		public BattleUnitAction_FindTarget(BattleUnitAbstractStrategy strategy)
 			: base(strategy)
 		{
@@ -12,7 +14,7 @@ namespace BattleField
 
 		public override bool Action()
 		{
-			strategy.Target = BattleField.Instance.FindTarget(Unit, Target);
+			strategy.Target = field.FindTarget(Unit, Target);
 			return false;
 		}
 		//public override void Update() {}

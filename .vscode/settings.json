@@ -10,5 +10,17 @@
 		"Mathf",
 		"Pathfinding",
 		"Scriptable"
-	]
+	],
+	"editor.formatOnSave": true,
+	"editor.formatOnPaste": true,
+	"editor.defaultFormatter": "ms-dotnettools.csharp",
+	"editor.codeActionsOnSave": {
+    	"source.sortImports": "always",
+		"source.organizeImports": "always"
+  	},
+	"[csharp]": {
+		"editor.defaultFormatter": "ms-dotnettools.csharp",
+		"editor.codeActionsOnSave": ["source.organizeImports", "source.fixAll"]
+  	},
+	"editor.formatOnType": true
 }

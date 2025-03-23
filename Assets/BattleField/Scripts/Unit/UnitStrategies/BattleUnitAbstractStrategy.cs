@@ -1,7 +1,6 @@
 using System.Collections.Generic;
-using Assets.HeroEditor.Common.Scripts.CharacterScripts;
-using HeroEditor.Common.Enums;
 using UnityEngine;
+
 
 namespace BattleField
 {
@@ -13,15 +12,16 @@ namespace BattleField
 
 			Attackers = new List<BattleUnit>();
 			Followers = new List<BattleUnit>();
-			Actions = new List<BattleUnitAction>();
+			actions = new List<BattleUnitAction>();
 			Mover = new BattleUnitMover(this);
 		}
 
 		public BattleUnit Unit { get; private set; }
-		BattleUnit target;
+
+		private BattleUnit target;
 		public BattleUnit Target
 		{
-			get { return target; }
+			get => target;
 			set
 			{
 				if (target == value)
@@ -30,7 +30,7 @@ namespace BattleField
 				}
 				if (target != null)
 				{
-					target.Strategy.Followers.Remove(Unit);
+					_ = target.Strategy.Followers.Remove(Unit);
 				}
 				target = value;
 				if (target != null)
@@ -43,7 +43,13 @@ namespace BattleField
 		public List<BattleUnit> Followers { get; private set; }
 		public BattleUnitMover Mover { get; private set; }
 
-		protected List<BattleUnitAction> Actions { get; private set; }
+		private List<BattleUnitAction> actions;
+
+		protected virtual void AddAction(BattleUnitAction action)
+		{
+			BattleContainer.Resolver.Inject(action);
+			actions.Add(action);
+		}
 
 		public virtual void AddAttacker(BattleUnit attacker)
 		{
@@ -56,25 +62,24 @@ namespace BattleField
 			{
 				return null;
 			}
-			var targetPos = Target.NextCell.CellPos;
-			var unitPos = Unit.NextCell.CellPos;
-			var diff = targetPos - unitPos;
+			Vector2Int targetPos = Target.NextCell.CellPos;
+			Vector2Int unitPos = Unit.NextCell.CellPos;
+			Vector2Int diff = targetPos - unitPos;
 			if (Mathf.Abs(diff.x) <= 1 && Mathf.Abs(diff.y) <= 1)
 			{
-				if (diff.x == 0 && Mathf.Abs(diff.y) == 1)
-				{
-					return null;
-				}
-				return diff;
+				return diff.x == 0 && Mathf.Abs(diff.y) == 1 ? null : diff;
 			}
 			return null;
 		}
 
 		public virtual void Update()
 		{
-			var unit = Unit;
+			BattleUnit unit = Unit;
 
-			if (unit.IsDead) return;
+			if (unit.IsDead)
+			{
+				return;
+			}
 
 			if (unit.IsStunning)
 			{
@@ -87,26 +92,32 @@ namespace BattleField
 			}
 			else
 			{
-				for (int i = 0; i < Actions.Count; i++)
+				for (int i = 0; i < actions.Count; i++)
 				{
-					if (Actions[i].Action())
+					if (actions[i].Action())
+					{
 						break;
+					}
 				}
 			}
 
-			for (int i = 0; i < Actions.Count; i++)
+			for (int i = 0; i < actions.Count; i++)
 			{
-				Actions[i].Update();
+				actions[i].Update();
 			}
 			Mover.Update();
 		}
 
 		public virtual void LateUpdate()
 		{
-			if (Unit.IsDead) return;
-			for (int i = 0; i < Actions.Count; i++)
+			if (Unit.IsDead)
 			{
-				Actions[i].LateUpdate();
+				return;
+			}
+
+			for (int i = 0; i < actions.Count; i++)
+			{
+				actions[i].LateUpdate();
 			}
 		}
 	}

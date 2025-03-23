@@ -1,7 +1,6 @@
-using System.Collections.Generic;
-using Assets.HeroEditor.Common.Scripts.CharacterScripts;
 using DG.Tweening;
 using UnityEngine;
+using VContainer;
 
 namespace BattleField
 {
@@ -12,6 +11,8 @@ namespace BattleField
 		BattleCell movingToCell;
 
 		BattleUnitMover mover;
+
+		[Inject] BattleField field;
 
 		bool isJumping;
 		const int CellJumpCount = 3;
@@ -159,7 +160,7 @@ namespace BattleField
 			for (int i = 1; i <= CellJumpCount; i++)
 			{
 				Vector2Int cellPos = Unit.NextCell.CellPos - diff * i;
-				var tmpCell = BattleField.Instance.GetCell(cellPos.x, cellPos.y);
+				var tmpCell = field.GetCell(cellPos.x, cellPos.y);
 				if (tmpCell == null || !tmpCell.IsAvailableCell())
 				{
 					break;

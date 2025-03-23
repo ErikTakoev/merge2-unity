@@ -4,6 +4,7 @@ using Assets.HeroEditor.Common.Scripts.CharacterScripts;
 using Cysharp.Threading.Tasks;
 using Unity.Cinemachine;
 using UnityEngine;
+using VContainer;
 
 namespace BattleField
 {
@@ -36,11 +37,8 @@ namespace BattleField
 		[SerializeReference]
 		CinemachineTargetGroup cinemachineTargetGroup;
 
-		public static BattleField Instance;
-
 		void Start()
 		{
-			Instance = this;
 			heroes = new List<BattleUnit>();
 			enemies = new List<BattleUnit>();
 
@@ -156,7 +154,6 @@ namespace BattleField
 		{
 			return grid.GetCell(x, y);
 		}
-
 
 		BattleUnit CreateUnit(GameObject prefab, BattleHeroStyle? style, List<EquipmentItem> items, bool isHero, int spawnPosY = -1)
 		{

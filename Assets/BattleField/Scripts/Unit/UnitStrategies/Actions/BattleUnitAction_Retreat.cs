@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using Assets.HeroEditor.Common.Scripts.CharacterScripts;
 using UnityEngine;
+using VContainer;
 
 namespace BattleField
 {
@@ -9,6 +9,7 @@ namespace BattleField
 		bool movingToStartPosition;
 
 		BattleUnitMover mover;
+		[Inject] BattleField field;
 
 
 		public BattleUnitAction_Retreat(BattleUnitAbstractStrategy strategy)
@@ -30,7 +31,6 @@ namespace BattleField
 				}
 			}
 
-			BattleField field = BattleField.Instance;
 			int unitCount = field.GetUnitCount(Unit.IsHero);
 
 			if (unitCount > 1)
