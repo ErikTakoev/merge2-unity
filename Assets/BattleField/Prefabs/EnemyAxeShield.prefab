@@ -8401,6 +8401,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   character: {fileID: 2425677526377024721}
   unitStats: {fileID: 502380775912015696}
+  colliders: []
   LogEnable: 0
 --- !u!58 &3328156945132703463
 CircleCollider2D:

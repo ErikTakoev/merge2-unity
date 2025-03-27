@@ -1,3 +1,4 @@
+using System.Linq;
 using Assets.HeroEditor.Common.Scripts.CharacterScripts;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
@@ -12,6 +13,12 @@ namespace BattleField
 		Transform bowTransform;
 		Animator unitAnimator;
 
+		Transform arrowParentTransform;
+
+		Transform arrow;
+
+		float randomAngle;
+
 		[Inject] BattleArrowController arrowController;
 
 		public BattleUnitAction_BowAttack(BattleUnitAbstractStrategy strategy)
@@ -22,6 +29,8 @@ namespace BattleField
 			bowTransform = sculptor.Bow[0];
 
 			unitAnimator = Unit.Character.Animator;
+
+			arrowParentTransform = Unit.Character.BowRenderers.Last().transform.parent;
 		}
 
 
@@ -32,7 +41,6 @@ namespace BattleField
 				return false;
 			}
 
-			Debug.LogError($"Inject: {arrowController != null}");
 			bool result = false;
 
 			var distance = Pathfinding.GetManhattanDistance(Target.NextCell, Unit.NextCell);
@@ -44,6 +52,7 @@ namespace BattleField
 
 				if (Unit.IsAttackReady)
 				{
+					randomAngle = Random.Range(-15, 15);
 					Attack(Target).Forget();
 				}
 			}
@@ -62,9 +71,17 @@ namespace BattleField
 			Unit.Turn(target.transform.position);
 			Unit.IsAttacking = true;
 
+			if (arrow == null)
+			{
+				arrow = arrowController.GetArrow(arrowParentTransform);
+			}
+
 			unitAnimator.SetInteger("Charge", 1);
 
 			await UniTask.WaitForSeconds(0.4f);
+
+			arrowController.Shoot(arrow, Unit, Target);
+			arrow = null;
 			unitAnimator.SetInteger("Charge", 2);
 			target.AddAttacker(Unit);
 			await UniTask.WaitForSeconds(0.2f);
@@ -80,10 +97,10 @@ namespace BattleField
 				return;
 			}
 
-			RotateArm(armLTransform, bowTransform, Target.transform.position, -40, 40);
+			RotateArm(armLTransform, bowTransform, Target.transform.position, -40, 40, randomAngle);
 		}
 
-		public static void RotateArm(Transform arm, Transform weapon, Vector2 target, float angleMin, float angleMax) // TODO: Very hard to understand logic.
+		public static void RotateArm(Transform arm, Transform weapon, Vector2 target, float angleMin, float angleMax, float randomAngle) // TODO: Very hard to understand logic.
 		{
 			target = arm.transform.InverseTransformPoint(target);
 
@@ -95,7 +112,7 @@ namespace BattleField
 			else if (fix > 1) fix = 1;
 
 			var angleFix = Mathf.Asin(fix) * Mathf.Rad2Deg;
-			var angle = angleToTarget + angleFix + arm.transform.localEulerAngles.z;
+			var angle = angleToTarget + angleFix + arm.transform.localEulerAngles.z + randomAngle;
 
 			angle = NormalizeAngle(angle);
 

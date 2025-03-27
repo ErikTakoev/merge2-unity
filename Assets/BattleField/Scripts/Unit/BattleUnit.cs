@@ -13,9 +13,12 @@ namespace BattleField
 		Character character;
 		[SerializeReference]
 		BattleUnitStats unitStats;
+		[SerializeReference]
+		Collider2D[] colliders;
 
 		public event Action<BattleUnit> OnUnitDeadEvent;
 
+		public Collider2D[] Colliders { get { return colliders; } }
 		public Character Character { get { return character; } }
 		public BattleUnitStats Stats { get { return unitStats; } }
 		BattleCell nextCell;

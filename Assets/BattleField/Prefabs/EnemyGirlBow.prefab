@@ -13994,6 +13994,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   character: {fileID: 8008053873211733962}
   unitStats: {fileID: 3662349202989085286}
+  colliders: []
   LogEnable: 0
 --- !u!58 &3328156945132703463
 CircleCollider2D:
@@ -22642,7 +22643,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8045931253429035620
 Transform:
   m_ObjectHideFlags: 0
