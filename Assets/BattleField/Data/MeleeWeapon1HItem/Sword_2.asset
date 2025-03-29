@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ItemId: 'TrainingSword [Paint]'
   EquipmentPart: 7
-  MinAttackDamage: 6
-  MaxAttackDamage: 9
+  MinAttackDamage: 4
+  MaxAttackDamage: 5

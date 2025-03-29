@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Assets.HeroEditor.Common.Scripts.CharacterScripts;
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using Unity.Cinemachine;
 using UnityEngine;
 using VContainer;
@@ -14,6 +15,8 @@ namespace BattleField
 		BattleHeroHealthBar healthBar;
 		[SerializeReference]
 		GameObject unitPrefab;
+		[SerializeReference]
+		GameObject teleportPrefab;
 
 		[SerializeField]
 		BattleGrid grid;
@@ -60,7 +63,7 @@ namespace BattleField
 			enemySpawner = new BattleFieldEnemySpawner(enemyDataSpawn.text.Split('\n'));
 			enemySpawner.OnSpawn += OnSpawnEnemy;
 
-			heroBoss = CreateUnit(heroBossPrefab, null, null, true);
+			heroBoss = CreateUnit(heroBossPrefab, null, null, true, GetCell(2, 4));
 			cinemachineTargetGroup.AddMember(heroBoss.transform, 1, 0.1f);
 			heroBoss.Stats.OnChangeHealth += healthBar.OnChangeHealth;
 			var health = heroBoss.Stats.GetHealth();
@@ -74,7 +77,8 @@ namespace BattleField
 
 		void OnSpawnEnemy(int posY, int enemyIndex)
 		{
-			CreateUnit(enemyList[enemyIndex], null, null, false, posY);
+			var spawnPoint = grid.GetCell(grid.width - 1, posY);
+			CreateUnit(enemyList[enemyIndex], null, null, false, spawnPoint);
 		}
 
 		public void OnDraggedHeroToBattleField(BattleHeroStyle style, List<EquipmentItem> items)
@@ -84,8 +88,45 @@ namespace BattleField
 				Debug.LogError("BattleField: heroPrefab is empty");
 				return;
 			}
+			var spawnCell = grid.GetRandomSpawnPoint(heroBoss);
 
-			CreateUnit(style, items, true);
+			var teleport = Instantiate(teleportPrefab, transform);
+			teleport.transform.position = spawnCell.WorldPosition;
+			Destroy(teleport, 5);
+
+			DOVirtual.DelayedCall(0.7f, () =>
+			{
+				CreateUnit(unitPrefab, style, items, true, spawnCell);
+			});
+
+		}
+
+		public List<(BattleUnit, int)> FindTargetsNear(BattleUnit unit)
+		{
+			// Unit, distance
+			List<(BattleUnit, int)> targets = new List<(BattleUnit, int)>();
+			var cellPos = unit.NextCell.CellPos;
+			int searchDistance = 6;
+			for (int x = -searchDistance; x < searchDistance; x++)
+			{
+				for (int y = -searchDistance; y < searchDistance; y++)
+				{
+					int posX = cellPos.x + x;
+					int posY = cellPos.y + y;
+					var cell = grid.GetCell(posX, posY);
+					if (cell != null)
+					{
+						var cellUnit = cell.Unit;
+						if (cellUnit != null && cellUnit.IsHero != unit.IsHero)
+						{
+							var distance = Pathfinding.GetManhattanDistance(unit.NextCell, cellUnit.NextCell);
+							targets.Add((cellUnit, distance));
+						}
+					}
+				}
+			}
+
+			return targets;
 		}
 
 		public BattleUnit FindTarget(BattleUnit unit, BattleUnit cashedTarget)
@@ -155,18 +196,8 @@ namespace BattleField
 			return grid.GetCell(x, y);
 		}
 
-		BattleUnit CreateUnit(GameObject prefab, BattleHeroStyle? style, List<EquipmentItem> items, bool isHero, int spawnPosY = -1)
+		BattleUnit CreateUnit(GameObject prefab, BattleHeroStyle? style, List<EquipmentItem> items, bool isHero, BattleCell spawnPoint)
 		{
-			BattleCell spawnPoint;
-			if (spawnPosY == -1)
-			{
-				spawnPoint = grid.GetRandomSpawnPoint(heroBoss);
-			}
-			else
-			{
-				spawnPoint = grid.GetCell(isHero ? 0 : grid.width - 1, spawnPosY);
-			}
-
 			BattleUnit hero = Instantiate(prefab, transform).GetComponent<BattleUnit>();
 			hero.name = (isHero ? "Hero" : "Enemy") + (heroes.Count + enemies.Count);
 			var units = isHero ? heroes : enemies;
@@ -184,13 +215,6 @@ namespace BattleField
 			var units = unit.IsHero ? heroes : enemies;
 			cinemachineTargetGroup.RemoveMember(unit.transform);
 			units.Remove(unit);
-		}
-
-		private BattleUnit CreateUnit(BattleHeroStyle style, List<EquipmentItem> items, bool isHero)
-		{
-			BattleUnit hero = CreateUnit(unitPrefab, style, items, isHero);
-
-			return hero;
 		}
 
 		void Update()

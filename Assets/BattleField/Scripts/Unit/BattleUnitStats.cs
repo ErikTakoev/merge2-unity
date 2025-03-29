@@ -50,6 +50,10 @@ namespace BattleField
 				}
 				else if (item is EquipmentWeaponItem weapon)
 				{
+					if (item.EquipmentPart == HeroEditor.Common.Enums.EquipmentPart.Bow)
+					{
+						Health -= 20;
+					}
 					MinAttackDamage += weapon.MinAttackDamage;
 					MaxAttackDamage += weapon.MaxAttackDamage;
 				}

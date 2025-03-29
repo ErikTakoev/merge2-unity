@@ -136,7 +136,16 @@ namespace BattleField
 		{
 			int dstX = Mathf.Abs(cellA.CellPos.x - cellB.CellPos.x);
 			int dstY = Mathf.Abs(cellA.CellPos.y - cellB.CellPos.y);
-			return dstX + dstY;
+			return Mathf.Max(dstX, dstY);
+		}
+
+		public static float GetDistance(BattleCell cellA, BattleCell cellB)
+		{
+			var aPos = cellA.WorldPosition;
+			var bPos = cellB.WorldPosition;
+			float dstX = aPos.x - bPos.x;
+			float dstY = aPos.y - bPos.y;
+			return Mathf.Sqrt(dstX * dstX + dstY * dstY);
 		}
 		private static bool IsDiagonal(BattleCell cellA, BattleCell cellB)
 		{

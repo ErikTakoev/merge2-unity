@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ItemId: ManticoreSword
   EquipmentPart: 7
-  MinAttackDamage: 7
-  MaxAttackDamage: 10
+  MinAttackDamage: 5
+  MaxAttackDamage: 6

@@ -52,7 +52,7 @@ namespace BattleField
 
 				if (Unit.IsAttackReady)
 				{
-					randomAngle = Random.Range(-15, 15);
+					randomAngle = Random.Range(-15, 15) - 10;
 					Attack(Target).Forget();
 				}
 			}
@@ -80,10 +80,16 @@ namespace BattleField
 
 			await UniTask.WaitForSeconds(0.4f);
 
+			if (Target == null)
+			{
+				Unit.IsAttacking = false;
+				Unit.NeedTimeToReady = false;
+				return;
+			}
+
 			arrowController.Shoot(arrow, Unit, Target);
 			arrow = null;
 			unitAnimator.SetInteger("Charge", 2);
-			target.AddAttacker(Unit);
 			await UniTask.WaitForSeconds(0.2f);
 
 			Unit.IsAttacking = false;
@@ -97,7 +103,7 @@ namespace BattleField
 				return;
 			}
 
-			RotateArm(armLTransform, bowTransform, Target.transform.position, -40, 40, randomAngle);
+			RotateArm(armLTransform, bowTransform, Target.transform.position, -90, 90, randomAngle);
 		}
 
 		public static void RotateArm(Transform arm, Transform weapon, Vector2 target, float angleMin, float angleMax, float randomAngle) // TODO: Very hard to understand logic.

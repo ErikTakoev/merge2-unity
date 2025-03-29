@@ -988,6 +988,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4928001415600087645}
   - component: {fileID: 6188321213050937804}
+  - component: {fileID: 5569379372879748637}
   m_Layer: 3
   m_Name: Head
   m_TagString: Untagged
@@ -1075,6 +1076,42 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!58 &5569379372879748637
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1125756180052559613}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0.0021894865, y: 0.5620078}
+  m_Radius: 0.57288146
 --- !u!1 &1146500701101055003
 GameObject:
   m_ObjectHideFlags: 0
@@ -2701,7 +2738,6 @@ GameObject:
   - component: {fileID: 4890420428585234713}
   - component: {fileID: 5325532122359514536}
   - component: {fileID: 5390891821326682366}
-  - component: {fileID: 2693858986434538325}
   m_Layer: 3
   m_Name: BattleHero
   m_TagString: Untagged
@@ -2739,7 +2775,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   character: {fileID: 8942311496344071428}
   unitStats: {fileID: 5390891821326682366}
-  colliders: []
+  colliders:
+  - {fileID: 68759723897215473}
+  - {fileID: 5569379372879748637}
+  - {fileID: 8286339288788074481}
   LogEnable: 0
 --- !u!114 &5390891821326682366
 MonoBehaviour:
@@ -2759,52 +2798,6 @@ MonoBehaviour:
   ChanceMinusCrit: 0
   MinAttackDamage: 3
   MaxAttackDamage: 6
---- !u!61 &2693858986434538325
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3127848223022159906}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0.010946482, y: 0.42119783}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Size: {x: 0.26002383, y: 0.83532727}
-  m_EdgeRadius: 0
 --- !u!1 &3182364254101968630
 GameObject:
   m_ObjectHideFlags: 0
@@ -22305,6 +22298,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8760078342304291511}
   - component: {fileID: 3330708048300275942}
+  - component: {fileID: 8286339288788074481}
   m_Layer: 3
   m_Name: Torso
   m_TagString: Untagged
@@ -22383,6 +22377,42 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!58 &8286339288788074481
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8778313941456351172}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0.004799421, y: -0.13270128}
+  m_Radius: 0.53269875
 --- !u!1 &8885320037210019784
 GameObject:
   m_ObjectHideFlags: 0
@@ -27542,6 +27572,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7545973889465430538}
   - component: {fileID: 1054734192974398006}
+  - component: {fileID: 68759723897215473}
   m_Layer: 3
   m_Name: Shield
   m_TagString: Untagged
@@ -27613,12 +27644,48 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 2.56, y: 2.56}
+  m_Size: {x: 1.92, y: 1.92}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!58 &68759723897215473
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9056542220957094633}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0.012045222, y: -0.04232328}
+  m_Radius: 0.36488023
 --- !u!1 &9112630608341473892
 GameObject:
   m_ObjectHideFlags: 0

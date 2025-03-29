@@ -11,7 +11,7 @@ namespace BattleField
 		public float Width; // Ширина клітинки
 		public float Height; // Висота клітинки
 		public Vector3 WorldPosition; // Позиція клітинки в мирових координатах
-		public bool IsTemporaryBusy; // Клітинка тимчасово зайнята
+		public BattleUnit Unit { get; set; } // Клітинка тимчасово зайнята
 
 		public BattleCell(int x, int y, bool isWalkable, float width, float height, Vector3 worldPosition)
 		{
@@ -24,12 +24,7 @@ namespace BattleField
 
 		public bool IsAvailableCell()
 		{
-			return IsWalkable && !IsTemporaryBusy;
-		}
-
-		public void SetTemporaryBusy(bool value)
-		{
-			IsTemporaryBusy = value;
+			return IsWalkable && !Unit;
 		}
 	}
 }

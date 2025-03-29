@@ -14,6 +14,7 @@ namespace BattleField
 		public int height = 10; // Висота сітки
 		public float cellWidth = 1f; // Ширина клітинки
 		public float cellHeight = 1f; // Висота клітинки
+		public float offsetX = 0.05f;
 
 		[SerializeField]
 		private BattleCell[,] cells; // Масив клітинок
@@ -62,7 +63,7 @@ namespace BattleField
 			{
 				for (int y = 0; y < height; y++)
 				{
-					Vector3 cellPosition = transform.position + offset + new Vector3(x * cellWidth + cellWidth / 2, y * cellHeight + cellHeight / 2, 0);
+					Vector3 cellPosition = transform.position + offset + new Vector3(x * cellWidth + cellWidth / 2 + offsetX * y, y * cellHeight + cellHeight / 2, 0);
 					cellPosition.z = cellPosition.y * 0.01f;
 					bool isWalkable = !IsColliderAtPosition(cellPosition);
 					cells[x, y] = new BattleCell(x, y, isWalkable, cellWidth, cellHeight, cellPosition); // Встановлення кожної клітинки з її розмірами та позицією

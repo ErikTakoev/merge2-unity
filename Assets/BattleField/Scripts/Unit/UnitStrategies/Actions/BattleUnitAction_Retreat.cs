@@ -46,7 +46,7 @@ namespace BattleField
 				return true;
 			}
 
-			BattleCell targetCell = field.GetCell(5, 7);
+			BattleCell targetCell = field.GetCell(5, 4);
 			BattleCell unitCell = Unit.NextCell;
 
 			mover.SetMovingCell(targetCell);

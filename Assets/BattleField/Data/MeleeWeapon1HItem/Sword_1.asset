@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ItemId: 'SlaveSword [Paint]'
   EquipmentPart: 7
-  MinAttackDamage: 5
-  MaxAttackDamage: 8
+  MinAttackDamage: 3
+  MaxAttackDamage: 4

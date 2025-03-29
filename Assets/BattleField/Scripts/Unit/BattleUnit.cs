@@ -30,12 +30,12 @@ namespace BattleField
 			{
 				if (nextCell != null)
 				{
-					nextCell.SetTemporaryBusy(false);
+					nextCell.Unit = null;
 				}
 				nextCell = value;
 				if (nextCell != null)
 				{
-					nextCell.SetTemporaryBusy(true);
+					nextCell.Unit = this;
 				}
 			}
 		}
@@ -150,7 +150,7 @@ namespace BattleField
 			transform.DORotate(new Vector3(0, 0, UnityEngine.Random.Range(-20, 20)), 0.3f);
 			OnUnitDeadEvent?.Invoke(this);
 			OnUnitDeadEvent = null;
-			NextCell.SetTemporaryBusy(false);
+			NextCell.Unit = null;
 		}
 
 
