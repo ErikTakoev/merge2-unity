@@ -7078,6 +7078,7 @@ GameObject:
   - component: {fileID: 4890420428585234713}
   - component: {fileID: 5325532122359514536}
   - component: {fileID: 4153717717208565850}
+  - component: {fileID: 5922107855784977860}
   m_Layer: 3
   m_Name: HeroBoss
   m_TagString: Untagged
@@ -7138,6 +7139,19 @@ MonoBehaviour:
   ChanceMinusCrit: 25
   MinAttackDamage: 10
   MaxAttackDamage: 1
+--- !u!114 &5922107855784977860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3127848223022159906}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a494d0bfe32b174cbff9d6f7ea76367, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isMainHero: 1
 --- !u!1 &3173982401157446152
 GameObject:
   m_ObjectHideFlags: 0

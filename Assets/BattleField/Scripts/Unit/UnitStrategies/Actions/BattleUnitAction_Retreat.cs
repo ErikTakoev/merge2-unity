@@ -10,6 +10,7 @@ namespace BattleField
 
 		BattleUnitMover mover;
 		[Inject] BattleField field;
+		[Inject] CloudMessage[] cloudMessagePrefabs;
 
 
 		public BattleUnitAction_Retreat(BattleUnitAbstractStrategy strategy)
@@ -39,14 +40,14 @@ namespace BattleField
 				return false;
 			}
 
-			bool result = false;
 
 			if (movingToStartPosition)
 			{
 				return true;
 			}
+			bool result = true;
 
-			BattleCell targetCell = field.GetCell(5, 4);
+			BattleCell targetCell = field.GetCell(5, 3);
 			BattleCell unitCell = Unit.NextCell;
 
 			mover.SetMovingCell(targetCell);
@@ -56,8 +57,6 @@ namespace BattleField
 			}
 			movingToStartPosition = true;
 			field.FindPathToCell(unitCell, targetCell, OnPathfindingComplete);
-			result = true;
-
 
 			return result;
 		}

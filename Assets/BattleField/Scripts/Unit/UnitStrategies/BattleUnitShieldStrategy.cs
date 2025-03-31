@@ -7,10 +7,17 @@ namespace BattleField
 {
 	public class BattleUnitShieldStrategy : BattleUnitAbstractStrategy
 	{
+		[SerializeField]
+		bool isMainHero;
 
 		public override void Init(BattleUnit unit)
 		{
 			base.Init(unit);
+
+			if (isMainHero)
+			{
+				AddAction(new BattleUnitAction_HeroMessages(this));
+			}
 
 			AddAction(new BattleUnitAction_FindTarget(this));
 			AddAction(new BattleUnitAction_DefenseShield(this));
