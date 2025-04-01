@@ -22,7 +22,7 @@ MonoBehaviour:
   ChipGeneratorData:
     Data:
     - Weight: 100
-      ChipData: {fileID: 11400000, guid: 3f5a9425bb16e5745acfcbf1c89c3429, type: 2}
+      ChipData: {fileID: 11400000, guid: 4316aa9ce6298834b8e8f188892bf1b8, type: 2}
     IsStartCharged: 0
     ChargeCount: 1
     ChargingTime: 3

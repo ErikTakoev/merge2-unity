@@ -19,7 +19,7 @@ MonoBehaviour:
   ChipContainerData:
     containers:
     - Type: 1
-      TypeOrId: Gold_1
+      TypeOrId: Gold_2
       Count: 1
     NextChipData: {fileID: 11400000, guid: 0aeaef45ef2f8dc44bceb27f063d3a46, type: 2}
   ChipGeneratorData:

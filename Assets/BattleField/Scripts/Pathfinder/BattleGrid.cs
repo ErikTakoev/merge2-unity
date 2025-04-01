@@ -32,9 +32,9 @@ namespace BattleField
 			}
 			var heroBossPosX = heroBoss.Cell.CellPos.x;
 			(int, int) minMaxRandom;
-			minMaxRandom.Item1 = heroBossPosX - 5;
+			minMaxRandom.Item1 = heroBossPosX - 1;
 			minMaxRandom.Item1 = Math.Max(minMaxRandom.Item1, 0);
-			minMaxRandom.Item2 = minMaxRandom.Item1 + 2;
+			minMaxRandom.Item2 = minMaxRandom.Item1 + 1;
 
 			int x, y;
 			while (true)

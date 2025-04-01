@@ -26,6 +26,12 @@ MonoBehaviour:
     Item: {fileID: 11400000, guid: 873e841800cfb8a45b7a57b2f2d1d1a6, type: 2}
   - ChipData: {fileID: 11400000, guid: 22078ae0bfee1f844ac9c35be2d28af0, type: 2}
     Item: {fileID: 11400000, guid: 7fb0c15253ee86740bd14717b3fca179, type: 2}
+  - ChipData: {fileID: 11400000, guid: 6469a6deb83d3f1498a229ff74eb84f6, type: 2}
+    Item: {fileID: 11400000, guid: 7d5c7fd62bf35a54bbf95f9cd06caf70, type: 2}
+  - ChipData: {fileID: 11400000, guid: 630816fe0b5a2114ba18dea433e90a86, type: 2}
+    Item: {fileID: 11400000, guid: 87d7aff7f37ef22499b4d9221c54fe6d, type: 2}
+  - ChipData: {fileID: 11400000, guid: d42d2dd2a4335e042b1755d5cc11a9a0, type: 2}
+    Item: {fileID: 11400000, guid: a6f8403c1045bd94a8e0e166c7d6a8d9, type: 2}
   Bows:
   - ChipData: {fileID: 11400000, guid: f6afec7deafc1b6429e3b754467905a8, type: 2}
     Item: {fileID: 11400000, guid: 7ce83197ec3d2d047b52328b405dd77e, type: 2}

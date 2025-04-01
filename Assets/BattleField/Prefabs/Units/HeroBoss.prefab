@@ -7079,6 +7079,7 @@ GameObject:
   - component: {fileID: 5325532122359514536}
   - component: {fileID: 4153717717208565850}
   - component: {fileID: 5922107855784977860}
+  - component: {fileID: 5956529757961622877}
   m_Layer: 3
   m_Name: HeroBoss
   m_TagString: Untagged
@@ -7152,6 +7153,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isMainHero: 1
+--- !u!210 &5956529757961622877
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3127848223022159906}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_SortAtRoot: 0
 --- !u!1 &3173982401157446152
 GameObject:
   m_ObjectHideFlags: 0

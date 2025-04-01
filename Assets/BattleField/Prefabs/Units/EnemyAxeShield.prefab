@@ -8436,6 +8436,7 @@ GameObject:
   - component: {fileID: 5062239468032277083}
   - component: {fileID: 2904106917877233727}
   - component: {fileID: 502380775912015696}
+  - component: {fileID: 845502122351731505}
   m_Layer: 3
   m_Name: EnemyAxeShield
   m_TagString: Untagged
@@ -8496,6 +8497,18 @@ MonoBehaviour:
   ChanceMinusCrit: 20
   MinAttackDamage: 3
   MaxAttackDamage: 6
+--- !u!210 &845502122351731505
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4136473883588979583}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_SortAtRoot: 0
 --- !u!1 &4143736089556140527
 GameObject:
   m_ObjectHideFlags: 0

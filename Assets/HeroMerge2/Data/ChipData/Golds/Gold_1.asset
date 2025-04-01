@@ -13,13 +13,15 @@ MonoBehaviour:
   m_Name: Gold_1
   m_EditorClassIdentifier: 
   Type: Gold
-  PrefabLink: {fileID: 8810688828194024742, guid: 500a03be89c57f64cbfd63ed05045e48, type: 3}
+  PrefabLink: {fileID: 8810688828194024742, guid: a7bfbea366556e44b949d4c05e1639b5, type: 3}
   MergeData:
-    NextChip: {fileID: 0}
+    NextChip: {fileID: 11400000, guid: c7f417c00c41fbf4695487ea892e1fea, type: 2}
   ChipContainerData:
     containers: []
+    NextChipData: {fileID: 0}
   ChipGeneratorData:
     Data: []
     IsStartCharged: 1
     ChargeCount: 1
     ChargingTime: 10
+    NextChipData: {fileID: 0}

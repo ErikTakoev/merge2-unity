@@ -2738,6 +2738,7 @@ GameObject:
   - component: {fileID: 4890420428585234713}
   - component: {fileID: 5325532122359514536}
   - component: {fileID: 5390891821326682366}
+  - component: {fileID: 6209063926734837256}
   m_Layer: 3
   m_Name: BattleHero
   m_TagString: Untagged
@@ -2798,6 +2799,18 @@ MonoBehaviour:
   ChanceMinusCrit: 0
   MinAttackDamage: 3
   MaxAttackDamage: 6
+--- !u!210 &6209063926734837256
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3127848223022159906}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_SortAtRoot: 0
 --- !u!1 &3182364254101968630
 GameObject:
   m_ObjectHideFlags: 0

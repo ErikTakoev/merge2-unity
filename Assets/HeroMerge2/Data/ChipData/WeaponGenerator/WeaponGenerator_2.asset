@@ -15,7 +15,7 @@ MonoBehaviour:
   Type: Default
   PrefabLink: {fileID: 8810688828194024742, guid: c1935ee05f3f99349bc80680f9a0b83b, type: 3}
   MergeData:
-    NextChip: {fileID: 0}
+    NextChip: {fileID: 11400000, guid: 338f0616351b57a44b55eb509acd4084, type: 2}
   ChipContainerData:
     containers:
     - Type: 1

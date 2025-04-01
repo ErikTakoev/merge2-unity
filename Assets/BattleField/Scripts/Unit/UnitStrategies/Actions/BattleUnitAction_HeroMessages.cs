@@ -34,16 +34,17 @@ namespace BattleField
 			messages = new HeroMessage[]
 			{
 				new HeroMessage("Привіт, друже!", 0),
-				new HeroMessage("Мені потрібна\n     твоя допомога!", 0),
-				new HeroMessage("Через хвилину, тут \n      буде повно орків", 0),
-				new HeroMessage("Треба підготуватися!", 0),
+				new HeroMessage("Мені потрібна\nтвоя допомога!", 0),
+				new HeroMessage("  Через хвилину, тут   \nбуде повно орків", 0),
+				new HeroMessage("  Треба підготуватися!  ", 0),
 
-				new HeroMessage("    Головна будівля\n    допоможе тобі\n   з цим", 0),
-				new HeroMessage("     Генеруй та об'єднуй чіпи     \nщоб стати сильнішим", 0),
+				new HeroMessage("  Головна будівля\n допоможе тобі з цим", 0),
+				new HeroMessage("Генеруй та об'єднуй чіпи \nщоб стати сильнішим", 0),
 
-				new HeroMessage("  Бо голожопі \n   живуть не довго", 0),
 				new HeroMessage("  Екіпіруй героїв\n по повній!", 0),
-				new HeroMessage("  Перенось героїв\n   на поле боя!", 0),
+				new HeroMessage("  Бо голожопі \n   живуть не довго", 0),
+				new HeroMessage("А ще!\nЗРОБИ РЕПОСТ!", 0),
+				new HeroMessage("Бо мій автор\nвсе ще безробітний!", 0),
 			};
 		}
 
