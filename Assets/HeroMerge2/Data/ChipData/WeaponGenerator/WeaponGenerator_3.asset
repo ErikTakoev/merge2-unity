@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: WeaponGenerator_3
   m_EditorClassIdentifier: 
   Type: Default
-  PrefabLink: {fileID: 8810688828194024742, guid: ffa129c8af0cae24ab2cab0f44db78a9, type: 3}
+  PrefabLink: {fileID: 8810688828194024742, guid: 2db1615b5f295d74598370d2584c3913, type: 3}
   MergeData:
     NextChip: {fileID: 0}
   ChipContainerData:

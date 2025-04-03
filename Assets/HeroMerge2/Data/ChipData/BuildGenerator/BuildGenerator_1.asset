@@ -25,5 +25,5 @@ MonoBehaviour:
       ChipData: {fileID: 11400000, guid: fa12fa58d683d784793ab52ddd8a0922, type: 2}
     IsStartCharged: 0
     ChargeCount: 1
-    ChargingTime: 3
+    ChargingTime: 1
     NextChipData: {fileID: 11400000, guid: d5b99a6352d6e214f90c0ab2f622debf, type: 2}
