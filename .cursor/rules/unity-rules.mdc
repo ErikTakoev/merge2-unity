@@ -1,0 +1,8 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+Цей проект використовує Unity 6 двигун.
+В проекті є: VContainer, UniTask, DOTween, Cinemachine
+Є UML схема [Merge2-BattleField.jpg](mdc:GitHub/Merge2-BattleField.jpg) проекту
